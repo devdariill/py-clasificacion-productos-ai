@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block header %}
+    <h2>{% block title %} CREAR BLOG PUBLICACION {% endblock %}</h2>
+{% endblock %}
+
+{% block content %}
+    <!-- <form method="GET">
+         SE GENERA LA INFORMACION EN LA URL -->
+    <form method="POST">
+        <label for="title">Titulo</label>
+        <input type="text" name="title" id="title" required>
+        <label for="body">Contenido</label>
+        <textarea name="body" id="body" cols="30" rows="10"></textarea>
+        <input type="submit",value="Guardar">
+    </form>
+{% endblock %}
