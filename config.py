@@ -5,7 +5,7 @@ class Config:
 
     #CONFIGURACION BASE DATOS 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI="mysql+pymysql://root:@localhost:3307/remodelar"
+    SQLALCHEMY_DATABASE_URI="mysql+pymysql://root:@localhost:3306/fepos"
 
 class ProductionsConfig(Config):
     DEBUG= False
