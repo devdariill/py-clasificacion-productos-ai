@@ -2,8 +2,8 @@
 {% block header %}
     <h2>{% block title %} Publicaciones {% endblock %}</h2>
     <!-- 2:34:51 -->
-    <a href="{{ url_for('blog.create') }}">Nueva Publicacion</a>
     {% if g.user %}        
+        <a href="{{ url_for('blog.create') }}">Nueva Publicacion</a>
     {% endif %}
 {% endblock %}
 

@@ -18,8 +18,7 @@ from myblog.views.productos import productos
 app.register_blueprint(productos)
 
 #2:06:07
-from myblog.views.blog import blog
-app.register_blueprint(blog)
-#/
+# from myblog.views.blog import blog
+# app.register_blueprint(blog)
 
 db.create_all()

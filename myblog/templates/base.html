@@ -1,48 +1,55 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='img/blog.ico') }}" type="image/x-icon">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='img/blog.ico') }}"
+      type="image/x-icon"
+    />
     <!-- my lbog valor defalul -->
-    <title>{% block title %}{% endblock %}-myblog</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-</head>
-<body>
-
+    <title>{% block title %}{% endblock %}-CRUD</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+  </head>
+  <body>
     <header class="header">
-        <div class="nav">
-            <div>
-                <a href="{{ url_for('blog.index') }}">
-                    <h1>My Blog</h1>
-                </a>
-            </div>
-            <!-- 2:22:24 -->
-            <nav>
-                {% if g.user  %}
-                <img src="{{ url_for('static', filename='img/user.png') }}" alt="user">
-                <span>{{ g.user.username }}</span>
-                <a href="{{ url_for('auth.logout') }}">Cerrar sesion</a>
-                {% else %}
-                <a href="{{ url_for('auth.register') }}">Regsitar usuario</a>
-                <a href="{{ url_for('auth.login') }}">Iniciar sesion</a>
-                {% endif %}
-            </nav>
-            <!-- / -->
-        </div>     
+      <div class="nav">
+        <div>
+          <a href="{{ url_for('productos.index') }}">
+            <h1>Home</h1>
+          </a>
+        </div>
+        <!-- 2:22:24 -->
+        <nav>
+          {% if g.user %}
+          <img
+          src="{{ url_for('static', filename='img/user.png') }}"
+          alt="user"
+          />
+          <span>{{ g.user.username }}</span>          
+          <a href="{{ url_for('auth.logout') }}">Cerrar sesion</a>
+          {% else %}
+          <a href="{{ url_for('auth.register') }}">Registra usuario</a>
+          <a href="{{ url_for('auth.login') }}">Iniciar sesion</a>
+          {% endif %}
+        </nav>
+        <!-- / -->
+      </div>
     </header>
 
     <section>
-        <div class="content">
-            <header>{% block header %}{% endblock %}</header>
-            <!--  1:20:21 -->
-            {% for message in get_flashed_messages() %}
-                <div class="flash"> {{ message }} </div>
-            {% endfor %}
-            {% block content %}{% endblock %}
-        </div>
+      <div class="content">
+        <header>{% block header %}{% endblock %}</header>
+        <!--  1:20:21 -->
+        {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+        {% endfor %} {% block content %}{% endblock %}
+      </div>
     </section>
-    
-</body>
+  </body>
 </html>

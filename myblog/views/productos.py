@@ -1,3 +1,4 @@
+#registrar productos
 import functools #
 from flask import (
     render_template, Blueprint, flash, g, redirect, request, session, url_for
@@ -8,11 +9,41 @@ from werkzeug.security import check_password_hash, generate_password_hash #
 from myblog import db #
 #/
 from myblog.models.producto import Producto #
+from myblog.views.auth import login_required #
+from werkzeug.exceptions import abort #
 
-productos =Blueprint('productos', __name__, url_prefix='/productos')
+productos =Blueprint('productos', __name__)
+# productos =Blueprint('productos', __name__, url_prefix='/productos')
+
+#listar todas la publicaciones
+@productos.route("/")
+def index():
+    productos = reversed(Producto.query.all())    
+    productos = list(productos)
+    productos = productos[:5]   
+    # print(" ~ file: productos.py ~ line 22 ~ productos", productos)    
+   
+    # obj = ObjectRes.query.all()
+    # obj = session.query(ObjectRes).order_by(ObjectRes.id.desc()).first()
+    
+    #productos = list(Producto.query.order_by(Producto.codbar.desc()).limit(5).all())
+
+  
+    
+   
+    #/
+
+    
+    db.session.commit()
+    #return render_template('blog/index.html',posts=posts)
+    #2:16:44 envio de get_user, llamando al metodo desde el return
+    return render_template('producto/index.html',productos=productos)
+    #/
+
 
 #Registara Producto
 @productos.route('/register',methods=('GET','POST'))
+@login_required
 def register():
     if request.method =='POST':
         codprod = request.form.get('codprod')
@@ -29,16 +60,16 @@ def register():
 
         if not codprod:
           error='Se requiere codprod'
-        elif not codbar:
-          error='Se requiere codbar'
+        # elif not codbar:
+        #   error='Se requiere codbar'
         elif not nomprod:
           error='Se requiere nomprod'
-        elif not exiprod:
-          error='Se requiere exiprod'
-        elif not cosprod:
-          error='Se requiere cosprod'
+        # elif not exiprod:
+        #   error='Se requiere exiprod'
         elif not venprod:
           error='Se requiere venprod'
+        elif not cosprod:
+          error='Se requiere cosprod'
         elif not pvenfra:
           error='Se requiere pvenfra'
         
@@ -47,66 +78,69 @@ def register():
         if user_name == None:
             db.session.add(producto)
             db.session.commit()
+            error=f'Producto {nomprod} : {codprod} DONE'
             #TODO
         else:
-            error=f'el codprod {codprod}, ya esta registrado'
+            error=f'ERROR: el codprod {codprod}, ya esta registrado'
         flash(error)
             # return redirect(url_for('auth.login'))     
        
     return render_template('producto/register.html')
 
 
-
-#     return render_template('auth/register.html')
-
-# #INICAR SESION 1:27:54
-# @auth.route('/login', methods=('GET', 'POST'))
-# def login():
-#     if request.method =='POST':
-#         username = request.form.get('username')
-#         password = request.form.get('password') 
-
-#         error=None
-
+#obtener producto por id
+def get_producto(id):
+    # producto = Producto.query.filter_by(id=id).first()    
+    producto = Producto.query.get(id)
+    if producto is None:
+        abort(404, "Producto id {0} doesn't exist.".format(id))
         
-#         user=User.query.filter_by(username=username).first()
+    return producto
 
-#         if  user == None:
-#             error='nobmre usuario incorrecto'
-#         elif not check_password_hash(user.password,password):
-#             error='error contraseña incorrecta'
+#crear producto
+@productos.route('/producto/update/<int:id>', methods=('GET', 'POST'))
+@login_required
+def update(id):
+  producto=get_producto(id)
+  if request.method =='POST':
+      producto.codprod = request.form.get('codprod')
+      producto.codbar  = request.form.get('codbar')
+      producto.nomprod = request.form.get('nomprod')
+      producto.exiprod = request.form.get('exiprod')
+      producto.cosprod = request.form.get('cosprod')
+      producto.venprod = request.form.get('venprod')
+      producto.pvenfra = request.form.get('pvenfra')    
+      error=None
+      if not producto.codprod:
+        error='Se requiere codprod'
+      elif not producto.codbar:
+         error='Se requiere codbar'
+      elif not producto.nomprod:
+        error='Se requiere nomprod'
+      elif not producto.exiprod:
+         error='Se requiere exiprod'
+      elif not producto.venprod:
+        error='Se requiere venprod'
+      elif not producto.cosprod:
+        error='Se requiere cosprod'
+      elif not producto.pvenfra:
+        error='Se requiere pvenfra'
 
-#         if error is None:
-#             session.clear()
-#             session['user_id']=user.id
-#             return redirect(url_for('blog.index'))           
-#             #####return redirect(url_for('index'))           
-        
-#         #/
-#         flash(error)
+      if error is not None:
+        flash(error)
+      else:
+        db.session.add( producto )
+        db.session.commit()
+        return redirect(url_for('productos.index'))
+      flash(error)
+  return render_template('producto/update.html',producto=producto)
 
-#     return render_template('auth/login.html')
-
-
-# @auth.before_app_request
-# def load_logged_in_user():
-#     user_id = session.get('user_id')
-#     if user_id is None :
-#         g.user = None
-#     else: 
-#         g.user = User.query.get_or_404(user_id)
-
-# @auth.route('/logout')
-# def logout():    
-#     session.clear()    
-#     return redirect(url_for('blog.index'))  
-
-# #1:46:42
-# def login_required(view):
-#     @functools.wraps(view)
-#     def wrapped_view(**kwargs):
-#         if g.user is None:
-#             return redirect(url_for('auth.login'))
-#         return view(**kwargs)
-#     return wrapped_view
+#eliminar producto
+@productos.route('/producto/delete/<int:id>', methods=('GET', 'POST'))
+@login_required
+def delete(id):
+  producto=get_producto(id)  
+  db.session.delete( producto )
+  db.session.commit()
+  return redirect(url_for('productos.index'))
 

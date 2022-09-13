@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block header %}
+    <h2>{% block title %} Update {% endblock %}</h2>
+{% endblock %}
+
+{% block content %}
+    <!-- <form method="GET">
+         SE GENERA LA INFORMACION EN LA URL -->
+
+    <form  method="post">   
+            
+        <label for="codprod">codprod</label>
+        <input type="text" name="codprod" id="codprod" value="{{ producto.codprod }}" required/>
+
+        <label for="codbar">codbar</label>
+        <input type="text" name="codbar" id="codbar"   value="{{ producto.codbar }}" required/>
+
+        <label for="nomprod">Nombre Producto</label>
+        <input type="text" name="nomprod" id="nomprod" value="{{ producto.nomprod }}" required/>
+
+        <label for="exiprod">Existencia</label>
+        <input type="text" name="exiprod" id="exiprod" value="{{ producto.exiprod }}"required/>
+
+        <label for="venprod">Precio</label>
+        <input type="text" name="venprod" id="venprod" value="{{ producto.venprod }}"required/>
+
+        <label for="cosprod">cosprod</label>
+        <input type="text" name="cosprod" id="cosprod" value="{{ producto.cosprod }}" required/>
+         
+        <label for="pvenfra">pvenfra</label>
+        <input type="text" name="pvenfra" id="pvenfra" value="{{ producto.pvenfra }}" required/>
+
+        <input type="submit" value="Actualizar">
+        
+    </form>
+
+
+{% endblock %}

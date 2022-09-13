@@ -8,7 +8,7 @@
          SE GENERA LA INFORMACION EN LA URL -->
     <form method="POST">
         <label for="title">Titulo</label>
-        <input type="text" name="title" id="title" value="{{ post.title }}" required>
+        <input type="text" name="title" id="title" value="{{ post.title }}" required/>
         <label for="body">Contenido</label>
         <textarea name="body" id="body" cols="30" rows="10">{{ post.body }}</textarea>
         <input type="submit",value="Guardar">
