@@ -20,7 +20,7 @@ productos =Blueprint('productos', __name__)
 def index():
     productos = reversed(Producto.query.all())    
     productos = list(productos)
-    # productos = productos[:5]   
+    productos = productos[:5]   
     
     # print(" ~ file: productos.py ~ line 22 ~ productos", productos)    
    

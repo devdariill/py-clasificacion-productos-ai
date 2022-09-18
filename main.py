@@ -1,5 +1,5 @@
 from myblog import app #
 
 if __name__ == '__main__':
-    app.run('0.0.0.0',80)
+    app.run('192.168.1.105',80)
     
