@@ -1,29 +1,46 @@
 {% extends 'base.html' %} 
 {% block header %}
-    <h2>{% block title %} Productos {% endblock %}</h2>
-    {% if g.user %}      
-        <a href="{{ url_for('productos.register') }}">Crear Producto</a>
-    {% endif %}
+
+  <h2>{% block title %} Productos {% endblock %}</h2>
+  {% if g.user %}     
+  <!-- TODO extremos de la tabla  -->
+  <a style="text-align: right;" href="{{ url_for('productos.register') }}"><input style="text-align: right; "type="button" value="Crear Producto"></a>
+  {% endif %}
+  
+  <form  method="post">
+    <input type="text" name="txtcategoria" id="txtcategoria" placeholder="Search..." autofocus />
+    <input type="submit" value="send" hidden>  
+  </form>
+
 {% endblock %} 
 {% block content %} 
-{% for producto in productos %}
-<article>
-  <header>
+  {% for producto in productos %}
+    <article>
+      <header>
 
-    <div>
-      <h1>{{ producto.nomprod +" - "+ producto.codprod }}</h1>
-    </div>
+        <!-- TODO centrar full wid, -->
+        <div style="width: 100%; column-count: 2 auto;" >
+          <a href="{{ url_for('productos.update', id=producto.codprod) }}" >   
+            <input type="button" class="input-button" 
+            value="{{ producto.codprod }} - {{ producto.nomprod }}">              
+          </a>
+          <p style="text-align: right; width: 100%;"> 
+            Cantidad : {{ producto.exiprod }} - $ {{ producto.venprod  }}</p>
+        </div>
 
-    <div>      
-        <a href="{{ url_for('productos.update', id=producto.codprod) }}">Editar</a>
-        <a href="{{ url_for('productos.delete', id=producto.codprod) }}">Eliminar</a>        
-    </div>    
-    
-  </header>
+        <!-- <div>
+          <a href="{{ url_for('productos.update', id=producto.codprod) }}" >   
+            <input type="button" value="{{ producto.codprod }} - {{ producto.nomprod }}">     
+            <h1>{{ producto.codprod }} - {{ producto.nomprod }}</h1>
+          </a>
+        </div> -->
 
-  <div>
-    <p> Cantidad : {{ producto.exiprod }} - $ : {{ producto.venprod  }}</p>
-  </div>
+        <!-- <div>            
+            <a href="{{ url_for('productos.update', id=producto.codprod) }}" >Editar</a>
+        </div>     -->
+        
+      </header>
 
-</article>
-{% endfor %} {% endblock %}
+    </article>
+  {% endfor %} 
+{% endblock %}

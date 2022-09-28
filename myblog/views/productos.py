@@ -11,35 +11,40 @@ from myblog import db #
 from myblog.models.producto import Producto #
 from myblog.views.auth import login_required #
 from werkzeug.exceptions import abort #
+from myblog.models.producto import Producto #
+
 
 productos =Blueprint('productos', __name__)
 # productos =Blueprint('productos', __name__, url_prefix='/productos')
 
 #listar todas la publicaciones
-@productos.route("/")
+@productos.route("/",methods=('GET','POST'))
 def index():
-    productos = reversed(Producto.query.all())    
-    productos = list(productos)
-    productos = productos[:5]   
-    
-    # print(" ~ file: productos.py ~ line 22 ~ productos", productos)    
-   
-    # obj = ObjectRes.query.all()
-    # obj = session.query(ObjectRes).order_by(ObjectRes.id.desc()).first()
-    
-    #productos = list(Producto.query.order_by(Producto.codbar.desc()).limit(5).all())
+  if request.method == 'POST' and "txtcategoria" in request.form:
+    productos = db.session.query(Producto).filter(Producto.nomprod.like("%"+request.form['txtcategoria']+"%")).all()
 
-  
+    # sql="select * from productos where nomprod like '%"+request.form['txtcategoria']+"%'"
+    # productos = db.engine.execute(sql)    
     
-   
-    #/
-
-    
-    db.session.commit()
-    #return render_template('blog/index.html',posts=posts)
-    #2:16:44 envio de get_user, llamando al metodo desde el return
     return render_template('producto/index.html',productos=productos)
-    #/
+  else:
+    productos = reversed(Producto.query.all())    
+  productos = list(productos)
+  productos = productos[:5]
+  
+  
+  #     elif request.form['submit_button'] == 'Do Something Else':
+  # print(" ~ file: productos.py ~ line 22 ~ productos", productos)    
+  # obj = ObjectRes.query.all()
+  # obj = session.query(ObjectRes).order_by(ObjectRes.id.desc()).first()
+  #productos = list(Producto.query.order_by(Producto.codbar.desc()).limit(5).all())
+  db.session.commit()
+
+
+  return render_template('producto/index.html',productos=productos)
+  #/
+
+
 
 
 #Registara Producto
@@ -79,13 +84,12 @@ def register():
         if user_name == None:
             db.session.add(producto)
             db.session.commit()
-            error=f'Producto {nomprod} : {codprod} DONE'
-            #TODO
+            error=f'Producto {nomprod} : {codprod} DONE'            
         else:
             error=f'ERROR: el codprod {codprod}, ya esta registrado'
         flash(error)
             # return redirect(url_for('auth.login'))     
-       
+
     return render_template('producto/register.html')
 
 
@@ -98,44 +102,6 @@ def get_producto(id):
         
     return producto
 
-#crear producto
-@productos.route('/producto/update/<int:id>', methods=('GET', 'POST'))
-@login_required
-def update(id):
-  producto=get_producto(id)
-  if request.method =='POST':
-      producto.codprod = request.form.get('codprod')
-      producto.codbar  = request.form.get('codbar')
-      producto.nomprod = request.form.get('nomprod')
-      producto.exiprod = request.form.get('exiprod')
-      producto.cosprod = request.form.get('cosprod')
-      producto.venprod = request.form.get('venprod')
-      producto.pvenfra = request.form.get('pvenfra')    
-      error=None
-      if not producto.codprod:
-        error='Se requiere codprod'
-      elif not producto.codbar:
-         error='Se requiere codbar'
-      elif not producto.nomprod:
-        error='Se requiere nomprod'
-      elif not producto.exiprod:
-         error='Se requiere exiprod'
-      elif not producto.venprod:
-        error='Se requiere venprod'
-      elif not producto.cosprod:
-        error='Se requiere cosprod'
-      elif not producto.pvenfra:
-        error='Se requiere pvenfra'
-
-      if error is not None:
-        flash(error)
-      else:
-        db.session.add( producto )
-        db.session.commit()
-        return redirect(url_for('productos.index'))
-      flash(error)
-  return render_template('producto/update.html',producto=producto)
-
 #eliminar producto
 @productos.route('/producto/delete/<int:id>', methods=('GET', 'POST'))
 @login_required
@@ -144,4 +110,54 @@ def delete(id):
   db.session.delete( producto )
   db.session.commit()
   return redirect(url_for('productos.index'))
+
+#crear producto
+@productos.route('/producto/update/<int:id>', methods=('GET', 'POST'))
+@login_required
+def update(id):
+
+  producto=get_producto(id)  
+  error=None  
+
+  if request.method =='POST':      
+    producto.codprod = request.form.get('codprod')
+    producto.codbar  = request.form.get('codbar')
+    producto.nomprod = request.form.get('nomprod')
+    producto.exiprod = request.form.get('exiprod')
+    producto.cosprod = request.form.get('cosprod')
+    producto.venprod = request.form.get('venprod')
+    producto.pvenfra = request.form.get('pvenfra')   
+    print("b",request.form)
+
+    if not producto.codprod:
+      error='Se requiere codprod'
+    elif not producto.codbar:
+      error='Se requiere codbar'
+    elif not producto.nomprod:
+      error='Se requiere nomprod'
+    elif not producto.exiprod:
+      error='Se requiere exiprod'
+    elif not producto.venprod:
+      error='Se requiere venprod'
+    elif not producto.cosprod:
+      error='Se requiere cosprod'
+    elif not producto.pvenfra:
+      error='Se requiere pvenfra'
+
+    if error is not None:
+        flash(error)
+    else:
+      db.session.add( producto )
+      db.session.commit()
+      return redirect(url_for('productos.index'))
+    flash(error)        
+
+  return render_template('producto/update.html',producto=producto)
+
+
+
+
+
+
+
 

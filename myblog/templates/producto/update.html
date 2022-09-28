@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
 {% block header %}
     <h2>{% block title %} Update {% endblock %}</h2>
+    <!-- <a href="{{ url_for('productos.delete', id=producto.codprod) }}" >Eliminar</a>   -->    
+
+    <a href="{{ url_for('productos.delete', id=producto.codprod) }}" onclick="return confirm('Are you sure?')"><input style="background-color: #377ba8; color: #fff;"type="button" value="Eliminar"></a>
+
 {% endblock %}
 
 {% block content %}
     <!-- <form method="GET">
-         SE GENERA LA INFORMACION EN LA URL -->
+        SE GENERA LA INFORMACION EN LA URL -->
+
 
     <form  method="post">   
             
@@ -25,14 +30,18 @@
         <input type="text" name="venprod" id="venprod" value="{{ producto.venprod }}"required/>
 
         <label for="cosprod">cosprod</label>
-        <input type="text" name="cosprod" id="cosprod" value="{{ producto.cosprod }}" required/>
-         
+        <input disabled type="text" name="cosprod" id="cosprod" value="{{ producto.cosprod }}" required/>
+        <!-- TODO CANTIDAD FRACCION -->
         <label for="pvenfra">pvenfra</label>
         <input type="text" name="pvenfra" id="pvenfra" value="{{ producto.pvenfra }}" required/>
 
-        <input type="submit" value="Actualizar">
+        <input type="submit" name="submit_button" value="Actualizar">  
         
     </form>
 
 
 {% endblock %}
+
+
+<!-- <script type="text/javascript" src="{{ url_for('static', filename='js/confirm.js') }}"></script> -->
+

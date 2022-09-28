@@ -1,3 +1,4 @@
+
 *{
     padding:0;
     margin:0;
@@ -124,4 +125,36 @@ form input[type=submit]{
 .login input[type=submit]:hover{
     background-color: #3d9edf;
     cursor:pointer;
+}
+
+/* Dark mode */
+:root {
+    --body-bg: #1d1d1d;
+    --body-color: #fff;
+}
+body {
+    background: var(--body-bg);
+    color: var(--body-color);
+}
+a:visited {
+    color: #fff;
+}
+a {
+    color: #fff;
+}
+.input-button{
+    width: 100%;
+    background-color: rgb(165, 165, 165);
+    text-align: left;
+}
+
+*:disabled {
+    background-color: rgb(43, 43, 43);
+    color: rgb(63, 63, 63);
+    opacity: 0.8;
+}
+
+text{
+    background-color: r#3d9edf;
+    color: #fff;
 }
