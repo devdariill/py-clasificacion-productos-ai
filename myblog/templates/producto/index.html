@@ -1,19 +1,22 @@
 {% extends 'base.html' %} 
+{% block title %} Productos {% endblock %}
+{% block title1 %} Productos {% endblock %}
 {% block header %}
 
-  <h2>{% block title %} Productos {% endblock %}</h2>
   {% if g.user %}     
-  <div>
+  
     <a style="max-width: 80px;" href="{{ url_for('productos.register') }}">
-      <input style="text-align: right; "type="button" value="Crear Producto">
+      <input style="background-color:#224a64 ;text-align: right; color: #fff; border-style: hidden;
+      border-radius: 6px;"type="button" value="Crear Producto">
     </a>
     {% endif %}
     
     <form  method="post">
-      <input style="max-width: 150px; "type="text" name="txtcategoria" id="txtcategoria" placeholder="Search..." autofocus />
+      <input style="background-color:#224a64 ; min-width: 500px; border-style: hidden;
+      "type="text" name="txtcategoria" id="txtcategoria" placeholder="Search..." autofocus />
       <input  type="submit" value="send" hidden>  
     </form>
-  </div>
+  
 {% endblock %} 
 {% block content %} 
   <button onclick="topFunction()" id="myBtn" title="Go to top" style="min-width: 50px;"> ^ </button>

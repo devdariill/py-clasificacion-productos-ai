@@ -3,7 +3,9 @@
     <h2>{% block title %} Update {% endblock %}</h2>
     <!-- <a href="{{ url_for('productos.delete', id=producto.codprod) }}" >Eliminar</a>   -->    
 
-    <a href="{{ url_for('productos.delete', id=producto.codprod) }}" onclick="return confirm('Are you sure?')"><input style="background-color: #377ba8; color: #fff;"type="button" value="Eliminar"></a>
+    <a href="{{ url_for('productos.delete', id=producto.codprod) }}" 
+    onclick="return confirm('Are you sure?')">
+    <input style="cursor:pointer; background-color: #377ba8; color: #fff;"type="button" value="Eliminar"></a>
 
 {% endblock %}
 
