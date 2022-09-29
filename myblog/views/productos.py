@@ -14,23 +14,34 @@ from werkzeug.exceptions import abort #
 from myblog.models.producto import Producto #
 
 
-productos =Blueprint('productos', __name__)
+productos = Blueprint('productos', __name__)
 # productos =Blueprint('productos', __name__, url_prefix='/productos')
 
 #listar todas la publicaciones
 @productos.route("/",methods=('GET','POST'))
 def index():
-  if request.method == 'POST' and "txtcategoria" in request.form:
-    productos = db.session.query(Producto).filter(Producto.nomprod.like("%"+request.form['txtcategoria']+"%")).all()
+  if request.method == 'POST' and "txtcategoria" in request.form:  
 
+
+
+    productos1 = db.session.query(Producto).filter(Producto.codprod.like("%"+request.form['txtcategoria']+"%")).all()
+    productos2 = db.session.query(Producto).filter(Producto.nomprod.like("%"+request.form['txtcategoria']+"%")).all() 
+
+    productos = productos1 + productos2
+
+    print(type(productos))
+
+
+    #productos.insert(0, codList)
+    
     # sql="select * from productos where nomprod like '%"+request.form['txtcategoria']+"%'"
     # productos = db.engine.execute(sql)    
     
     return render_template('producto/index.html',productos=productos)
   else:
     productos = reversed(Producto.query.all())    
-  productos = list(productos)
-  productos = productos[:5]
+    productos = list(productos)
+    productos = productos[:5]
   
   
   #     elif request.form['submit_button'] == 'Do Something Else':
@@ -43,9 +54,6 @@ def index():
 
   return render_template('producto/index.html',productos=productos)
   #/
-
-
-
 
 #Registara Producto
 @productos.route('/register',methods=('GET','POST'))
