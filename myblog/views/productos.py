@@ -13,19 +13,27 @@ from myblog.views.auth import login_required #
 from werkzeug.exceptions import abort #
 from myblog.models.producto import Producto #
 
+import os,time
+
+    
+
 
 productos = Blueprint('productos', __name__)
 # productos =Blueprint('productos', __name__, url_prefix='/productos')
 
 #listar todas la publicaciones
 @productos.route("/",methods=('GET','POST'))
+
 def index():
+  
   if request.method == 'POST' and "txtcategoria" in request.form:  
 
 
-
+    #TODO cache busquedas
     productos1 = db.session.query(Producto).filter(Producto.codprod.like("%"+request.form['txtcategoria']+"%")).all()
-    productos2 = db.session.query(Producto).filter(Producto.nomprod.like("%"+request.form['txtcategoria']+"%")).all() 
+    productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(Producto.nomprod.like("%"+request.form['txtcategoria']+"%")).all()
+    # productos2 = productos2.order_by(Producto.nomprod.desc())
+    
 
     productos = productos1 + productos2
 
@@ -36,7 +44,7 @@ def index():
     
     # sql="select * from productos where nomprod like '%"+request.form['txtcategoria']+"%'"
     # productos = db.engine.execute(sql)    
-    
+    db.session.commit()
     return render_template('producto/index.html',productos=productos)
   else:
     productos = reversed(Producto.query.all())    
