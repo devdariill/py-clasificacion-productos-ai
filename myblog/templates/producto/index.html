@@ -2,27 +2,28 @@
 {% block title %} Productos {% endblock %}
 {% block title1 %} Productos {% endblock %}
 {% block header %}
+<div style="flex: auto; column-count: 1;">
+{% if g.user %}     
+  <a style="width: auto;" href="{{ url_for('productos.register') }}">
+    <input style="background-color:#224a64 ;text-align: right; color: #fff; border-style: hidden;
+    text-align: center;
+    border-radius: 6px;"type="button" value="Crear Producto">
+  </a>  
+{% endif %}
 
-  {% if g.user %}     
-  
-    <a style="max-width: 80px;" href="{{ url_for('productos.register') }}">
-      <input style="background-color:#224a64 ;text-align: right; color: #fff; border-style: hidden;
-      border-radius: 6px;"type="button" value="Crear Producto">
-    </a>
-    {% endif %}
-    
-    <form  method="post">
-      <input style="background-color:#224a64 ; min-width: 500px; border-style: hidden;
-      "type="text" name="txtcategoria" id="txtcategoria" placeholder="Search..." autofocus />
-      <input  type="submit" value="send" hidden>  
-    </form>
-  
+  <form  method="post">
+    <input style="background-color:#224a64 ; flex: 0 0 70%;  border-style: hidden;
+    color: #fff;
+    "type="text" name="txtcategoria" id="txtcategoria" placeholder="Search..." autofocus />
+    <input  type="submit" value="send" hidden>  
+  </form>
+</div>
 {% endblock %} 
 {% block content %} 
   <button onclick="topFunction()" id="myBtn" title="Go to top" style="min-width: 50px;"> ^ </button>
   {% for producto in productos %}
     <article>
-      <header>
+      <header style="flex: auto;">
 
           <a href="{{ url_for('productos.update', id=producto.codprod) }}" 
           style=" font-weight: bold; text-decoration:none ; background-color: #224a64; 
@@ -33,12 +34,12 @@
           </a>
 
           <a href="{{ url_for('productos.update', id=producto.codprod) }}" 
-          style="flex: 0 0 70%; text-decoration:none ;background-color: #224a64; color: #fff; border-radius: 6px;
-          text-align: center;  padding-bottom: 5px; margin-right:9px; margin-left:9px;" type="button">            
+          style=" background-size: 100% auto; text-decoration:none ;background-color: #224a64; color: #fff; border-radius: 6px;
+          text-align: center;  padding-bottom: 5px; margin-right:9px; margin-left:9px; max-width: 500px;" type="button">            
             {{ producto.nomprod }}
           </a>
 
-          <div style="min-width: 80px; padding-right: 3px;">
+          <div style=" padding-right: 3px;min-width: 80px; max-width: 60px;">
           
             <p style="text-align: right; "> 
               {{  "${:,.0f}".format(producto.venprod)}} 

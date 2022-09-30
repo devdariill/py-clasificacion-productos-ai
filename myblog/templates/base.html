@@ -24,8 +24,8 @@
     <header class="header">
       <div class="nav">
         <div>
-          <a href="{{ url_for('productos.index') }}">
-            <h1>{% block title1 %}{% endblock %}</h1>
+          <a style="max-height:50px ;"href="{{ url_for('productos.index') }}">
+            <h1 >{% block title1 %}{% endblock %}</h1>
           </a>
         </div>
         <!-- 2:22:24 -->
@@ -34,11 +34,12 @@
           <img
           src="{{ url_for('static', filename='img/user.png') }}"
           alt="user"
+          style="max-height:50px;max-width: 50px;"
           />
-          <span>{{ g.user.username }}</span>          
+          <span >{{ g.user.username }}</span>          
           <a href="{{ url_for('auth.logout') }}">Cerrar sesion</a>
-          {% else %}
           <a href="{{ url_for('auth.register') }}">Registra usuario</a>
+          {% else %}
           <a href="{{ url_for('auth.login') }}">Iniciar sesion</a>
           {% endif %}
         </nav>

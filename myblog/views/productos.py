@@ -37,9 +37,6 @@ def index():
 
     productos = productos1 + productos2
 
-    print(type(productos))
-
-
     #productos.insert(0, codList)
     
     # sql="select * from productos where nomprod like '%"+request.form['txtcategoria']+"%'"
