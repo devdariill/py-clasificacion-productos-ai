@@ -1,49 +1,110 @@
-{% extends 'base.html' %}
-{% block header %}
-    <h2>{% block title %} Update {% endblock %}</h2>
-    <!-- <a href="{{ url_for('productos.delete', id=producto.codprod) }}" >Eliminar</a>   -->    
+{% extends 'base.html' %} {% block title1 %} Update1 {% endblock %} {% block
+header %}
+<div
+  style="
+    width: 100%;    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: static;
+  "
+>
+  {% block title %} Update {% endblock %}
 
-    <a href="{{ url_for('productos.delete', id=producto.codprod) }}" 
-    onclick="return confirm('Are you sure?')">
-    <input style="cursor:pointer; background-color: #377ba8; color: #fff;"type="button" value="Eliminar"></a>
+  <!-- <a href="{{ url_for('productos.delete', id=producto.codprod) }}" >Eliminar</a>   -->
 
-{% endblock %}
+  <a
+    href="{{ url_for('productos.delete', id=producto.codprod) }}"
+    onclick="return confirm('Are you sure?')"
+  >
+    <input
+      style="
+        cursor: pointer;
+        background-color: #224a64;
+        color: #fff;
+        border-style: hidden;
+        text-align: center;
+        border-radius: 6px;
+        cursor: pointer;
+        right: 0px;
+        width: 300px;
+      "
+      type="button"
+      value="Eliminar"
+  /></a>
+</div>
 
-{% block content %}
-    <!-- <form method="GET">
+{% endblock %} {% block content %}
+<!-- <form method="GET">
         SE GENERA LA INFORMACION EN LA URL -->
 
+<form method="post">
+  <label for="codprod">codprod</label>
+  <input
+    type="number"
+    name="codprod"
+    id="codprod"
+    value="{{ producto.codprod }}"
+    required
+  />
 
-    <form  method="post">   
-            
-        <label for="codprod">codprod</label>
-        <input type="text" name="codprod" id="codprod" value="{{ producto.codprod }}" required/>
+  <label for="codbar">codbar</label>
+  <input
+    type="number"
+    name="codbar"
+    id="codbar"
+    value="{{ producto.codbar }}"
+    required
+  />
 
-        <label for="codbar">codbar</label>
-        <input type="text" name="codbar" id="codbar"   value="{{ producto.codbar }}" required/>
+  <label for="nomprod">Nombre Producto</label>
+  <input
+    type="text"
+    name="nomprod"
+    id="nomprod"
+    value="{{ producto.nomprod }}"
+    required
+  />
 
-        <label for="nomprod">Nombre Producto</label>
-        <input type="text" name="nomprod" id="nomprod" value="{{ producto.nomprod }}" required/>
+  <label for="exiprod">Existencia</label>
+  <input
+    type="number"
+    name="exiprod"
+    id="exiprod"
+    value="{{ producto.exiprod }}"
+    required
+  />
 
-        <label for="exiprod">Existencia</label>
-        <input type="text" name="exiprod" id="exiprod" value="{{ producto.exiprod }}"required/>
+  <label for="venprod">Precio</label>
+  <input
+    type="number"
+    name="venprod"
+    id="venprod"
+    value="{{ producto.venprod }}"
+    required
+  />
 
-        <label for="venprod">Precio</label>
-        <input type="text" name="venprod" id="venprod" value="{{ producto.venprod }}"required/>
+  <label for="cosprod">cosprod</label>
+  <input
+    type="number"
+    name="cosprod"
+    id="cosprod"
+    value="{{ producto.cosprod }}"
+    required
+  />
+  <!-- TODO CANTIDAD FRACCION -->
+  <label for="pvenfra">pvenfra</label>
+  <input
+    type="number"
+    name="pvenfra"
+    id="pvenfra"
+    value="{{ producto.pvenfra }}"
+    required
+  />
 
-        <label for="cosprod">cosprod</label>
-        <input disabled type="text" name="cosprod" id="cosprod" value="{{ producto.cosprod }}" required/>
-        <!-- TODO CANTIDAD FRACCION -->
-        <label for="pvenfra">pvenfra</label>
-        <input type="text" name="pvenfra" id="pvenfra" value="{{ producto.pvenfra }}" required/>
-
-        <input type="submit" name="submit_button" value="Actualizar">  
-        
-    </form>
-
+  <input type="submit" name="submit_button" value="Actualizar" />
+</form>
 
 {% endblock %}
 
-
 <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/confirm.js') }}"></script> -->
-

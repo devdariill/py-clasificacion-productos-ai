@@ -2,7 +2,7 @@
 *{
     padding:0;
     margin:0;
-    width: 100%!important;
+    
     overflow-x: hidden !important;
     box-sizing:border-box;
     
@@ -22,9 +22,9 @@ body{
     display:flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 90%;
+    max-width: 100%;    
     margin:0 auto;
-    padding:10px 0;    
+    padding:10px 20px;    
 }
 .nav a{
     text-decoration: none;
@@ -57,8 +57,7 @@ body{
 .content header{
     display:flex;
     justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #ccc;
+    align-items: center;    
     padding: 0px 0;
 }
 

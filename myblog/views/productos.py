@@ -18,14 +18,11 @@ productos = Blueprint('productos', __name__)
 # productos =Blueprint('productos', __name__, url_prefix='/productos')
 
 # listar todas la publicaciones
-
-
 @productos.route("/", methods=('GET', 'POST'))
 def index():
 
     if request.method == 'POST' and "txtcategoria" in request.form:
 
-        # TODO cache busquedas
         productos1 = db.session.query(Producto).filter(
             Producto.codprod.like("%"+request.form['txtcategoria']+"%")).all()
         productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
@@ -42,8 +39,11 @@ def index():
         return render_template('producto/index.html', productos=productos)
     else:
         productos = reversed(Producto.query.all())
-        productos = list(productos)
-        productos = productos[:5]
+        productos = list(productos)        
+        productos = productos[:5]        
+        #save last producto as global variable
+        
+
 
     #     elif request.form['submit_button'] == 'Do Something Else':
     # print(" ~ file: productos.py ~ line 22 ~ productos", productos)
@@ -53,14 +53,15 @@ def index():
     db.session.commit()
 
     return render_template('producto/index.html', productos=productos)
-    # /
+    
 
 # Registara Producto
-
-
 @productos.route('/register', methods=('GET', 'POST'))
 @login_required
 def register():
+    last_producto = Producto.query.order_by(Producto.codprod.desc()).first()
+    
+    
     if request.method == 'POST':
         codprod = request.form.get('codprod')
         codbar = request.form.get('codbar')
@@ -96,12 +97,13 @@ def register():
             db.session.add(producto)
             db.session.commit()
             error = f'Producto {nomprod} : {codprod} DONE'
+            return redirect(url_for('productos.index'))
         else:
             error = f'ERROR: el codprod {codprod}, ya esta registrado'
         flash(error)
         # return redirect(url_for('auth.login'))
 
-    return render_template('producto/register.html')
+    return render_template('producto/register.html',last_producto=int(last_producto.codprod)+1)
 
 
 # obtener producto por id
@@ -114,8 +116,6 @@ def get_producto(id):
     return producto
 
 # eliminar producto
-
-
 @productos.route('/producto/delete/<int:id>', methods=('GET', 'POST'))
 @login_required
 def delete(id):
@@ -124,9 +124,7 @@ def delete(id):
     db.session.commit()
     return redirect(url_for('productos.index'))
 
-# crear producto
-
-
+# actualziar producto
 @productos.route('/producto/update/<int:id>', methods=('GET', 'POST'))
 @login_required
 def update(id):
@@ -142,7 +140,7 @@ def update(id):
         producto.cosprod = request.form.get('cosprod')
         producto.venprod = request.form.get('venprod')
         producto.pvenfra = request.form.get('pvenfra')
-        print("b", request.form)
+        # print("b", request.form)
 
         if not producto.codprod:
             error = 'Se requiere codprod'

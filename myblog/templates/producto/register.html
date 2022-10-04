@@ -1,29 +1,40 @@
-{% extends 'base.html' %} {% block header %}
+{% extends 'base.html' %}
+<h2>{% block title1 %} Registrar producto {% endblock %}</h2>
+{% block header %}
 <h2>{% block title %} Registrar producto {% endblock %}</h2>
+
 {% endblock %} {% block content %}
-<!-- <form method="GET">
-         SE GENERA LA INFORMACION EN LA URL -->
+
 <form method="POST">
   <label for="codprod">codprod</label>
-  <input type="text" name="codprod" id="codprod" required />
+  <input
+    style="
+      background-color: rgba(114, 114, 114, 0.445);
+      color: rgb(189, 189, 189);
+    "
+    type="number"
+    name="codprod"
+    id="codprod"
+    value="{{ last_producto }}"
+  />
 
   <label for="codbar">codbar</label>
-  <input type="text" name="codbar" id="codbar" />
+  <input type="number" name="codbar" id="codbar" value="{{ last_producto }}" />
 
   <label for="nomprod">nomprod</label>
   <input type="text" name="nomprod" id="nomprod" />
 
   <label for="venprod">venprod</label>
-  <input type="int" name="venprod" id="venprod" />
+  <input type="number" name="venprod" id="venprod" />
 
   <label for="exiprod">exiprod</label>
-  <input type="exiprod" name="exiprod" id="exiprod" value="0" />
+  <input type="number" name="exiprod" id="exiprod" value="0" />
 
   <label for="cosprod">cosprod</label>
-  <input type="text" name="cosprod" id="cosprod" value="0" />
+  <input type="number" name="cosprod" id="cosprod" value="0" />
 
   <label for="pvenfra">pvenfra</label>
-  <input type="text" name="pvenfra" id="pvenfra" value="0" />
+  <input type="number" name="pvenfra" id="pvenfra" value="0" />
 
   <input type="submit" ,value="Registrar" />
 </form>
