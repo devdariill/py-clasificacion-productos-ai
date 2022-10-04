@@ -11,7 +11,7 @@ from myblog import db
 from myblog.models.producto import Producto
 from myblog.views.auth import login_required
 from werkzeug.exceptions import abort
-from myblog.models.producto import Producto
+
 
 
 productos = Blueprint('productos', __name__)
@@ -22,38 +22,27 @@ productos = Blueprint('productos', __name__)
 def index():
 
     if request.method == 'POST' and "txtcategoria" in request.form:
+        if(request.form['txtcategoria'] == ''):
+            productos = reversed( Producto.query.all() ) 
+            productos = list(productos)  
+            productos = productos[:5]  
+            db.session.commit()
+        else:
 
-        productos1 = db.session.query(Producto).filter(
-            Producto.codprod.like("%"+request.form['txtcategoria']+"%")).all()
-        productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
-            Producto.nomprod.like("%"+request.form['txtcategoria']+"%")).all()
-        # productos2 = productos2.order_by(Producto.nomprod.desc())
+            productos1 = db.session.query(Producto).filter(
+                Producto.codprod.like("%"+request.form['txtcategoria']+"%")).all()
+            productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
+                Producto.nomprod.like("%"+request.form['txtcategoria']+"%")).all()
 
-        productos = productos1 + productos2
-        
-
-        #productos.insert(0, codList)
-
-        # sql="select * from productos where nomprod like '%"+request.form['txtcategoria']+"%'"
-        # productos = db.engine.execute(sql)
-        db.session.commit()
-        return render_template('producto/index.html', productos=productos)
+            productos = productos1 + productos2
+            db.session.commit()
+            return render_template('producto/index.html', productos=productos)
     else:
         productos = reversed(Producto.query.all())
         productos = list(productos)      
         #TODO cache ultimo producto para enviarlo a nuevo registro producto  
         productos = productos[:5]        
-        #save last producto as global variable
-    
-        
-
-
-    #     elif request.form['submit_button'] == 'Do Something Else':
-    # print(" ~ file: productos.py ~ line 22 ~ productos", productos)
-    # obj = ObjectRes.query.all()
-    # obj = session.query(ObjectRes).order_by(ObjectRes.id.desc()).first()
-    #productos = list(Producto.query.order_by(Producto.codbar.desc()).limit(5).all())
-    db.session.commit()
+        db.session.commit()
 
     return render_template('producto/index.html', productos=productos)
     

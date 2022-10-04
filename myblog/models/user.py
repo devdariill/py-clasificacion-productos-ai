@@ -7,7 +7,8 @@ class User(db.Model):
     __tablename__="users"
     id=db.Column(db.Integer,primary_key=True)
     username=db.Column(db.String(50))
-    password=db.Column(db.Text)
+    password=db.Column(db.Text)    
+    # compras=db.relationship('Compra',backref='user',lazy='dynamic')
 
     #visualizar datos uysuario creando un contructor
     def __init__(self,username,password) -> str:

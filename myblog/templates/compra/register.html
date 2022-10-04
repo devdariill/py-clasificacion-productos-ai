@@ -2,53 +2,74 @@
 {% block title %} Compras {% endblock %}
 {% block title1 %} Compras 1 {% endblock %}
 
-{% block header %} {% endblock %} 
+{% block header %} {% endblock %}
 
 {% block content %}
 
+<!-- # numcom, nomdoc, precom, docext, feccom, vencom, nitter, nomter, dirter, telter, corele, subcom, totiva, totcom, estcom, codemp,
+# horcom, obscom, codclas, forpag, totdct, totaju -->
+
 <!-- Container -->
-<button class="accordion" >Compras</button>
-    <div class="panel">
-        <form method="POST">
-            <label for="codprod">codprod</label>
-            <input type="number" name="codprod"id="codprod" value="{{ last_producto }}" />
+<button class="accordion">Compras</button>
+
+<div class="panel" style="width: 100%;">
+    <form method="POST" style="column-fill: balance;
+    border: solid red;">
+
+        <label for="codprod">codprod</label>
+        <input style="
+            background-color: rgba(114, 114, 114, 0.445);
+            color: rgb(189, 189, 189);" type="number" name="codprod" id="codprod" value="{{ last_producto }}" />
+
+        <label for="codbar">codbar</label>
+        <input type="number" name="codbar" id="codbar" value="{{ last_producto }}" />
+
+        <label for="nomprod">nomprod</label>
+        <input type="text" name="nomprod" id="nomprod" />
+
+        <label for="venprod">venprod</label>
+        <input type="number" name="venprod" id="venprod" />
+
+        <label for="exiprod">exiprod</label>
+        <input type="number" name="exiprod" id="exiprod" value="0" />
+
+        <label for="cosprod">cosprod</label>
+        <input type="number" name="cosprod" id="cosprod" value="0" />
+
+        <label for="undfra">undfra</label>
+        <input type="number" name="undfra" id="undfra" value="1" />
+
+        <label for="pvenfra">pvenfra</label>
+        <input type="number" name="pvenfra" id="pvenfra" value="0" />
+</div>
+<div style="width: 100%;
+display: flex;
+justify-content: center;">
+    <input  type="submit" value="Registrar" />
     
-            <label for="codbar">codbar</label>
-            <input type="number" name="codbar" id="codbar" value="{{ last_producto }}" />
-    
-            <label for="nomprod">nomprod</label>
-            <input type="text" name="nomprod" id="nomprod" />
-    
-            <label for="venprod">venprod</label>
-            <input type="number" name="venprod" id="venprod" />
-    
-            <label for="exiprod">exiprod</label>
-            <input type="number" name="exiprod" id="exiprod" value="0" />
-    
-            <label for="cosprod">cosprod</label>
-            <input type="number" name="cosprod" id="cosprod" value="0" />
-    
-            <label for="undfra">undfra</label>
-            <input type="number" name="undfra" id="undfra" value="1" />
-    
-            <label for="pvenfra">pvenfra</label>
-            <input type="number" name="pvenfra" id="pvenfra" value="0" />
-    
-            <input type="submit" ,value="Registrar" />
-        </form>
-    </div>
+</div>
+<!-- display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    flex-direction:column;
+    width:auto;
+-->
+
+
+
+
+</form>
 
 <button class="accordion">Productos</button>
-    <div class="panel">
-        <form method="post">
-            <input style="
+<div class="panel">
+    <form method="post">
+        <input style="
             background-color: #224a64;
             flex: 0 0 70%;
             border-style: hidden;
-            color: #fff;" 
-            type="text" name="txtcategoria" id="txtcategoria" placeholder="Search..." autofocus />
-            <input type="submit" value="send" hidden />
-        </form>
+            color: #fff;" type="text" name="txtcategoria" id="txtcategoria" placeholder="Search..." autofocus />
+        <input type="submit" value="send" hidden />
+    </form>
 
     {% for producto in productos %}
 

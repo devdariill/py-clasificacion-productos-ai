@@ -1,10 +1,8 @@
 # 35:20
 import datetime
-from email.policy import default
+
 from myblog import db
 from sqlalchemy.dialects.mysql import VARCHAR
-from sqlalchemy import Float
-from sqlalchemy.sql import sqltypes
 
 # nuestra calse ya es un modelos
 # se crea la tabla users con atributos id ...
@@ -15,30 +13,32 @@ from sqlalchemy.sql import sqltypes
 
 class Compra(db.Model):
     __tablename__ = "compras"
-    numcom = db.Column(VARCHAR, primary_key=True)
-    nomdoc = db.Column(VARCHAR, default="COMPRA")
-    precom = db.Column(Float, default="")
-    docext = db.Column(VARCHAR, default=numcom)
+    numcom = db.Column(db.Integer, primary_key=True)
+    nomdoc = db.Column(db.Integer, default="COMPRA")
+    precom = db.Column(db.Integer, default="")
+    docext = db.Column(db.Integer, default=numcom)
     feccom = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    vencom = db.Column(
-        db.DateTime, default=datetime.datetime.utcnow+datetime.timedelta(days=30))
-    nitter = db.Column(VARCHAR)
-    nomter = db.Column(VARCHAR)
-    dirter = db.Column(VARCHAR)
-    telter = db.Column(VARCHAR)
-    corele = db.Column(VARCHAR)
-    subcom = db.Column(Float)
-    totiva = db.Column(Float)
-    totcom = db.Column(Float)
-    estcom = db.Column(VARCHAR)
+    #TODO fecha de vencimiento
+    vencom = db.Column(db.DateTime,
+                       default=datetime.datetime.utcnow)
+    nitter = db.Column(db.Integer)
+    nomter = db.Column(db.Integer)
+    dirter = db.Column(db.Integer)
+    telter = db.Column(db.Integer)
+    corele = db.Column(db.Integer)
+    subcom = db.Column(VARCHAR)
+    totiva = db.Column(VARCHAR)
+    totcom = db.Column(VARCHAR)
+    estcom = db.Column(db.String(1), default="B")
     codemp = db.column(VARCHAR, db.ForeignKey('users.id'))
-    horcom = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    obscom = db.Column(VARCHAR)
+    #TODO preguntar por horcom
+    horcom = db.Column(db.Integer)
+    obscom = db.Column(db.String(100))
     # TODO preguntar para que es foreing key
-    codclas = db.Column(VARCHAR)
-    forpag = db.Column(VARCHAR)
-    totdct = db.Column(Float)
-    totaju = db.Column(Float)
+    codclas = db.Column(db.String,default="S18")
+    forpag = db.Column(db.String(1), default="E")
+    totdct = db.Column(VARCHAR)
+    totaju = db.Column(VARCHAR)
 
     def __init__(self, numcom, nomdoc, precom, docext, feccom, vencom, nitter, nomter, dirter, telter, corele, subcom,
                 totiva, totcom, estcom, codemp, horcom, obscom, codclas, forpag, totdct, totaju) -> str:
