@@ -30,6 +30,7 @@ def index():
         # productos2 = productos2.order_by(Producto.nomprod.desc())
 
         productos = productos1 + productos2
+        
 
         #productos.insert(0, codList)
 
@@ -39,9 +40,11 @@ def index():
         return render_template('producto/index.html', productos=productos)
     else:
         productos = reversed(Producto.query.all())
-        productos = list(productos)        
+        productos = list(productos)      
+        #TODO cache ultimo producto para enviarlo a nuevo registro producto  
         productos = productos[:5]        
         #save last producto as global variable
+    print("🚀 ~ file: productos.py ~ line 33 ~ productos", len(productos))
         
 
 

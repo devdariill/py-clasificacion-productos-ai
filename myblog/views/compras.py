@@ -2,8 +2,6 @@ from flask import (
     render_template, Blueprint, flash, g, redirect, request, session, url_for
 )
 
-from myblog.models.user import User
-
 from myblog import db
 
 from myblog.models.producto import Producto
