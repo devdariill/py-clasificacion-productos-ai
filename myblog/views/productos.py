@@ -44,7 +44,7 @@ def index():
         #TODO cache ultimo producto para enviarlo a nuevo registro producto  
         productos = productos[:5]        
         #save last producto as global variable
-    print("🚀 ~ file: productos.py ~ line 33 ~ productos", len(productos))
+    
         
 
 

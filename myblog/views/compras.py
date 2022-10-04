@@ -15,6 +15,8 @@ compras = Blueprint('compras', __name__,url_prefix='/compras')
 
 # listar todas la publicaciones
 @compras.route("/",methods=('GET', 'POST'))
+@login_required
 def index():
+
     return render_template('compras/index.html')
     

@@ -1,17 +1,127 @@
-{#<!-- FLATAN DATOS FROM views>productos -->
-<!-- {% extends 'producto/index.html' %}
-{% block title %} Productos {% endblock %} 
-{% block title1 %} Productos1 {% endblock %} 
+{% extends 'base.html' %}
+{% block title %} Compras {% endblock %}
+{% block title1 %} Compras 1 {% endblock %}
 
+{% block header %} {% endblock %} 
 
-{% block header1 %}
-    <h2> header 1</h2>
+{% block content %}
+
+<!-- Container -->
+<button class="accordion" >Compras</button>
+    <div class="panel">
+        <form method="POST">
+            <label for="codprod">codprod</label>
+            <input type="number" name="codprod"id="codprod" value="{{ last_producto }}" />
+    
+            <label for="codbar">codbar</label>
+            <input type="number" name="codbar" id="codbar" value="{{ last_producto }}" />
+    
+            <label for="nomprod">nomprod</label>
+            <input type="text" name="nomprod" id="nomprod" />
+    
+            <label for="venprod">venprod</label>
+            <input type="number" name="venprod" id="venprod" />
+    
+            <label for="exiprod">exiprod</label>
+            <input type="number" name="exiprod" id="exiprod" value="0" />
+    
+            <label for="cosprod">cosprod</label>
+            <input type="number" name="cosprod" id="cosprod" value="0" />
+    
+            <label for="undfra">undfra</label>
+            <input type="number" name="undfra" id="undfra" value="1" />
+    
+            <label for="pvenfra">pvenfra</label>
+            <input type="number" name="pvenfra" id="pvenfra" value="0" />
+    
+            <input type="submit" ,value="Registrar" />
+        </form>
+    </div>
+
+<button class="accordion">Productos</button>
+    <div class="panel">
+        <form method="post">
+            <input style="
+            background-color: #224a64;
+            flex: 0 0 70%;
+            border-style: hidden;
+            color: #fff;" 
+            type="text" name="txtcategoria" id="txtcategoria" placeholder="Search..." autofocus />
+            <input type="submit" value="send" hidden />
+        </form>
+
+    {% for producto in productos %}
+
+    <article style="
+      background-color: #173346;
+      padding: 0 9px;
+      margin-bottom: 6px;
+      border-radius: 3px;
+    ">
+        <header style="flex: auto">
+            <a href="{{ url_for('productos.update', id=producto.codprod) }}" style="
+          font-weight: bold;
+          text-decoration: none;
+          background-color: #224a64;
+          color: #fff;
+          border-radius: 3px;
+          text-align: center;
+          min-width: 80px;
+        " type="button">
+                {{ producto.codprod }}
+            </a>
+
+            <a href="{{ url_for('productos.update', id=producto.codprod) }}" style="
+          text-decoration: none;
+          background-color: #224a64;
+          color: #fff;
+          border-radius: 3px;
+          text-align: left;
+          max-width: 500px;
+          width: 100%;
+          margin-left: 10px;
+          padding: 10px;
+          text-align: center;
+        " type="button">
+                {{ producto.nomprod }}
+            </a>
+
+            <div style="padding-right: 3px; min-width: 80px; max-width: 80px">
+                <p style="text-align: right">
+                    {{ "${:,.0f}".format(producto.venprod)}}
+                </p>
+                <p style="text-align: right; font-size: 10px">{{ producto.exiprod }}</p>
+            </div>
+        </header>
+    </article>
+
+    {% endfor %}
+</div>
+
+<button class="accordion">Tercero</button>
+<div class="panel">
+    <p>Lorem ipsum...</p>
+</div>
+
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+            /* Toggle between adding and removing the "active" class,
+          to highlight the button that controls the panel */
+            this.classList.toggle("active");
+
+            /* Toggle between hiding and showing the active panel */
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+    }
+</script>
+
 {% endblock %}
-
-{% block content1 %}
-    <h2> content 1</h2>
-{% endblock %} -->#}
-
-{% include "producto/index.html" with context %}
-
-

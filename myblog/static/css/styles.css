@@ -1,71 +1,70 @@
+* {
+  padding: 0;
+  margin: 0;
 
-*{
-    padding:0;
-    margin:0;
-    
-    overflow-x: hidden !important;
-    box-sizing:border-box;
-    
-    /* border:solid red; */
-}
+  overflow-x: hidden !important;
+  box-sizing: border-box;
 
-body{
-    /* font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif */
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size:20px;
+  /* border:solid red; */
 }
 
-.header{
-    background-color:#377ba8;    
-}
-.nav{
-    display:flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 100%;    
-    margin:0 auto;
-    padding:10px 20px;    
-}
-.nav a{
-    text-decoration: none;
-    color: #fff;
+body {
+  /* font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 20px;
 }
 
-.nav nav{
-    display:flex;
-    align-items: center;
+.header {
+  background-color: #377ba8;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 10px 20px;
+}
+.nav a {
+  text-decoration: none;
+  color: #fff;
 }
 
-.nav nav a{
-    margin:0 10px;
+.nav nav {
+  display: flex;
+  align-items: center;
 }
 
-.nav nav span{
-    margin:0 10px 0 0;
-    color: #ccc;    
-    text-transform: capitalize;
-    font-weight: 600;
+.nav nav a {
+  margin: 0 10px;
+}
+
+.nav nav span {
+  margin: 0 10px 0 0;
+  color: #ccc;
+  text-transform: capitalize;
+  font-weight: 600;
 }
 
 /* CONTENT */
 
-.content{
-    max-width:85%;
-    margin: 10px auto;
+.content {
+  max-width: 85%;
+  margin: 10px auto;
 }
 
-.content header{
-    display:flex;
-    justify-content: space-between;
-    align-items: center;    
-    padding: 0px 0;
+.content header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 0;
 }
 
 /* mensaje flash iniciar sesion */
-.flash{
-    background-color :#0c950c;
-    color: #fff;
-    padding: 10px;
+.flash {
+  background-color: #0c950c;
+  color: #fff;
+  padding: 10px;
 }
 
 /* index publicaciones  */
@@ -73,114 +72,144 @@ body{
     padding: 0px 0;
 } */
 
-article header{
-    margin: 10px 0;
-    display:flex;
-    align-self: center;
-    justify-content: space-between;
+article header {
+  margin: 10px 0;
+  display: flex;
+  align-self: center;
+  justify-content: space-between;
 }
 
-article header h1{
-    font-size:26px;
+article header h1 {
+  font-size: 26px;
 }
 
-article header .about{
-    font-style: italic;
-    color: #707070;
-    font-size: 10px;
+article header .about {
+  font-style: italic;
+  color: #707070;
+  font-size: 10px;
 }
 
 /* FORMULARIOS  */
-form{
-    margin: 10px 0;
-    display:flex;
-    flex-direction:column;
+form {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
 }
 
-form label,input,textarea{
-    font-weight: 500;
-    margin: 5px 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 18px;
-    padding: 10px;
+form label,
+input,
+textarea {
+  font-weight: 500;
+  margin: 5px 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 18px;
+  padding: 10px;
 }
 
-form input[type=submit]{
-    align-self:center ;
-    min-width:200px; 
+form input[type="submit"] {
+  align-self: center;
+  min-width: 200px;
 }
 
 /* login */
-.login{
-    max-width: 30%;
-    margin: 0 auto;    
+.login {
+  max-width: 30%;
+  margin: 0 auto;
 }
 
-.login input[type=submit]{
-    margin: 10px 0;
-    min-width: 100%;
-    background-color :#377ba8;
-    border:none;
-    border-radius: 5px;
-    color: #fff;    
+.login input[type="submit"] {
+  margin: 10px 0;
+  min-width: 100%;
+  background-color: #377ba8;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
 }
 
-.login input[type=submit]:hover{
-    background-color: #3d9edf;
-    cursor:pointer;
+.login input[type="submit"]:hover {
+  background-color: #3d9edf;
+  cursor: pointer;
 }
 
 /* Dark mode */
 :root {
-    --body-bg: #1d1d1d;
-    --body-color: #fff;
+  --body-bg: #1d1d1d;
+  --body-color: #fff;
 }
 body {
-    background: var(--body-bg);
-    color: var(--body-color);
+  background: var(--body-bg);
+  color: var(--body-color);
 }
 a:visited {
-    color: #fff;
+  color: #fff;
 }
 a {
-    color: #fff;
+  color: #fff;
 }
-.input-button{
-    width: 100%;
-    background-color: rgb(165, 165, 165);
-    text-align: left;
+.input-button {
+  width: 100%;
+  background-color: rgb(165, 165, 165);
+  text-align: left;
 }
 
 *:disabled {
-    background-color: rgb(43, 43, 43);
-    color: rgb(63, 63, 63);
-    opacity: 0.8;
+  background-color: rgb(43, 43, 43);
+  color: rgb(63, 63, 63);
+  opacity: 0.8;
 }
 
-text{
-    background-color: #3d9edf;
-    color: #fff;
+text {
+  background-color: #3d9edf;
+  color: #fff;
 }
 
-body {  
-    min-width:300px; 
+body {
+  min-width: 300px;
 }
 
 #myBtn {
-    display: none; 
-    position: fixed; 
-    bottom: 20px; 
-    right: 30px; 
-    z-index: 99; 
-    border: none; 
-    outline: none; 
-    background-color: #3d9edf; 
-    color: white; 
-    cursor: pointer; 
-    padding: 15px; 
-    border-radius: 10px; 
-    font-size: 18px; 
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  background-color: #3d9edf;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 18px;
 }
 #myBtn:hover {
-    background-color: #555; 
+  background-color: #555;
+}
+
+
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+  background-color: rgb(43, 43, 43);
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active,
+.accordion:hover {
+  background-color: rgb(43, 43, 43);
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+  padding: 0 18px;
+  background-color: rgb(43, 43, 43);
+  display: none;
+  overflow: hidden;
 }
