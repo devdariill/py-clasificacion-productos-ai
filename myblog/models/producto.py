@@ -22,10 +22,11 @@ class Producto(db.Model):
     # cosulc=db.Column(db.String)
     fecapa = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     venprod = db.Column(Float)
+    undfra = db.Column(Float, default=1)
     pvenfra = db.Column(Float)
 
     # visualizar datos uysuario creando un contructor
-    def __init__(self, codprod, codbar, nomprod, exiprod, cosprod, venprod, pvenfra) -> str:
+    def __init__(self, codprod, codbar, nomprod, exiprod, cosprod, venprod, undfra, pvenfra) -> str:
         self.codprod = codprod
         self.codbar = codbar
         self.nomprod = nomprod
@@ -33,6 +34,7 @@ class Producto(db.Model):
         self.tipcos = "UC"
         self.cosprod = cosprod
         self.venprod = venprod
+        self.undfra = undfra
         self.pvenfra = pvenfra
 
     def __repr__(self) -> str:

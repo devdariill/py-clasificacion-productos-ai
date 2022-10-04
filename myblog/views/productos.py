@@ -69,10 +69,12 @@ def register():
         exiprod = request.form.get('exiprod')
         cosprod = request.form.get('cosprod')
         venprod = request.form.get('venprod')
+        undfra = request.form.get('undfra')
         pvenfra = request.form.get('pvenfra')
 
+
         producto = Producto(codprod, codbar, nomprod,
-                            exiprod, cosprod, venprod, pvenfra)
+                            exiprod, cosprod, venprod, undfra, pvenfra)
 
         error = None
 
@@ -88,6 +90,8 @@ def register():
             error = 'Se requiere venprod'
         elif not cosprod:
             error = 'Se requiere cosprod'
+        elif not undfra:
+            error = 'Se requiere undfra'
         elif not pvenfra:
             error = 'Se requiere pvenfra'
 
@@ -139,6 +143,7 @@ def update(id):
         producto.exiprod = request.form.get('exiprod')
         producto.cosprod = request.form.get('cosprod')
         producto.venprod = request.form.get('venprod')
+        producto.undfra = request.form.get('undfra')
         producto.pvenfra = request.form.get('pvenfra')
         # print("b", request.form)
 
@@ -154,6 +159,8 @@ def update(id):
             error = 'Se requiere venprod'
         elif not producto.cosprod:
             error = 'Se requiere cosprod'
+        elif not producto.undfra:
+            error = 'Se requiere undfra'
         elif not producto.pvenfra:
             error = 'Se requiere pvenfra'
 
