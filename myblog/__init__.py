@@ -20,4 +20,7 @@ app.register_blueprint(auth)
 from myblog.views.productos import productos
 app.register_blueprint(productos)
 
+from myblog.views.compras import compras
+app.register_blueprint(compras)
+
 db.create_all()
