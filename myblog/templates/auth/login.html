@@ -1,23 +1,25 @@
 {% extends 'base.html' %}
+<h2>{% block title1 %} Iniciar Sesion {% endblock %}</h2>
 {% block header %}
 <h2>{% block title %} Iniciar Sesion {% endblock %}</h2>
 {% endblock %}
 
 {% block content %}
-<div class="login">
+<div class="login" style="border: solid red;">
     <!-- <form method="GET">
         SE GENERA LA INFORMACION EN LA URL -->
     <form method="POST">
         <label for="username">Nombre de usuario</label>
         <input type="text" name="username" id="username" required>
         <label for="password">Contraseña</label>
-        <input type="password" name="password" id="password" required>
-        <div class="checkbox mb-3">
+        <input  type="password" name="password" id="password" required>
+        <div class="checkbox mb-3" >
             <!-- The following line controls and configures the Turnstile widget. -->
-            <div class="cf-turnstile" data-sitekey="0x4AAAAAAAAun0deEP98bNhj" data-theme="dark"></div>
+            <input type="submit" ,value="Iniciar sesion">
+            <div  class="cf-turnstile" data-sitekey="0x4AAAAAAAAun0deEP98bNhj" data-theme="dark"></div>
             <!-- end. -->
         </div>
-        <input type="submit" ,value="Iniciar sesion">
+        
     </form>
 </div>
 {% endblock %}

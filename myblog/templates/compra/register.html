@@ -6,107 +6,89 @@
 
 {% block content %}
 
-<!-- # numcom, nomdoc, precom, docext, feccom, vencom, nitter, nomter, dirter, telter, corele, subcom, totiva, totcom, estcom, codemp,
-# horcom, obscom, codclas, forpag, totdct, totaju -->
-
 <!-- Container -->
 <button class="accordion">Compras</button>
 
-<div class="panel" style="width: 100%;">
-    <form method="POST" style="column-fill: balance;
-    border: solid red;">
+<div  class="panel">
+    <form method="POST" style="display:grid ; grid-template-columns: 20% 80%;">
 
-        <label for="codprod">codprod</label>
-        <input style="
-            background-color: rgba(114, 114, 114, 0.445);
-            color: rgb(189, 189, 189);" type="number" name="codprod" id="codprod" value="{{ last_producto }}" />
+        <label class="label_compras" for="numcom">numcom </label>
+        <input class="input_compra"  type="number" name="numcom" id="numcom" value="{{ last_compra }}" readonly />
 
-        <label for="codbar">codbar</label>
-        <input type="number" name="codbar" id="codbar" value="{{ last_producto }}" />
+        <label class="label_compras" for="docext">Nombre Factura </label>
+        <input class="input_compra" type="text" name="docext" id="docext" placeholder="Segun Factura No" required />
 
-        <label for="nomprod">nomprod</label>
-        <input type="text" name="nomprod" id="nomprod" />
+        <label class="label_compras" for="feccom">feccom </label>
+        <input class="input_compra" type="date" name="feccom" id="feccom" required />
 
-        <label for="venprod">venprod</label>
-        <input type="number" name="venprod" id="venprod" />
+        <label class="label_compras" for="vencom">vencom </label>
+        <input class="input_compra" type="date" name="vencom" id="vencom" />
 
-        <label for="exiprod">exiprod</label>
-        <input type="number" name="exiprod" id="exiprod" value="0" />
+        <label class="label_compras" for="codemp" hidden>codemp </label>
+        <input class="input_compra" type="text" name="codemp" id="codemp" value="##" hidden />
 
-        <label for="cosprod">cosprod</label>
-        <input type="number" name="cosprod" id="cosprod" value="0" />
+        <label class="label_compras" for="horcom" hidden>horcom </label>
+        <input class="input_compra" type="text" name="horcom" id="horcom" value=" 24 " hidden />
 
-        <label for="undfra">undfra</label>
-        <input type="number" name="undfra" id="undfra" value="1" />
+        <label class="label_compras" for="obscom">obscom </label>
+        <input class="input_compra" type="text" name="obscom" id="obscom" placeholder="Observaciones" />
 
-        <label for="pvenfra">pvenfra</label>
-        <input type="number" name="pvenfra" id="pvenfra" value="0" />
+        <label class="label_compras" for="codclas" hidden>codclas </label>
+        <input class="input_compra" type="text" name="codclas" id="codclas" value="S18" hidden />
+
+        <label class="label_compras" for="forpag">forpag </label>        
+        <select name="codclas" style="margin-top: 10px; " id="codclas">
+            <option  value="E">CREDITO</option>
+            <option  value="C">CONTADO</option>
+        </select>
+    </form>
 </div>
-<div style="width: 100%;
-display: flex;
-justify-content: center;">
-    <input  type="submit" value="Registrar" />
-    
-</div>
-<!-- display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    flex-direction:column;
-    width:auto;
--->
 
-
-
-
-</form>
+<hr style="margin: 10px 0;">
 
 <button class="accordion">Productos</button>
 <div class="panel">
     <form method="post">
-        <input style="
-            background-color: #224a64;
-            flex: 0 0 70%;
-            border-style: hidden;
-            color: #fff;" type="text" name="txtcategoria" id="txtcategoria" placeholder="Search..." autofocus />
-        <input type="submit" value="send" hidden />
+        <input class="input_compra" 
+                style="
+                background-color: #224a64;                
+                border-style: hidden;
+                color: #fff;" type="text" name="txtcategoria" id="txtcategoria" placeholder="Search..." autofocus />
+        <input class="input_compra" type="submit" value="send" hidden />
     </form>
-
     {% for producto in productos %}
-
     <article style="
-      background-color: #173346;
-      padding: 0 9px;
-      margin-bottom: 6px;
-      border-radius: 3px;
-    ">
+            background-color: #173346;
+            padding: 0 9px;
+            margin-bottom: 6px;
+            border-radius: 3px;
+            ">
         <header style="flex: auto">
-            <a href="{{ url_for('productos.update', id=producto.codprod) }}" style="
-          font-weight: bold;
-          text-decoration: none;
-          background-color: #224a64;
-          color: #fff;
-          border-radius: 3px;
-          text-align: center;
-          min-width: 80px;
-        " type="button">
+            <a href="{{ url_for('productos.update', id=producto.codprod) }}" 
+                style="
+                font-weight: bold;
+                text-decoration: none;
+                background-color: #224a64;
+                color: #fff;
+                border-radius: 3px;
+                text-align: center;
+                min-width: 80px;
+                " type="button">
                 {{ producto.codprod }}
             </a>
-
             <a href="{{ url_for('productos.update', id=producto.codprod) }}" style="
-          text-decoration: none;
-          background-color: #224a64;
-          color: #fff;
-          border-radius: 3px;
-          text-align: left;
-          max-width: 500px;
-          width: 100%;
-          margin-left: 10px;
-          padding: 10px;
-          text-align: center;
-        " type="button">
+                text-decoration: none;
+                background-color: #224a64;
+                color: #fff;
+                border-radius: 3px;
+                text-align: left;
+                max-width: 500px;
+                width: 100%;
+                margin-left: 10px;
+                padding: 10px;
+                text-align: center;" type="button">
                 {{ producto.nomprod }}
             </a>
-
             <div style="padding-right: 3px; min-width: 80px; max-width: 80px">
                 <p style="text-align: right">
                     {{ "${:,.0f}".format(producto.venprod)}}
@@ -115,14 +97,60 @@ justify-content: center;">
             </div>
         </header>
     </article>
-
     {% endfor %}
+
+    <div style=" display:grid ; grid-template-columns: 20% 80%;">
+        <label class="label_compras" for="totiva">totiva </label>
+        <input class="input_compra" type="number" name="totiva" id="totiva" value="0" readonly />
+        <label class="label_compras" for="subcom">subcom </label>
+        <input class="input_compra" type="number" name="subcom" id="subcom" value="0" readonly />
+        <label class="label_compras" for="totcom">totcom </label>
+        <input class="input_compra" type="number" name="totcom" id="totcom" value="0" readonly />
+        <label class="label_compras" for="estcom" hidden>estcom </label>
+        <input class="input_compra" type="text" name="estcom" id="estcom" value="B" hidden />
+        <!-- <label class="label_compras" for="precom" hidden>precom </label>
+        <input class="input_compra" type="text" name="precom" id="precom" value="" readonly hidden /> -->
+        
+    </div>
 </div>
+
+<hr style="margin: 10px 0;">
 
 <button class="accordion">Tercero</button>
-<div class="panel">
-    <p>Lorem ipsum...</p>
-</div>
+
+    
+    <div class="panel" >
+        <form method="post">
+            <input class="input_compra" 
+                    style="
+                    background-color: #224a64;                
+                    border-style: hidden;
+                    color: #fff;" type="text" name="txtcategoria" id="txtcategoria" placeholder="Search..." autofocus />
+            <input class="input_compra" type="submit" value="send" hidden />
+        </form>
+        <div style=" display:grid ; grid-template-columns: 20% 80%;">
+            <label class="label_compras" for="nomdoc">nomdoc </label>
+            <input class="input_compra" type="text" name="nomdoc" id="nomdoc" value="COMPRAS" readonly />
+            <label class="label_compras" for="nitter">nitter </label>
+            <input class="input_compra" type="number" name="nitter" id="nitter" placeholder="00001" />
+            <label class="label_compras" for="nomter">nomter </label>
+            <input class="input_compra" type="text" name="nomter" id="nomter" placeholder="CLIENTE 1" />
+            <label class="label_compras" for="dirter">dirter </label>
+            <input class="input_compra" type="text" name="dirter" id="dirter" placeholder="DIRECCION 1">
+            <label class="label_compras" for="telter">telter </label>
+            <input class="input_compra" type="number" name="telter" id="telter" placeholder="12345678" />
+            <label class="label_compras" for="corele">corele </label>
+            <input class="input_compra" type="email" name="corele" id="corele" placeholder="example@gmail.com" />
+            <label class="label_compras" for="totdct">totdct </label>
+            <input class="input_compra" type="text" name="totdct" id="totdct" value="##" required />
+            <label class="label_compras" for="totaju">totaju </label>
+            <input class="input_compra" type="text" name="totaju" id="totaju" value="0" readonly />
+        </div>
+    </div>
+
+<button type="submit" style="min-width: 100%; min-height: 30px; margin-top: 9px;">Enviar</button>
+
+
 
 <script>
     var acc = document.getElementsByClassName("accordion");
@@ -130,19 +158,29 @@ justify-content: center;">
 
     for (i = 0; i < acc.length; i++) {
         acc[i].addEventListener("click", function () {
-            /* Toggle between adding and removing the "active" class,
-          to highlight the button that controls the panel */
+
             this.classList.toggle("active");
 
-            /* Toggle between hiding and showing the active panel */
             var panel = this.nextElementSibling;
-            if (panel.style.display === "block") {
+            if (panel.style.display === "grid") {
                 panel.style.display = "none";
             } else {
-                panel.style.display = "block";
+                panel.style.display = "grid";
             }
         });
     }
 </script>
+
+<style>
+    .label_compras{
+        color: #fff;
+        font-size: 10px;       
+        
+    }
+    .input_compras,input,option,select{        
+        max-height: 20px;
+        font-size: 10px;
+    }
+</style>
 
 {% endblock %}

@@ -5,43 +5,45 @@
 
 {% endblock %} {% block content %}
 
-<form method="POST">
-  <label for="codprod">codprod</label>
-  <input
-    style="
-      background-color: rgba(114, 114, 114, 0.445);
-      color: rgb(189, 189, 189);
-    "
-    type="number"
-    name="codprod"
-    id="codprod"
-    value="{{ last_producto }}"
-  />
+<form method="POST" >
+  <div style="display:grid ; grid-template-columns: 20% 80%;">
+  
+    <label for="codprod">codprod</label>
+    <input readonly style="
+        background-color: rgba(114, 114, 114, 0.445);
+        color: rgb(189, 189, 189);" type="number" name="codprod" id="codprod" value="{{ last_producto }}" />
+  
+    <label for="codbar">codbar</label>
+    <input type="number" name="codbar" id="codbar" value="{{ last_producto }}" />
+  
+    <label for="nomprod">nomprod</label>
+    <input type="text" name="nomprod" id="nomprod" />
+  
+    <label for="venprod">venprod</label>
+    <input type="number" name="venprod" id="venprod" />
+  
+    <label for="exiprod">exiprod</label>
+    <input type="number" name="exiprod" id="exiprod" value="0" />
+  
+    <label for="cosprod">cosprod</label>
+    <input type="number" name="cosprod" id="cosprod" value="0" readonly style="  background-color: rgba(114, 114, 114, 0.445);
+    color: rgb(189, 189, 189);" />
+  
+    <label for="undfra">undfra</label>
+    <input type="number" name="undfra" id="undfra" value="1" />
+  
+    <label for="pvenfra">pvenfra</label>
+    <input type="number" name="pvenfra" id="pvenfra" value="0" />
+  </div>
 
-  <label for="codbar">codbar</label>
-  <input type="number" name="codbar" id="codbar" value="{{ last_producto }}" />
-
-  <label for="nomprod">nomprod</label>
-  <input type="text" name="nomprod" id="nomprod" />
-
-  <label for="venprod">venprod</label>
-  <input type="number" name="venprod" id="venprod" />
-
-  <label for="exiprod">exiprod</label>
-  <input type="number" name="exiprod" id="exiprod" value="0" />
-
-  <label for="cosprod">cosprod</label>
-  <input type="number" name="cosprod" id="cosprod" value="0" />
-
-  <label for="undfra">undfra</label>
-  <input type="number" name="undfra" id="undfra" value="1" />
-
-  <label for="pvenfra">pvenfra</label>
-  <input type="number" name="pvenfra" id="pvenfra" value="0" />
-
-  <input type="submit" ,value="Registrar" />
+  <input type="submit" 
+  style="background-color: #3d9edf; 
+  min-width:100% ;
+  max-height: 50px;" 
+  value="Registrar" />
 </form>
 {% endblock %}
+
 
 <!-- 
 codprod, codbar, nomprod, exiprod, tipcos, cosprod, cosaut, cosulc, venprod, pvenfra

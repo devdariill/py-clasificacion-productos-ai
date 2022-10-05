@@ -35,7 +35,7 @@ class Compra(db.Model):
     horcom = db.Column(db.Integer)
     obscom = db.Column(db.String(100))
     # TODO preguntar para que es foreing key
-    codclas = db.Column(db.String,default="S18")
+    codclas = db.Column(db.String, default="S18")
     forpag = db.Column(db.String(1), default="E")
     totdct = db.Column(VARCHAR)
     totaju = db.Column(VARCHAR)

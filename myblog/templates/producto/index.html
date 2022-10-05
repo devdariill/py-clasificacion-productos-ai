@@ -1,44 +1,35 @@
 {% extends 'base.html' %} 
 {% block title %} Productos {% endblock %} 
 {% block title1 %} Productos {% endblock %} 
+
 {% block header %}
-  <div style="flex: auto; column-count: 1">
-    {% if g.user %}
-    <a style="width: auto" href="{{ url_for('productos.register') }}">
-      <input
-        style="
-          background-color: #224a64;
-          text-align: right;
-          color: #fff;
-          border-style: hidden;
-
-          border-radius: 6px;
-          cursor: pointer;
-        "
-        type="button"
-        value="Crear Producto"
-      />
-    </a>
-    {% endif %}
-
-    <form method="post">
-      <input
-        style="
-          background-color: #224a64;
-          flex: 0 0 70%;
-          border-style: hidden;
-          color: #fff;
-        "
-        type="text"
-        name="txtcategoria"
-        id="txtcategoria"
-        placeholder="Search..."
-        autofocus
-      />
-      <input type="submit" value="send" hidden />
-    </form>
-  </div>
-{% endblock %} 
+<a href="{{ url_for('productos.register') }}">
+  <input style="
+      background-color: #224a64;
+      text-align: right;
+      color: #fff;
+      border-style: hidden;
+      font-size: 10px;
+      border-radius: 6px;
+      cursor: pointer;              
+      padding: 5px; 
+      min-width: 100%;
+      text-align: center;
+      
+    " type="button" value="Crear Producto" />
+</a>
+<form method="post">
+  <input style="
+              background-color: #224a64;                              
+              border-style: hidden;
+              color: #fff;
+              max-height: 25px;
+              border-radius: 6px;
+              " type="text" name="txtcategoria" id="txtcategoria"
+    placeholder="Search..." autofocus />
+  <input type="submit" value="send" hidden />
+</form>
+{% endblock %}
 
 {% block content %}
 <button
@@ -59,13 +50,10 @@
       href="{{ url_for('productos.update', id=producto.codprod) }}"
       style="
         font-weight: bold;
-        text-decoration: none;
-        
+        text-decoration: none;        
         color: #fff;
-        border-radius: 3px;
         text-align: center;
-        min-width: 80px;
-        
+        min-width: 30px;        
       "
       type="button"
     >
@@ -80,12 +68,12 @@
         background-color: #224a64;
         color: #fff;
         border-radius: 3px;
-        text-align: left ;        
         max-width: 500px;
         width: 100%;
-        margin-left: 10px;
-        padding: 10px;
+        margin-left: 5px;
+        padding: 5px;
         text-align:center;
+        font-size: 14px;
       "
       type="button"
     >
