@@ -61,25 +61,9 @@ def registerTercero():
 @login_required
 def registerCompra(id):
     tercero = Tercero.query.get(id)
-    print(tercero)
-    
-    # session=db.session()    
-    # cursos=session.execute(
-    #     f"select * from terceros where nitter = '{id}'"
-    # ).cursor.fetchall()
-    # tercero = cursos[0]
-    # print(tercero)
-
     last_compra = Compra.query.order_by(Compra.numcom.desc()).first()   
     last_compra = last_compra.numcom +1
-
     error = None    
-
-    # numcom, nomdoc, precom, docext, feccom, vencom, 
-    # nitter, nomter, dirter, telter, corele, subcom,
-    # totiva, totcom, estcom, codemp, horcom, obscom, 
-    # codclas, forpag, totdct, totaju
-
     if request.method == 'POST':
         numcom = request.form['numcom']
         docext = request.form['docext']
@@ -93,7 +77,6 @@ def registerCompra(id):
         telter=tercero.telter
         corele=tercero.corele
         codemp = g.user.username
-        
         nomdoc="COMPRA"
         subcom=0
         totiva=0
@@ -103,14 +86,10 @@ def registerCompra(id):
         codclas="S18"
         totdct=0
         totaju=0
-
-        print("#"*20)
         compra = Compra(numcom,nomdoc,docext,feccom,vencom, 
                         nitter, nomter, dirter, telter, corele,subcom,
                         totiva,totcom,estcom,codemp, horcom,
                         obscom,codclas,forpag,totdct,totaju)
-        print("*"*10,compra)
-
         if not numcom:
             error = 'numcom is required.'
         # elif not nomdoc:
@@ -124,8 +103,7 @@ def registerCompra(id):
         elif not codemp:
             error = 'codemp is required.'
         elif not horcom:
-            error = 'horcom is required.'            
-
+            error = 'horcom is required.'
         if error is not None:
             error = 'Error al registrar la compra ' +error
         else:
@@ -136,9 +114,7 @@ def registerCompra(id):
             print("*"*10,error)
             return redirect(url_for('compras.registerProductos'))            
             #return render_template('compra/registerCompra.html',compra=compra.numcom)
-
         flash(error)
-
     return render_template('compra/registerCompra.html',last_compra=last_compra)
 
 @compras.route('/compra/registerProductos/', methods=('GET', 'POST'))
@@ -150,11 +126,6 @@ def registerProductos():
     #TODO get todos los productos registrados en detcompra by idcompra
     return render_template('compra/registerProductos.html')
 
-# eliminar producto
-@compras.route('/compra/delete/<int:id>', methods=('GET', 'POST'))
-@login_required
-def delete(id):
-    compra = Compra.query.get(id)
-    db.session.delete(compra)
-    db.session.commit()
-    return redirect(url_for('compras.index'))
+
+
+

@@ -14,24 +14,22 @@ header %}
   <!-- <a href="{{ url_for('productos.delete', id=producto.codprod) }}" >Eliminar</a>   -->
 
   <a
-    href="{{ url_for('productos.delete', id=producto.codprod) }}"
-    onclick="return confirm('Are you sure?')"
-  >
-    <input
-      style="
-        cursor: pointer;
-        background-color: #224a64;
-        color: #fff;
-        border-style: hidden;
-        text-align: center;
-        border-radius: 6px;
-        cursor: pointer;
-        right: 0px;
-        width: 300px;
-      "
-      type="button"
-      value="Eliminar"
-  /></a>
+  href="{{ url_for('productos.delete', id=producto.codprod) }}"
+  onclick="return confirm('Are you sure?')"
+  type="button"
+  style="text-decoration: none;
+    min-width: 80%;     
+    background-color: #224a64; 
+    color: #fff;
+    text-align: center; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    right: 0px;
+    padding: 10px;"
+  >Eliminar
+  </a>
+
+
 </div>
 
 {% endblock %} {% block content %}
@@ -39,79 +37,57 @@ header %}
         SE GENERA LA INFORMACION EN LA URL -->
 
 <form method="post">
-  <label for="codprod">codprod</label>
-  <input
-    type="number"
-    name="codprod"
-    id="codprod"
-    value="{{ producto.codprod }}"
-    required
-  />
+  <div style="display:grid ; grid-template-columns: 15% 80%; border:solid red; align-items: center ;">
 
-  <label for="codbar">codbar</label>
-  <input
-    type="number"
-    name="codbar"
-    id="codbar"
-    value="{{ producto.codbar }}"
-    required
-  />
+    <label class="class_label" for="codprod">codprod</label>
+    <input type="number" name="codprod" id="codprod" value="{{ producto.codprod }}" required />
 
-  <label for="nomprod">Nombre Producto</label>
-  <input
-    type="text"
-    name="nomprod"
-    id="nomprod"
-    value="{{ producto.nomprod }}"
-    required
-  />
+    <label class="class_label" for="codbar">codbar</label>
+    <input type="number" name="codbar" id="codbar" value="{{ producto.codbar }}" required />
 
-  <label for="exiprod">Existencia</label>
-  <input
-    type="number"
-    name="exiprod"
-    id="exiprod"
-    value="{{ producto.exiprod }}"
-    required
-  />
+    <label class="class_label" for="nomprod">Nombre Producto</label>
+    <input type="text" name="nomprod" id="nomprod" value="{{ producto.nomprod }}" required />
 
-  <label for="venprod">Precio</label>
-  <input
-    type="number"
-    name="venprod"
-    id="venprod"
-    value="{{ producto.venprod }}"
-    required
-  />
+    <label class="class_label" for="exiprod">Existencia</label>
+    <input type="number" name="exiprod" id="exiprod" value="{{ producto.exiprod }}" required />
 
-  <label for="cosprod">cosprod</label>
-  <input
-    type="number"
-    name="cosprod"
-    id="cosprod"
-    value="{{ producto.cosprod }}"
-    required
-  />
-  <label for="undfra">undfra</label>
-  <input
-    type="number"
-    name="undfra"
-    id="undfra"
-    value="{{ producto.undfra }}"
-    required
-  />
+    <label class="class_label" for="venprod">Precio</label>
+    <input type="number" name="venprod" id="venprod" value="{{ producto.venprod }}" required />
 
-  <label for="pvenfra">pvenfra</label>
-  <input
-    type="number"
-    name="pvenfra"
-    id="pvenfra"
-    value="{{ producto.pvenfra }}"
-    required
-  />
+    <label class="class_label" for="cosprod">cosprod</label>
+    <input type="number" name="cosprod" id="cosprod" value="{{ producto.cosprod }}" required />
+    <label class="class_label" for="undfra">undfra</label>
+    <input type="number" name="undfra" id="undfra" value="{{ producto.undfra }}" required />
 
-  <input type="submit" name="submit_button" value="Actualizar" />
+    <label class="class_label" for="pvenfra">pvenfra</label>
+    <input type="number" name="pvenfra" id="pvenfra" value="{{ producto.pvenfra }}" required />
+
+  </div>
+
+  <button style="padding: 10px;
+            background-color: #224a64;
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            "
+          type="submit"name="submit_button">Actualizar</button>
+
+  <!-- <input type="submit" name="submit_button" value="Actualizar" /> -->
 </form>
+  <style>
+    label,
+    .class_label {
+      color: #fff;
+      font-size: 10px;   
+      align-items: center;   
+      justify-content: center;
+      
+  }
+  input{ 
+      max-height: 20px;
+      font-size: 10px;
+  }
+</style>
 
 {% endblock %}
 

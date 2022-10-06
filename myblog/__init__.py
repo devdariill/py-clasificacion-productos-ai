@@ -13,6 +13,12 @@ db=SQLAlchemy(app)
 # cursos=session.execute("select * from users").cursor.fetchall()
 # print(cursos)
 
+# session=db.session()    
+# cursos=session.execute(
+#     f"select * from terceros where nitter = '{id}'"
+# ).cursor.fetchall()
+# tercero = cursos[0]
+# print(tercero)
 
 from myblog.views.auth import auth
 app.register_blueprint(auth)

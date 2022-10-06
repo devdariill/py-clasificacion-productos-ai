@@ -9,10 +9,11 @@
     <h2>Crear Compra</h2>    
     <hr style="margin: 10px 0;">
 
-    <form method="POST" >
+    <form method="POST" style="min-height: 100%;">
 
         <div style="display:grid;
-        grid-template-columns: 20% 80%;">
+        grid-template-columns: 20% 80%;
+        align-items: center ;">
 
             
             <label class="label_compras" for="numcom">numcom </label>
@@ -42,8 +43,17 @@
                 <option  value="C">CONTADO</option>
             </select>
         </div>
-
-        <input type="submit" name="submit_button" value="Actualizar"  src="{{ url_for('compras.registerProductos') }}"/>
+        
+        <button style="align-items: center; 
+                    padding: 5px; 
+                    background-color: #224a64;
+                    color: #fff;
+                    border-radius: 5px;"
+                    type="submit"
+                    name="submit_button"
+                    src="{{ url_for('compras.registerProductos') }}"
+                    >Enviar</button>
+        <br>
 
     </form>
 
@@ -61,8 +71,7 @@
         justify-content: center;
         
     }
-    .input_compras,input,option,select{   
-        margin-top: 10px;
+    input,select{   
         max-height: 20px;
         font-size: 10px;
     }
