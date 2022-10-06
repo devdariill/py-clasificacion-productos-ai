@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %} Compras {% endblock %}
+{% block title1 %} Compras {% endblock %}
+
+{% block header %} {% endblock %}
+
+{% block content %}
+    <hr style="margin-bottom: 10px ;">
+    <h2>Crear Compra</h2>    
+    <hr style="margin: 10px 0;">
+
+    <form method="POST" >
+
+        <div style="display:grid;
+        grid-template-columns: 20% 80%;">
+
+            
+            <label class="label_compras" for="numcom">numcom </label>
+            <input class="input_compra"  type="number" name="numcom" id="numcom" value="{{ last_compra }}" readonly />
+
+            <label class="label_compras" for="docext">Nombre Factura </label>
+            <input lass="input_compra" type="text" name="docext" id="docext" placeholder="Segun Factura No" required />
+            
+            <label class="label_compras" for="feccom">feccom </label>
+            <input class="input_compra" type="date" name="feccom" id="feccom" required />
+            
+            <label class="label_compras" for="vencom">vencom </label>
+            <input class="input_compra" type="date" name="vencom" id="vencom" />
+            
+            <label class="label_compras" for="codemp" hidden>codemp </label>
+            <input class="input_compra" type="text" name="codemp" id="codemp" value="##" hidden />
+            
+            <label class="label_compras" for="horcom" hidden>horcom </label>
+            <input class="input_compra" type="text" name="horcom" id="horcom" value=" 24 " hidden />
+            
+            <label class="label_compras" for="codclas" hidden>codclas </label>
+            <input class="input_compra" type="text" name="codclas" id="codclas" value="S18" hidden />
+
+            <label class="label_compras" for="forpag">forpag </label>        
+            <select name="forpag" style="margin-top: 10px; " id="forpag">
+                <option  value="E">CREDITO</option>
+                <option  value="C">CONTADO</option>
+            </select>
+        </div>
+
+        <input type="submit" name="submit_button" value="Actualizar"  src="{{ url_for('compras.registerProductos') }}"/>
+
+    </form>
+
+    
+
+
+
+
+
+<style>
+    .label_compras{
+        color: #fff;
+        font-size: 10px;   
+        align-items: center;   
+        justify-content: center;
+        
+    }
+    .input_compras,input,option,select{   
+        margin-top: 10px;
+        max-height: 20px;
+        font-size: 10px;
+    }
+</style>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 from myblog import db
-from sqlalchemy.dialects.mysql import VARCHAR
+from sqlalchemy.dialects.mysql import VARCHAR,CHAR
 
 
 # nitter, tipnit, perjur, razsoc, apeter, apeter2, nomter, nomter2, nomcom, dirter, telter, corele, cliter, proter, empter, actter
@@ -18,10 +18,10 @@ class Tercero(db.Model):
     dirter = db.Column(VARCHAR, default="")
     telter = db.Column(VARCHAR, default="")
     corele = db.Column(VARCHAR, default="")
-    cliter = db.Column(VARCHAR, default="")
-    proter = db.Column(VARCHAR, default="")
-    empter = db.Column(VARCHAR, default="") 
-    actter = db.Column(VARCHAR, default="N")
+    cliter = db.Column(CHAR, default="")
+    proter = db.Column(CHAR, default="")
+    empter = db.Column(CHAR, default="") 
+    actter = db.Column(CHAR, default="N")
 
     def __init__(self, nitter, tipnit, perjur, razsoc, apeter, apeter2, nomter, nomter2, nomcom, dirter, telter, corele, cliter, proter, empter, actter) -> str:
         self.nitter = nitter

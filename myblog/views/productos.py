@@ -87,7 +87,9 @@ def register():
         elif not pvenfra:
             error = 'Se requiere pvenfra'
 
+
         user_name = Producto.query.filter_by(codprod=codprod).first()
+        print(user_name)
 
         if user_name == None:
             db.session.add(producto)
@@ -130,12 +132,12 @@ def update(id):
 
     if request.method == 'POST':
         producto.codprod = request.form.get('codprod')
-        producto.codbar = request.form.get('codbar')
+        producto.codbar  = request.form.get('codbar')
         producto.nomprod = request.form.get('nomprod')
         producto.exiprod = request.form.get('exiprod')
         producto.cosprod = request.form.get('cosprod')
         producto.venprod = request.form.get('venprod')
-        producto.undfra = request.form.get('undfra')
+        producto.undfra  = request.form.get('undfra')
         producto.pvenfra = request.form.get('pvenfra')
         # print("b", request.form)
 

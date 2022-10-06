@@ -13,25 +13,22 @@
     <form method="POST" style="display:grid ; grid-template-columns: 20% 80%;">
 
         <label class="label_compras" for="numcom">numcom </label>
-        <input class="input_compra"  type="number" name="numcom" id="numcom" value="{{ last_compra }}" readonly />
+        <input  class="input_compra"  type="number" name="numcom" id="numcom" value="{{ last_compra }}" readonly />
 
         <label class="label_compras" for="docext">Nombre Factura </label>
         <input class="input_compra" type="text" name="docext" id="docext" placeholder="Segun Factura No" required />
 
         <label class="label_compras" for="feccom">feccom </label>
-        <input class="input_compra" type="date" name="feccom" id="feccom" required />
+        <input  class="input_compra" type="date" name="feccom" id="feccom" required />
 
         <label class="label_compras" for="vencom">vencom </label>
-        <input class="input_compra" type="date" name="vencom" id="vencom" />
+        <input  class="input_compra" type="date" name="vencom" id="vencom" />
 
         <label class="label_compras" for="codemp" hidden>codemp </label>
         <input class="input_compra" type="text" name="codemp" id="codemp" value="##" hidden />
 
         <label class="label_compras" for="horcom" hidden>horcom </label>
         <input class="input_compra" type="text" name="horcom" id="horcom" value=" 24 " hidden />
-
-        <label class="label_compras" for="obscom">obscom </label>
-        <input class="input_compra" type="text" name="obscom" id="obscom" placeholder="Observaciones" />
 
         <label class="label_compras" for="codclas" hidden>codclas </label>
         <input class="input_compra" type="text" name="codclas" id="codclas" value="S18" hidden />
@@ -95,6 +92,9 @@
                 </p>
                 <p style="text-align: right; font-size: 10px">{{ producto.exiprod }}</p>
             </div>
+
+            <label class="label_compras" for="obscom">obscom </label>
+            <input class="input_compra" type="text" name="obscom" id="obscom" placeholder="Observaciones" />
         </header>
     </article>
     {% endfor %}
@@ -130,7 +130,7 @@
         </form>
         <div style=" display:grid ; grid-template-columns: 20% 80%;">
             <label class="label_compras" for="nomdoc">nomdoc </label>
-            <input class="input_compra" type="text" name="nomdoc" id="nomdoc" value="COMPRAS" readonly />
+            <input class="input_compra" type="text" name="nomdoc" id="nomdoc" value="COMPRAS"  hidden readonly />
             <label class="label_compras" for="nitter">nitter </label>
             <input class="input_compra" type="number" name="nitter" id="nitter" placeholder="00001" />
             <label class="label_compras" for="nomter">nomter </label>
@@ -169,6 +169,10 @@
             }
         });
     }
+
+    // function stopDefAction(evt) {
+    //         evt.preventDefault();
+    //     }
 </script>
 
 <style>

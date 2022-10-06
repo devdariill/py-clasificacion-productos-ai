@@ -1,29 +1,24 @@
-# 35:20
-import datetime
-from email.policy import default
 from myblog import db
-from sqlalchemy.dialects.mysql import VARCHAR
-# from sqlalchemy import Float
-from sqlalchemy.sql import sqltypes
+from sqlalchemy.dialects.mysql import VARCHAR,CHAR
 
-# nuestra calse ya es un modelos
-# se crea la tabla users con atributos id ...
-
+# numcom, codprod, codcon, nomdet, serdet, venfec, valuni, candet,
+# ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, reginv
 
 class Producto(db.Model):
-    __tablename__ = "productos"
-    codprod = db.Column(VARCHAR, primary_key=True)
+    __tablename__ = "detcompras"
+    numcom = db.Column(VARCHAR, db.ForeignKey('compras.numcom'))    
+    codprod = db.Column(VARCHAR, db.ForeignKey('productos.codprod'))
     codbar = db.Column(VARCHAR, default=codprod)
     nomprod = db.Column(VARCHAR)
-    exiprod = db.Column(VARCHAR, default=0)
+    exiprod = db.Column(Float, default=0)
     tipcos = db.Column(sqltypes.CHAR)
-    cosprod = db.Column(VARCHAR)
-    # cosaut=db.Column(VARCHAR)
+    cosprod = db.Column(Float)
+    # cosaut=db.Column(Float)
     # cosulc=db.Column(db.String)
     fecapa = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    venprod = db.Column(VARCHAR)
-    undfra = db.Column(VARCHAR, default=1)
-    pvenfra = db.Column(VARCHAR)
+    venprod = db.Column(Float)
+    undfra = db.Column(Float, default=1)
+    pvenfra = db.Column(Float)
 
     # visualizar datos uysuario creando un contructor
     def __init__(self, codprod, codbar, nomprod, exiprod, cosprod, venprod, undfra, pvenfra) -> str:
@@ -39,8 +34,3 @@ class Producto(db.Model):
 
     def __repr__(self) -> str:
         return f'Producto: {self.nomprod}'
-
-
-"""
-codprod, codbar, nomprod, exiprod, tipcos, cosprod, cosaut, cosulc, venprod, pvenfra
-"""

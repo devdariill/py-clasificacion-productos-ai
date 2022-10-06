@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %} Compras {% endblock %}
+{% block title1 %} Compras 1 {% endblock %}
+
+{% block header %} {% endblock %}
+
+{% block content %}
+
+    <h2 style="text-align: center;">Seleccionar Tercero </h2>
+    <form method="post">
+        <input class="input_compra" style="
+                        background-color: #224a64;                
+                        border-style: hidden;
+                        color: #fff;" type="text" name="txtcategoria" id="txtcategoria" placeholder="Search..."
+            autofocus />
+        <input class="input_compra" type="submit" value="send" hidden />
+    </form>
+
+    {% for tercero in terceros %}
+
+        <article style="
+            background-color: #173346; 
+            padding: 0 9px ;
+            margin-bottom: 6px;
+            border-radius: 3px;">
+            <header style="flex: auto">
+                <a
+                href="{{ url_for('compras.registerCompra', id=tercero.nitter) }}"
+                style="
+                    font-size: 9px;
+                    font-weight: bold;
+                    text-decoration: none;        
+                    color: #fff;
+                    text-align: center;
+                    min-width: 60px;"
+                type="button"
+                >
+                {{ tercero.nitter }}
+                </a>
+                
+                <a
+                href="{{ url_for('compras.registerCompra', id=tercero.nitter) }}"
+                
+                style="                    
+                    text-decoration: none;
+                    background-color: #224a64;
+                    color: #fff;
+                    border-radius: 3px;
+                    max-width: 400px;
+                    width: 100%;
+                    margin-left: 5px;
+                    padding: 5px;
+                    text-align:center;
+                    font-size: 10px;"
+                type="button"
+                >
+                {{ tercero.nomcom }}
+                </a>
+
+            </header>
+        </article>
+
+    {% endfor %}
+
+<style>
+    .label_compras{
+        color: #fff;
+        font-size: 10px;       
+        
+    }
+    .input_compras,input,option,select{        
+        max-height: 20px;
+        font-size: 10px;
+    }
+</style>
+
+{% endblock %}
