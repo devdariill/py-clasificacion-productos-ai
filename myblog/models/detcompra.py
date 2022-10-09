@@ -1,36 +1,50 @@
 from myblog import db
-from sqlalchemy.dialects.mysql import VARCHAR,CHAR
+import datetime
+from sqlalchemy.dialects.mysql import VARCHAR,DOUBLE
 
-# numcom, codprod, codcon, nomdet, serdet, venfec, valuni, candet,
-# ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, reginv
+# numcom, codprod, codcon, nomdet, serdet, venfec, valuni, candet, ivapor, 
+# ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, reginv
 
 class Producto(db.Model):
     __tablename__ = "detcompras"
     numcom = db.Column(VARCHAR, db.ForeignKey('compras.numcom'))    
     codprod = db.Column(VARCHAR, db.ForeignKey('productos.codprod'))
-    codbar = db.Column(VARCHAR, default=codprod)
-    nomprod = db.Column(VARCHAR)
-    exiprod = db.Column(Float, default=0)
-    tipcos = db.Column(sqltypes.CHAR)
-    cosprod = db.Column(Float)
-    # cosaut=db.Column(Float)
-    # cosulc=db.Column(db.String)
-    fecapa = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    venprod = db.Column(Float)
-    undfra = db.Column(Float, default=1)
-    pvenfra = db.Column(Float)
+    # codcon = db.Column(VARCHAR)
+    nomdet = db.Column(VARCHAR)
+    # serdet = db.Column(VARCHAR)
+    venfec = db.Column(db.DateTime,default=datetime.datetime.utcnow)
+    valuni = db.Column(DOUBLE)
+    candet = db.Column(DOUBLE)
+    ivapor = db.Column(db.Float)
+    ivapes = db.Column(DOUBLE)
+    cosuni = db.Column(DOUBLE)
+    totdet = db.Column(DOUBLE)
+    numite = db.Column(db.Integer)
+    codclas = db.Column(VARCHAR)
+    # dctpor = db.Column(DOUBLE)
+    undfra = db.Column(db.Integer)
+    # reginv = db.Column(VARCHAR)
 
     # visualizar datos uysuario creando un contructor
-    def __init__(self, codprod, codbar, nomprod, exiprod, cosprod, venprod, undfra, pvenfra) -> str:
+    def __init__(self, numcom, codprod, nomdet, venfec, valuni, candet, ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, ) -> None:
+        self.numcom = numcom
         self.codprod = codprod
-        self.codbar = codbar
-        self.nomprod = nomprod
-        self.exiprod = exiprod
-        self.tipcos = "UC"
-        self.cosprod = cosprod
-        self.venprod = venprod
+        # self.codcon = codcon
+        self.nomdet = nomdet
+        # self.serdet = serdet
+        self.venfec = venfec
+        self.valuni = valuni
+        self.candet = candet
+        self.ivapor = ivapor
+        self.ivapes = ivapes
+        self.cosuni = cosuni
+        self.totdet = totdet
+        self.numite = numite
+        self.codclas = codclas
+        self.dctpor = dctpor
         self.undfra = undfra
-        self.pvenfra = pvenfra
+        # self.reginv = reginv
+
 
     def __repr__(self) -> str:
-        return f'Producto: {self.nomprod}'
+        return f'Producto: {self.codprod}'

@@ -1,10 +1,11 @@
 from flask import (
-    render_template, Blueprint, flash, g, redirect, request, session, url_for
+    render_template, Blueprint, flash, g, redirect, request, url_for
 )
 
 from myblog import db
 
 from myblog.models.compra import Compra
+from myblog.models.producto import Producto
 from myblog.models.tercero import Tercero
 from myblog.views.auth import login_required
 from werkzeug.exceptions import abort
@@ -14,6 +15,7 @@ compras = Blueprint('compras', __name__,url_prefix='/compras')
 @compras.route("/",methods=('GET', 'POST'))
 @login_required
 def index():
+    #TODO tercero default
     if request.method == 'POST' and "txtcategoria" in request.form:
         if(request.form['txtcategoria'] == ''):
             compras = reversed( Compra.query.all() ) 
@@ -61,8 +63,12 @@ def registerTercero():
 @login_required
 def registerCompra(id):
     tercero = Tercero.query.get(id)
-    last_compra = Compra.query.order_by(Compra.numcom.desc()).first()   
-    last_compra = last_compra.numcom +1
+
+    # last_compra = Compra.query.order_by(Compra.numcom.desc()).first()   
+    last_compra = reversed(Compra.query.all())
+    last_compra = list(last_compra)
+    last_compra = last_compra[:1]
+    last_compra = int(last_compra[0].numcom) +1
     error = None    
     if request.method == 'POST':
         numcom = request.form['numcom']
@@ -86,10 +92,8 @@ def registerCompra(id):
         codclas="S18"
         totdct=0
         totaju=0
-        compra = Compra(numcom,nomdoc,docext,feccom,vencom, 
-                        nitter, nomter, dirter, telter, corele,subcom,
-                        totiva,totcom,estcom,codemp, horcom,
-                        obscom,codclas,forpag,totdct,totaju)
+        compra = Compra(numcom,nomdoc,docext,feccom,vencom,nitter, nomter, dirter, telter, corele,
+                        subcom,totiva,totcom,estcom,codemp, horcom,obscom,codclas,forpag,totdct,totaju)
         if not numcom:
             error = 'numcom is required.'
         # elif not nomdoc:
@@ -112,19 +116,48 @@ def registerCompra(id):
             #TODO mostrar error
             error = f'Compra {numcom} : {nitter} DONE'
             print("*"*10,error)
-            return redirect(url_for('compras.registerProductos'))            
+            return redirect(url_for('compras.registerProductos',id=numcom))            
             #return render_template('compra/registerCompra.html',compra=compra.numcom)
         flash(error)
     return render_template('compra/registerCompra.html',last_compra=last_compra)
 
-@compras.route('/compra/registerProductos/', methods=('GET', 'POST'))
+@compras.route('/compra/registerProductos/<string:id>', methods=('GET', 'POST'))
 @login_required
-def registerProductos():
-    # compra_actual=get_compra(id)
-    # productos = reversed(Producto.query.all())
+def registerProductos(id):
+    print(id)
 
-    #TODO get todos los productos registrados en detcompra by idcompra
-    return render_template('compra/registerProductos.html')
+    if request.method == 'POST' and "txtcategoria" in request.form:
+        if(request.form['txtcategoria'] == ''):
+            productos = reversed( Producto.query.all() ) 
+            productos = list(productos)  
+            productos = productos[:5]  
+            db.session.commit()
+        else:
+            print("**"*20)
+            productos1 = db.session.query(Producto).filter(
+                Producto.codprod.like("%"+request.form['txtcategoria']+"%")).all()
+            productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
+                Producto.nomprod.like("%"+request.form['txtcategoria']+"%")).all()
+            productos = productos1 + productos2
+            db.session.commit()
+            return render_template('compra/registerProductos.html', productos=productos)
+    else:
+        productos = reversed( Producto.query.all() ) 
+        productos = list(productos)  
+        productos = productos[:5]  
+        db.session.commit()
+
+    return render_template('compra/registerProductos.html',productos=productos)
+
+@compras.route('/compra/registerProductos/<string:id_compra>/Agregar/<int:id_producto>', methods=('GET', 'POST'))
+@login_required
+def registerProducto(id):
+    print(id)
+
+
+
+    return render_template('compra/agregarProducto.html')
+
 
 
 
