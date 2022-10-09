@@ -8,8 +8,64 @@
 <hr style="margin-bottom: 10px" />
 <h2>Agregar Productos</h2>
 <hr style="margin: 10px 0" />
+{#<!-- 
+  numcom, codprod, #codcon, nomdet, #serdet, venfec, valuni, candet, ivapor, ivapes,
+  cosuni, totdet, numite, codclas, #dctpor, undfra, #reginv
+-->#}
+<div style="display:grid;
+        grid-template-columns: 20% 80%;
+        align-items: center ;">
+  <label for="numcom">numcom</label>
+  <input type="number" name="numcom" id="numcom" value="{{ compra.numcom }}" readonly />
+  <label for="codprod">codprod</label>
+  <input type="number" name="codprod" id="codprod" value="{{ producto.codprod }}" readonly />
+  <!-- <label for="codcon">codcon</label>
+<input type="text" name="codcon" id="codcon" value="{{ compra.codcon }}" readonly /> -->
+  <label for="nomdet">nomdet</label>
+  <input type="text" name="nomdet" id="nomdet" value="{{ producto.nomprod }}" readonly />
+  <!-- <label for="serdet">serdet</label>
+<input type="text" name="serdet" id="serdet" value="{{ compra.serdet }}" readonly /> -->
+  <!-- <label for="venfec">venfec</label>
+  <input type="date" name="venfec" id="venfec" value="" readonly autocomplete="" /> -->
+  <label for="valuni">valuni</label>
+  <input type="text" name="valuni" id="valuni" value="" required/>
+  <label for="ivaIncluido">ivaIncluido </label>        
+  <select name="ivaIncluido" style="margin-top: 10px; " id="ivaIncluido">
+      <option  value="1">Si</option>
+      <option  value="0">No</option>
+  </select>
+  <label for="candet">candet</label>
+  <!-- TODO PLACEHOLDER ALL FORMS -->
+  <input type="number" name="candet" id="candet" placeholder="candet" required />
+  <label for="ivapor">ivapor</label>
+  <input type="number" name="ivapor" id="ivapor" value="iva" required/>  
+  <!-- SOLUCION X=1100 / 110% = 1000 -->
+  <label for="ivapes">ivapes</label>
+  <input type="text" name="ivapes" id="ivapes" value="{{ compra.ivapes }}" readonly />
 
-
+  <label for="cosuni">cosuni</label>
+  <input type="text" name="cosuni" id="cosuni" value='{{ "{:,.0f}".format(producto.cosulc)}}' readonly />
+  <label for="totdet">totdet</label>
+  <input type="text" name="totdet" id="totdet" readonly />
+  <!-- ERROR MAYBE reviar detcompra autoimcremetal -->
+  <!-- <label for="numite">numite</label>
+  <input type="text" name="numite" id="numite" value="{{ compra.numite }}" readonly /> -->
+  <!-- ERROR MAYBE reviar detcompra autoimcremetal -->
+  <label for="codclas">codclas</label>
+  <input type="text" name="codclas" id="codclas" value="{{ compra.codclas }}" readonly />
+  <label for="dctpor">dctpor</label>
+  <input type="text" name="dctpor" id="dctpor"  />
+  <label for="undfra">undfra</label>
+  <input type="number" name="undfra" id="undfra" value="{{ producto.undfra }}" readonly />
+  <!-- <label for="reginv">reginv</label>
+<input type="text" name="reginv" id="reginv" value="{{ compra.reginv }}" readonly /> -->
+</div>
+<style>
+  label,input{
+    font-size: 10px;
+    max-height: 20px;
+  }
+</style>
 {% endblock %}
 
 

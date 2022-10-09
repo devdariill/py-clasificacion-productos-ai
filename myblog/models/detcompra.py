@@ -19,14 +19,15 @@ class Producto(db.Model):
     ivapes = db.Column(DOUBLE)
     cosuni = db.Column(DOUBLE)
     totdet = db.Column(DOUBLE)
-    numite = db.Column(db.Integer)
+    # TODO AUTO INCREMENTAL MAYBE FAIL
+    numite = db.Column(db.Integer,autoincrement=True)
     codclas = db.Column(VARCHAR)
-    # dctpor = db.Column(DOUBLE)
+    dctpor = db.Column(DOUBLE)
     undfra = db.Column(db.Integer)
     # reginv = db.Column(VARCHAR)
 
     # visualizar datos uysuario creando un contructor
-    def __init__(self, numcom, codprod, nomdet, venfec, valuni, candet, ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, ) -> None:
+    def __init__(self, numcom, codprod, nomdet, venfec, valuni, candet, ivapor, ivapes, cosuni, totdet,  codclas, dctpor, undfra, ) -> None:
         self.numcom = numcom
         self.codprod = codprod
         # self.codcon = codcon
@@ -39,7 +40,7 @@ class Producto(db.Model):
         self.ivapes = ivapes
         self.cosuni = cosuni
         self.totdet = totdet
-        self.numite = numite
+        # self.numite = numite
         self.codclas = codclas
         self.dctpor = dctpor
         self.undfra = undfra

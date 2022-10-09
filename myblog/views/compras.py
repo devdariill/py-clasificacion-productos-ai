@@ -1,3 +1,4 @@
+from datetime import date
 from flask import (
     render_template, Blueprint, flash, g, redirect, request, url_for
 )
@@ -165,21 +166,28 @@ def registerProductos(id):
 
     return render_template('compra/registerProductos.html',productos=productos,id_compra=id)
 
-# @compras.route('/compra/registerProductos/<string:id_compra>/Agregar/<int:id_producto>', methods=('GET', 'POST'))
+# numcom, codprod, #codcon, nomdet, #serdet, venfec, valuni, candet, ivapor, ivapes,
+# cosuni, totdet, numite, codclas, #dctpor, undfra, #reginv
 @compras.route('/compra/registerProductos/<string:id_compra>/Agregar/<int:id_producto>', methods=('GET', 'POST'))
 @login_required
 def agregarProducto(id_compra,id_producto):
-    print("*"*50)
-    print(id_compra,id_producto)
-    print("baseurl", request.base_url)
-    print("path", request.path)
-    print("fullpath", request.full_path)
-    print("scriptroot", request.script_root)
-    print("url", request.url)
-    print("*"*50)
+    compra = Compra.query.get(id_compra)
+    producto = Producto.query.get(id_producto)
+
+    if request.method == 'POST':
+        numcom=request.form['numcom']
+        codprod=request.form['codprod']
+        nomdet=request.form['nomdet']
+        venfec=date.today()
+        valuni=request.form['valuni']
+        candet=request.form['candet']
+        ivapor=request.form['ivapor']
 
 
-    return render_template('compra/agregarProducto.html')
+
+
+
+    return render_template('compra/agregarProducto.html',compra=compra,producto=producto)
 
 
 
