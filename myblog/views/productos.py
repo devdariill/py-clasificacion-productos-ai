@@ -117,21 +117,19 @@ def delete(id):
 @productos.route('/producto/update/<int:id>', methods=('GET', 'POST'))
 @login_required
 def update(id):
-
     producto = get_producto(id)
     error = None
-
-
+    print("get:",request.form.get('codprod'),id,producto.codprod)
+    print("get:",type(request.form.get('codprod')),type(id),type(producto.codprod))
+    print("get:",request.form.get('codprod') == id)
+    print("get:",request.form.get('codprod') == producto.codprod)
+    print("get:",id==producto.codprod)
     if request.method == 'POST':
-        error=None        
         cod_prod = Producto.query.filter_by(codprod=request.form.get('codprod')).first()
-        print(request.form.get('codprod'),id)
-        if(request.form.get('codprod') != id):
-            if(cod_prod != None):   
-                error = f'ERROR: el codprod {producto.codprod}, ya esta registrado'  
-                flash(error)
-                return render_template('producto/update.html', producto=producto) 
-        
+        if (cod_prod != None and cod_prod.codprod != producto.codprod):
+            error = f'ERROR: el codprod {producto.codprod}, ya esta registrado'
+            flash(error)
+            return render_template('producto/update.html', producto=producto)
         producto.codprod = request.form.get('codprod')
         producto.codbar  = request.form.get('codbar')
         producto.nomprod = request.form.get('nomprod')
@@ -140,7 +138,6 @@ def update(id):
         producto.venprod = request.form.get('venprod')
         producto.undfra  = request.form.get('undfra')
         producto.pvenfra = request.form.get('pvenfra')
-
         if not producto.codprod:
             error = 'Se requiere codprod'       
         elif not producto.codbar:
@@ -162,5 +159,4 @@ def update(id):
             db.session.commit()
             return redirect(url_for('productos.index'))
         flash(error)
-
     return render_template('producto/update.html', producto=producto)
