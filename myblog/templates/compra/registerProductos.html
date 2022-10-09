@@ -30,7 +30,7 @@
     margin-bottom: 6px;
     border-radius: 3px;
     text-align: center;
-  ">
+">
     <header style="flex: auto">
         <a style="
         font-weight: bold;
@@ -38,11 +38,11 @@
         color: #fff;
         text-align: center;
         min-width: 30px;
-      ">
+    ">
             {{ producto.codprod }}
         </a>
 
-        <a href="{{ url_for('productos.update', id=producto.codprod) }}" style="
+        <a href="{{ url_for('compras.agregarProducto', id_producto=producto.codprod, id_compra=id_compra) }}" style="
         text-decoration: none;
         background-color: #224a64;
         color: #fff;
@@ -52,8 +52,8 @@
         margin-left: 5px;
         padding: 5px;
         text-align: center;
-        font-size: 14px;
-      " type="button">
+        font-size: 14px;"
+        type="button">
             {{ producto.nomprod }}
         </a>
 

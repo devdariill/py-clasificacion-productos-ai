@@ -42,6 +42,12 @@ def index():
 @compras.route('/registerTercero', methods=('GET', 'POST'))
 @login_required
 def registerTercero():
+    print("*"*50)
+    print("baseurl", request.base_url)
+    print("path", request.path)
+    print("fullpath", request.full_path)
+    print("scriptroot", request.script_root)
+    print("url", request.url)
     terceros = reversed(Tercero.query.all())
     terceros = list(terceros)
     terceros = terceros[:5]
@@ -63,7 +69,12 @@ def registerTercero():
 @login_required
 def registerCompra(id):
     tercero = Tercero.query.get(id)
-
+    print("*"*50)
+    print("baseurl", request.base_url)
+    print("path", request.path)
+    print("fullpath", request.full_path)
+    print("scriptroot", request.script_root)
+    print("url", request.url)
     # last_compra = Compra.query.order_by(Compra.numcom.desc()).first()   
     last_compra = reversed(Compra.query.all())
     last_compra = list(last_compra)
@@ -122,9 +133,14 @@ def registerCompra(id):
     return render_template('compra/registerCompra.html',last_compra=last_compra)
 
 @compras.route('/compra/registerProductos/<string:id>', methods=('GET', 'POST'))
-@login_required
 def registerProductos(id):
+    print("*"*50)
     print(id)
+    print("baseurl", request.base_url)
+    print("path", request.path)
+    print("fullpath", request.full_path)
+    print("scriptroot", request.script_root)
+    print("url", request.url)
 
     if request.method == 'POST' and "txtcategoria" in request.form:
         if(request.form['txtcategoria'] == ''):
@@ -140,20 +156,27 @@ def registerProductos(id):
                 Producto.nomprod.like("%"+request.form['txtcategoria']+"%")).all()
             productos = productos1 + productos2
             db.session.commit()
-            return render_template('compra/registerProductos.html', productos=productos)
+            return render_template('compra/registerProductos.html', productos=productos,id_compra=id)
     else:
         productos = reversed( Producto.query.all() ) 
         productos = list(productos)  
         productos = productos[:5]  
         db.session.commit()
 
-    return render_template('compra/registerProductos.html',productos=productos)
+    return render_template('compra/registerProductos.html',productos=productos,id_compra=id)
 
+# @compras.route('/compra/registerProductos/<string:id_compra>/Agregar/<int:id_producto>', methods=('GET', 'POST'))
 @compras.route('/compra/registerProductos/<string:id_compra>/Agregar/<int:id_producto>', methods=('GET', 'POST'))
 @login_required
-def registerProducto(id):
-    print(id)
-
+def agregarProducto(id_compra,id_producto):
+    print("*"*50)
+    print(id_compra,id_producto)
+    print("baseurl", request.base_url)
+    print("path", request.path)
+    print("fullpath", request.full_path)
+    print("scriptroot", request.script_root)
+    print("url", request.url)
+    print("*"*50)
 
 
     return render_template('compra/agregarProducto.html')
