@@ -116,7 +116,7 @@ textarea {
 
 /* Dark mode */
 :root {
-  --body-bg: #1d1d1d;
+  --body-bg: #2b2b2b;
   --body-color: #fff;
 }
 body {
@@ -157,12 +157,15 @@ body {
   z-index: 99;
   border: none;
   outline: none;
-  background-color: #3d9edf;
+  background-color: #3d9edf55;
   color: white;
   cursor: pointer;
   padding: 15px;
   border-radius: 10px;
-  font-size: 18px;
+  font-size: 80%;
+  min-width: 5%;
+  font: bold;
+  
 }
 #myBtn:hover {
   background-color: #555;

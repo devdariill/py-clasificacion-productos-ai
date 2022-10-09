@@ -18,26 +18,32 @@ header %}
   onclick="return confirm('Are you sure?')"
   type="button"
   style="text-decoration: none;
-    min-width: 80%;     
+    min-width: 70%;     
     background-color: #224a64; 
     color: #fff;
     text-align: center; 
+    padding: 5px 0;
     border-radius: 6px; 
     cursor: pointer; 
     right: 0px;
-    padding: 10px;"
-  >Eliminar
+    margin-right: 20px;
+    ">
+    Eliminar
   </a>
 
 
 </div>
 
 {% endblock %} {% block content %}
-<!-- <form method="GET">
-        SE GENERA LA INFORMACION EN LA URL -->
+
+<!-- TODO VALIDACION CODPROD -->
 
 <form method="post">
-  <div style="display:grid ; grid-template-columns: 15% 80%; border:solid red; align-items: center ;">
+  <div 
+    style="display:grid ;
+    grid-template-columns: 15% 80%;
+    align-items: center ;
+    ">
 
     <label class="class_label" for="codprod">codprod</label>
     <input type="number" name="codprod" id="codprod" value="{{ producto.codprod }}" required />
@@ -54,11 +60,10 @@ header %}
     <label class="class_label" for="venprod">Precio</label>
     <input type="number" name="venprod" id="venprod" value="{{ producto.venprod }}" required />
 
-    <label class="class_label" for="cosprod">cosprod</label>
-    <input type="number" name="cosprod" id="cosprod" value="{{ producto.cosprod }}" required />
+    <label class="class_label" for="cosprod">cosulc</label>
+    <input type="number" name="cosprod" id="cosprod" value="{{ producto.cosulc }}" required  readonly/>
     <label class="class_label" for="undfra">undfra</label>
     <input type="number" name="undfra" id="undfra" value="{{ producto.undfra }}" required />
-
     <label class="class_label" for="pvenfra">pvenfra</label>
     <input type="number" name="pvenfra" id="pvenfra" value="{{ producto.pvenfra }}" required />
 

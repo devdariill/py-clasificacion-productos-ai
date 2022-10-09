@@ -11,7 +11,7 @@ class User(db.Model):
     # compras=db.relationship('Compra',backref='user',lazy='dynamic')
 
     #visualizar datos uysuario creando un contructor
-    def __init__(self,username,password) -> str:
+    def __init__(self,username,password) -> None:
         self.username = username
         self.password = password
 

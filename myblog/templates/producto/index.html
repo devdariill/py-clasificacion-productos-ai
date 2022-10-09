@@ -35,27 +35,33 @@
 <button
   onclick="topFunction()"
   id="myBtn"
-  title="Go to top"
-  style="min-width: 50px"
+  title="Go to top"  
 >
   ^
 </button>
 
 {% for producto in productos %}
 
-<article style="background-color: #173346; padding: 0 9px ; margin-bottom: 6px; border-radius: 3px;
+<article 
+  style=
+    "background-color: #173346;
+    padding: 0 9px ; 
+    margin-bottom: 6px; 
+    border-radius: 3px;
+    text-align: center;
 ">
-  <header style="flex: auto">
-    <a
-      href="{{ url_for('productos.update', id=producto.codprod) }}"
+  <header 
+    style=
+      "flex: auto;
+  ">
+    <a      
       style="
         font-weight: bold;
         text-decoration: none;        
         color: #fff;
         text-align: center;
         min-width: 30px;        
-      "
-      type="button"
+      "      
     >
       {{ producto.codprod }}
     </a>
@@ -80,11 +86,27 @@
       {{ producto.nomprod }}
     </a>
 
-    <div style="padding-right: 3px; min-width: 80px; max-width: 80px">
-      <p style="text-align: right">{{ "${:,.0f}".format(producto.venprod)}}</p>
-      <p style="text-align: right; font-size: 10px">{{ producto.exiprod }}</p>
-    </div>
+    <p style="text-align: right">{{ "Venta: {:,.0f}".format(producto.venprod)}}</p>
+
   </header>
+
+  <div
+    style="display: grid;
+    place-items:  center;
+    margin-top: -5px;"
+  >
+    <div 
+    style="
+      column-count: 3;      
+      margin-bottom: 5px;
+      ">    
+    <p style="font-size: 10px"> {{ "Costo: {:,.0f}".format(producto.cosulc)}}</p>
+    <p> Existencia: {{ producto.exiprod }}</p>
+    {% if producto.undfra > 1 %}
+    <p style="font-size: 10px"> {{ "Unidad: {:,.0f}".format(producto.pvenfra) }}</p>       
+    {% endif %}
+  </div>
+</div>
 </article>
 
 {% endfor %}

@@ -17,22 +17,24 @@ class Producto(db.Model):
     nomprod = db.Column(VARCHAR)
     exiprod = db.Column(VARCHAR, default=0)
     tipcos = db.Column(sqltypes.CHAR)
-    cosprod = db.Column(VARCHAR)
+    # cosprod = db.Column(VARCHAR)
     # cosaut=db.Column(VARCHAR)
-    # cosulc=db.Column(db.String)
+    cosulc=db.Column(db.String)
     fecapa = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     venprod = db.Column(VARCHAR)
     undfra = db.Column(VARCHAR, default=1)
-    pvenfra = db.Column(VARCHAR)
+    pvenfra = db.Column(VARCHAR,default=0)
 
     # visualizar datos uysuario creando un contructor
-    def __init__(self, codprod, codbar, nomprod, exiprod, cosprod, venprod, undfra, pvenfra) -> str:
+    def __init__(self, codprod, codbar, nomprod, exiprod,cosulc, venprod, undfra, pvenfra) -> None:
         self.codprod = codprod
         self.codbar = codbar
         self.nomprod = nomprod
         self.exiprod = exiprod
         self.tipcos = "UC"
-        self.cosprod = cosprod
+        # self.cosprod = cosprod
+        # self.cosaut = cosaut
+        self.cosulc = cosulc
         self.venprod = venprod
         self.undfra = undfra
         self.pvenfra = pvenfra

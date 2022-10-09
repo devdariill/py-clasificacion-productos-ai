@@ -25,7 +25,6 @@ def register():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        #1:13:04
         user=User(username, generate_password_hash(password))
 
         error=None
@@ -34,6 +33,7 @@ def register():
             error='Se requiere nombre de usuario'
         elif not password:
             error='Se requiere contraseña'
+            
         user_name=User.query.filter_by(username=username).first()
         if user_name == None:
             db.session.add(user)

@@ -1,13 +1,7 @@
-# registrar productos
-import functools
 from flask import (
     render_template, Blueprint, flash, g, redirect, request, session, url_for
 )
-# 1:12:39
-from myblog.models.user import User
-from werkzeug.security import check_password_hash, generate_password_hash
 from myblog import db
-# /
 from myblog.models.producto import Producto
 from myblog.views.auth import login_required
 from werkzeug.exceptions import abort
@@ -45,28 +39,26 @@ def index():
         db.session.commit()
 
     return render_template('producto/index.html', productos=productos)
-    
+
 
 # Registara Producto
 @productos.route('/register', methods=('GET', 'POST'))
 @login_required
 def register():
-    last_producto = Producto.query.order_by(Producto.codprod.desc()).first()
-    
-    
+    last_producto = Producto.query.order_by(Producto.codprod.desc()).first()    
     if request.method == 'POST':
         codprod = request.form.get('codprod')
         codbar = request.form.get('codbar')
         nomprod = request.form.get('nomprod')
         exiprod = request.form.get('exiprod')
-        cosprod = request.form.get('cosprod')
+        cosulc = request.form.get('cosulc')
         venprod = request.form.get('venprod')
         undfra = request.form.get('undfra')
         pvenfra = request.form.get('pvenfra')
 
 
         producto = Producto(codprod, codbar, nomprod,
-                            exiprod, cosprod, venprod, undfra, pvenfra)
+                            exiprod, cosulc, venprod, undfra, pvenfra)
 
         error = None
 
@@ -80,24 +72,24 @@ def register():
         #   error='Se requiere exiprod'
         elif not venprod:
             error = 'Se requiere venprod'
-        elif not cosprod:
-            error = 'Se requiere cosprod'
+        elif not cosulc:
+            error = 'Se requiere cosulc'
         elif not undfra:
             error = 'Se requiere undfra'
         elif not pvenfra:
             error = 'Se requiere pvenfra'
 
+        print("user:",producto)
+        cod_libre = Producto.query.filter_by(codprod=codprod).first()
 
-        user_name = Producto.query.filter_by(codprod=codprod).first()
-        print(user_name)
-
-        if user_name == None:
+        if cod_libre == None:
             db.session.add(producto)
             db.session.commit()
             error = f'Producto {nomprod} : {codprod} DONE'
             return redirect(url_for('productos.index'))
         else:
             error = f'ERROR: el codprod {codprod}, ya esta registrado'
+
         flash(error)
         # return redirect(url_for('auth.login'))
 
@@ -110,7 +102,6 @@ def get_producto(id):
     producto = Producto.query.get(id)
     if producto is None:
         abort(404, "Producto id {0} doesn't exist.".format(id))
-
     return producto
 
 # eliminar producto
@@ -130,7 +121,17 @@ def update(id):
     producto = get_producto(id)
     error = None
 
+
     if request.method == 'POST':
+        error=None        
+        cod_prod = Producto.query.filter_by(codprod=request.form.get('codprod')).first()
+        print(request.form.get('codprod'),id)
+        if(request.form.get('codprod') != id):
+            if(cod_prod != None):   
+                error = f'ERROR: el codprod {producto.codprod}, ya esta registrado'  
+                flash(error)
+                return render_template('producto/update.html', producto=producto) 
+        
         producto.codprod = request.form.get('codprod')
         producto.codbar  = request.form.get('codbar')
         producto.nomprod = request.form.get('nomprod')
@@ -139,10 +140,9 @@ def update(id):
         producto.venprod = request.form.get('venprod')
         producto.undfra  = request.form.get('undfra')
         producto.pvenfra = request.form.get('pvenfra')
-        # print("b", request.form)
 
         if not producto.codprod:
-            error = 'Se requiere codprod'
+            error = 'Se requiere codprod'       
         elif not producto.codbar:
             error = 'Se requiere codbar'
         elif not producto.nomprod:
@@ -157,9 +157,6 @@ def update(id):
             error = 'Se requiere undfra'
         elif not producto.pvenfra:
             error = 'Se requiere pvenfra'
-
-        if error is not None:
-            flash(error)
         else:
             db.session.add(producto)
             db.session.commit()
