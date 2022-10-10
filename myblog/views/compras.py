@@ -6,6 +6,7 @@ from flask import (
 from myblog import db
 
 from myblog.models.compra import Compra
+from myblog.models.detcompra import DetCompra
 from myblog.models.producto import Producto
 from myblog.models.tercero import Tercero
 from myblog.views.auth import login_required
@@ -171,31 +172,46 @@ def registerProductos(id):
 @login_required
 def agregarProducto(id_compra,id_producto):
     compra = Compra.query.get(id_compra)
-    producto = Producto.query.get(id_producto)
+    producto = Producto.query.get(id_producto)    
+    query= db.session.query(DetCompra.numcom).filter(DetCompra.numcom == id_compra).all()
+    
+    
+
+    print("*"*50,"\n",query,len(query),"\n","*"*50)
 # numcom, codprod, #codcon, nomdet, #serdet, venfec, valuni, candet, ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, reginv
 
 
 
-    # 
     if request.method == 'POST':
-        #TODO IDEA
+        
+        #TODO IDEA evitar errores de duplicidad de productos
         numcom=compra.numcom #request.form['numcom']
         codprod=producto.codprod #request.form['codprod']
-        nomdet=producto.nomdet #request.form['nomdet']
-        venfec=date.today()        
+        nomdet=producto.nomprod #request.form['nomdet']
+        venfec=str(date.today())
         valuni=request.form['valuni']
         candet=request.form['candet']
         ivapor=request.form['ivapor']
-        ivapes=request.form['ivapes']
+        ivapes="0.0"#request.form['ivapes']
         cosuni=request.form['cosuni']
-        totdet=request.form['totdet']
-        numite=request.form['numite']   #TODO get max numite
+        totdet="0"#request.form['totdet']
+        numite=str(len(query)+1)#request.form['numite']   
         codclas=request.form['codclas']
-        dctpor=request.form['dctpor']
-        undfra='' #request.form['undfra']
+        dctpor="0"#request.form['dctpor']
+        undfra='0' #request.form['undfra']
+
+        #TODO FIX 0000000
+
+        detcompra=DetCompra(numcom, codprod, nomdet, venfec, valuni, candet, ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra)
+
+        db.session.add(detcompra)
+        db.session.commit()
+
+        print("*"*50,"\n",detcompra,"\n","*"*50)
+
 
         ivaIncluido=request.form['ivaIncluido']
-        print(ivaIncluido)
+        print("*"*50,"\n",ivaIncluido,"\n","*"*50)
 
 
 

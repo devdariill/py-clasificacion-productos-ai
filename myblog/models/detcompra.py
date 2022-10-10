@@ -5,11 +5,11 @@ from sqlalchemy.dialects.mysql import VARCHAR,DOUBLE
 # numcom, codprod, codcon, nomdet, serdet, venfec, valuni, candet, ivapor, 
 # ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, reginv
 
-class Producto(db.Model):
+class DetCompra(db.Model):
     __tablename__ = "detcompras"
-    numcom = db.Column(VARCHAR, db.ForeignKey('compras.numcom'))    
+    numcom = db.Column(VARCHAR, db.ForeignKey('compras.numcom'),primary_key=True)    
     codprod = db.Column(VARCHAR, db.ForeignKey('productos.codprod'))
-    # codcon = db.Column(VARCHAR)
+    codcon = db.Column(VARCHAR)
     nomdet = db.Column(VARCHAR)
     # serdet = db.Column(VARCHAR)
     venfec = db.Column(db.DateTime,default=datetime.datetime.utcnow)
@@ -20,17 +20,17 @@ class Producto(db.Model):
     cosuni = db.Column(VARCHAR)
     totdet = db.Column(VARCHAR)
     # TODO AUTO INCREMENTAL MAYBE FAIL
-    numite = db.Column(db.Integer,autoincrement=True)
+    numite = db.Column(db.Integer)
     codclas = db.Column(VARCHAR)
     dctpor = db.Column(VARCHAR)
     undfra = db.Column(db.Integer)
     # reginv = db.Column(VARCHAR)
 
     # visualizar datos uysuario creando un contructor
-    def __init__(self, numcom, codprod, nomdet, venfec, valuni, candet, ivapor, ivapes, cosuni, totdet,  codclas, dctpor, undfra, ) -> None:
+    def __init__(self, numcom, codprod, nomdet, venfec, valuni, candet, ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, ) -> None:
         self.numcom = numcom
         self.codprod = codprod
-        # self.codcon = codcon
+        self.codcon = ""
         self.nomdet = nomdet
         # self.serdet = serdet
         self.venfec = venfec
@@ -40,7 +40,7 @@ class Producto(db.Model):
         self.ivapes = ivapes
         self.cosuni = cosuni
         self.totdet = totdet
-        # self.numite = numite
+        self.numite = numite
         self.codclas = codclas
         self.dctpor = dctpor
         self.undfra = undfra
@@ -48,4 +48,5 @@ class Producto(db.Model):
 
 
     def __repr__(self) -> str:
-        return f'Producto: {self.codprod}'
+        return f'detCompra: {self.numcom}'
+
