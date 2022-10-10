@@ -6,6 +6,7 @@ app=Flask(__name__)
 # app.secret_key = 'ronald'
 
 app.config.from_object('config.DevelopmentConfig')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db=SQLAlchemy(app)
 
 # engine= create_engine(app.config.from_object('config.DevelopmentConfig'))

@@ -66,7 +66,7 @@ def registerTercero():
     return render_template('compra/registerTercero.html', terceros=terceros)
 
 
-@compras.route('/compra/registerCompra/<string:id>', methods=('GET', 'POST'))
+@compras.route('/registerCompra/<string:id>', methods=('GET', 'POST'))
 @login_required
 def registerCompra(id):
     tercero = Tercero.query.get(id)
@@ -104,8 +104,7 @@ def registerCompra(id):
         codclas="S18"
         totdct=0
         totaju=0
-        compra = Compra(numcom,nomdoc,docext,feccom,vencom,nitter, nomter, dirter, telter, corele,
-                        subcom,totiva,totcom,estcom,codemp, horcom,obscom,codclas,forpag,totdct,totaju)
+        compra = Compra(numcom,nomdoc,docext,feccom,vencom,nitter, nomter, dirter, telter, corele,subcom,totiva,totcom,estcom,codemp, horcom,obscom,codclas,forpag,totdct,totaju)
         if not numcom:
             error = 'numcom is required.'
         # elif not nomdoc:
@@ -133,7 +132,7 @@ def registerCompra(id):
         flash(error)
     return render_template('compra/registerCompra.html',last_compra=last_compra)
 
-@compras.route('/compra/registerProductos/<string:id>', methods=('GET', 'POST'))
+@compras.route('/registerProductos/<string:id>', methods=('GET', 'POST'))
 def registerProductos(id):
     print("*"*50)
     print(id)
@@ -168,20 +167,36 @@ def registerProductos(id):
 
 # numcom, codprod, #codcon, nomdet, #serdet, venfec, valuni, candet, ivapor, ivapes,
 # cosuni, totdet, numite, codclas, #dctpor, undfra, #reginv
-@compras.route('/compra/registerProductos/<string:id_compra>/Agregar/<int:id_producto>', methods=('GET', 'POST'))
+@compras.route('/registerProductos/<string:id_compra>/Agregar/<int:id_producto>', methods=('GET', 'POST'))
 @login_required
 def agregarProducto(id_compra,id_producto):
     compra = Compra.query.get(id_compra)
     producto = Producto.query.get(id_producto)
+# numcom, codprod, #codcon, nomdet, #serdet, venfec, valuni, candet, ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, reginv
 
+
+
+    # 
     if request.method == 'POST':
-        numcom=request.form['numcom']
-        codprod=request.form['codprod']
-        nomdet=request.form['nomdet']
-        venfec=date.today()
+        #TODO IDEA
+        numcom=compra.numcom #request.form['numcom']
+        codprod=producto.codprod #request.form['codprod']
+        nomdet=producto.nomdet #request.form['nomdet']
+        venfec=date.today()        
         valuni=request.form['valuni']
         candet=request.form['candet']
         ivapor=request.form['ivapor']
+        ivapes=request.form['ivapes']
+        cosuni=request.form['cosuni']
+        totdet=request.form['totdet']
+        numite=request.form['numite']   #TODO get max numite
+        codclas=request.form['codclas']
+        dctpor=request.form['dctpor']
+        undfra='' #request.form['undfra']
+
+        ivaIncluido=request.form['ivaIncluido']
+        print(ivaIncluido)
+
 
 
 

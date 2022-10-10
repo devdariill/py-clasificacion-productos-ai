@@ -26,7 +26,7 @@ class Compra(db.Model):
     dirter = db.Column(VARCHAR,default="")
     telter = db.Column(VARCHAR,default="")
     corele = db.Column(VARCHAR,default="")    
-    subcom = db.Column(DOUBLE, default=0) 
+    subcom = db.Column(VARCHAR, default=0) 
     totiva = db.Column(VARCHAR,default="")
     totcom = db.Column(VARCHAR,default="")
     estcom = db.Column(db.String(1), default="B")

@@ -12,8 +12,9 @@
   numcom, codprod, #codcon, nomdet, #serdet, venfec, valuni, candet, ivapor, ivapes,
   cosuni, totdet, numite, codclas, #dctpor, undfra, #reginv
 -->#}
+<form method="POST">
 <div style="display:grid;
-        grid-template-columns: 20% 80%;
+        grid-template-columns: auto auto;
         align-items: center ;">
   <label for="numcom">numcom</label>
   <input type="number" name="numcom" id="numcom" value="{{ compra.numcom }}" readonly />
@@ -28,7 +29,7 @@
   <!-- <label for="venfec">venfec</label>
   <input type="date" name="venfec" id="venfec" value="" readonly autocomplete="" /> -->
   <label for="valuni">valuni</label>
-  <input type="text" name="valuni" id="valuni" value="" required/>
+  <input type="number" name="valuni" id="valuni" value="" required/>
   <label for="ivaIncluido">ivaIncluido </label>        
   <select name="ivaIncluido" style="margin-top: 10px; " id="ivaIncluido">
       <option  value="1">Si</option>
@@ -41,12 +42,12 @@
   <input type="number" name="ivapor" id="ivapor" value="iva" required/>  
   <!-- SOLUCION X=1100 / 110% = 1000 -->
   <label for="ivapes">ivapes</label>
-  <input type="text" name="ivapes" id="ivapes" value="{{ compra.ivapes }}" readonly />
+  <input type="number" name="ivapes" id="ivapes" value="{{ compra.ivapes }}" readonly />
 
   <label for="cosuni">cosuni</label>
-  <input type="text" name="cosuni" id="cosuni" value='{{ "{:,.0f}".format(producto.cosulc)}}' readonly />
+  <input type="number" name="cosuni" id="cosuni" value='{{ "{:,.0f}".format(producto.cosulc)}}' readonly />
   <label for="totdet">totdet</label>
-  <input type="text" name="totdet" id="totdet" readonly />
+  <input type="number" name="totdet" id="totdet" readonly />
   <!-- ERROR MAYBE reviar detcompra autoimcremetal -->
   <!-- <label for="numite">numite</label>
   <input type="text" name="numite" id="numite" value="{{ compra.numite }}" readonly /> -->
@@ -56,15 +57,29 @@
   <label for="dctpor">dctpor</label>
   <input type="text" name="dctpor" id="dctpor"  />
   <label for="undfra">undfra</label>
-  <input type="number" name="undfra" id="undfra" value="{{ producto.undfra }}" readonly />
+  <input type="number" name="undfra" id="undfra" value="{{ producto.undfra }}" readonly />  
   <!-- <label for="reginv">reginv</label>
 <input type="text" name="reginv" id="reginv" value="{{ compra.reginv }}" readonly /> -->
 </div>
+<button type="submit" style="padding: 5px 0;">Enviar</button>
+</form>
 <style>
-  label,input{
-    font-size: 10px;
-    max-height: 20px;
+  label,input,form label,form input{
+    font-size: 15px;    
+    height: 20px;
+    /* vertical-align:text-top; */
+    overflow: hidden;
+    /* border: medium none; */
+    padding-top: -15px;
+    padding-bottom: 20px;    
+    text-align: center;
   }
+  /* label,form label{
+    vertical-align:text-top; 
+    text-align: top;
+    justify-content: center;
+    align-items: center;
+  } */
 </style>
 {% endblock %}
 

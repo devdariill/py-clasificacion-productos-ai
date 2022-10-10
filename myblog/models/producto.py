@@ -15,15 +15,15 @@ class Producto(db.Model):
     codprod = db.Column(VARCHAR, primary_key=True)
     codbar = db.Column(VARCHAR, default=codprod)
     nomprod = db.Column(VARCHAR)
-    exiprod = db.Column(DOUBLE, default=0)
+    exiprod = db.Column(VARCHAR, default=0)
     tipcos = db.Column(sqltypes.CHAR)
     # cosprod = db.Column(VARCHAR)
     # cosaut=db.Column(VARCHAR)
-    venprod = db.Column(DOUBLE)
-    cosulc=db.Column(DOUBLE)
+    venprod = db.Column(VARCHAR)
+    cosulc=db.Column(VARCHAR)
     fecapa = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     undfra = db.Column(db.Integer, default=1)
-    pvenfra = db.Column(DOUBLE,default=0)
+    pvenfra = db.Column(VARCHAR,default=0)
 
     # visualizar datos uysuario creando un contructor
     def __init__(self, codprod, codbar, nomprod, exiprod,cosulc, venprod, undfra, pvenfra) -> None:
