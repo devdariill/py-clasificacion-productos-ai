@@ -7,9 +7,9 @@ from sqlalchemy.dialects.mysql import VARCHAR,DOUBLE
 
 class DetCompra(db.Model):
     __tablename__ = "detcompras"
-    numcom = db.Column(VARCHAR, db.ForeignKey('compras.numcom'),primary_key=True)    
+    numcom = db.Column(VARCHAR, db.ForeignKey('compras.numcom'))    
     codprod = db.Column(VARCHAR, db.ForeignKey('productos.codprod'))
-    codcon = db.Column(VARCHAR)
+    codcon = db.Column(VARCHAR,primary_key=True)
     nomdet = db.Column(VARCHAR)
     # serdet = db.Column(VARCHAR)
     venfec = db.Column(db.DateTime,default=datetime.datetime.utcnow)

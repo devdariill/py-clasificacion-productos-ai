@@ -1,6 +1,6 @@
 from datetime import date
 from flask import (
-    render_template, Blueprint, flash, g, redirect, request, url_for
+    render_template, Blueprint, flash, g, redirect, request, url_for,jsonify
 )
 
 from myblog import db
@@ -135,6 +135,16 @@ def registerCompra(id):
 
 @compras.route('/registerProductos/<string:id>', methods=('GET', 'POST'))
 def registerProductos(id):
+    
+    #get products from detcompra by numcom
+    # productos_Compra =  DetCompra.query.all()
+    # productos_Compra = DetCompra.query.filter_by(numcom=id)
+    session=db.session()    
+    cursos=session.execute(f"select * from detcompras where numcom = '{id}'").cursor.fetchall()
+    tercero = cursos
+    print(jsonify(tercero))
+    
+    print("*"*50,"\n",tercero,"\n","*"*50)
 
     if request.method == 'POST' and "txtcategoria" in request.form:
         if(request.form['txtcategoria'] == ''):
@@ -150,14 +160,14 @@ def registerProductos(id):
                 Producto.nomprod.like("%"+request.form['txtcategoria']+"%")).all()
             productos = productos1 + productos2
             db.session.commit()
-            return render_template('compra/registerProductos.html', productos=productos,id_compra=id)
+            return render_template('compra/registerProductos.html', productos=productos,id_compra=id,productos_Compra=tercero)
     else:
         productos = reversed( Producto.query.all() ) 
         productos = list(productos)  
         productos = productos[:5]  
         db.session.commit()
 
-    return render_template('compra/registerProductos.html',productos=productos,id_compra=id)
+    return render_template('compra/registerProductos.html',productos=productos,id_compra=id,productos_Compra=tercero)
 
 # numcom, codprod, #codcon, nomdet, #serdet, venfec, valuni, candet, ivapor, ivapes,
 # cosuni, totdet, numite, codclas, #dctpor, undfra, #reginv
@@ -166,9 +176,8 @@ def registerProductos(id):
 def agregarProducto(id_compra,id_producto):
     compra = Compra.query.get(id_compra)
     producto = Producto.query.get(id_producto)    
-    query= db.session.query(DetCompra.numcom).filter(DetCompra.numcom == id_compra).all()
-    
-    
+    #TODO CHECKOUT
+    query= db.session.query(DetCompra.numcom).filter(DetCompra.numcom == id_compra).all()   
 
     print("*"*50,"\n",query,len(query),"\n","*"*50)
 # numcom, codprod, #codcon, nomdet, #serdet, venfec, valuni, candet, ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, reginv

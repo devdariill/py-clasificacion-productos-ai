@@ -3,7 +3,7 @@ import datetime
 from email.policy import default
 
 from myblog import db
-from sqlalchemy.dialects.mysql import VARCHAR,DOUBLE
+from sqlalchemy.dialects.mysql import VARCHAR
 
 # nuestra calse ya es un modelos
 # se crea la tabla users con atributos id ...
@@ -13,6 +13,8 @@ from sqlalchemy.dialects.mysql import VARCHAR,DOUBLE
 # numcom, nomdoc, precom, docext, feccom, vencom, nitter, nomter, dirter, 
 # telter, corele, subcom, totiva, totcom, estcom, codemp, horcom, obscom,
 # codclas, forpag, totdct, totaju
+
+#TODO CHANGE CARCHAR TO FLOAT
 class Compra(db.Model):
     __tablename__ = "compras"
     numcom = db.Column(VARCHAR, primary_key=True)
