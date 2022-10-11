@@ -23,7 +23,7 @@ class Tercero(db.Model):
     empter = db.Column(CHAR, default="") 
     actter = db.Column(CHAR, default="N")
 
-    def __init__(self, nitter, tipnit, perjur, razsoc, apeter, apeter2, nomter, nomter2, nomcom, dirter, telter, corele, cliter, proter, empter, actter) -> str:
+    def __init__(self, nitter, tipnit, perjur, razsoc, apeter, apeter2, nomter, nomter2, nomcom, dirter, telter, corele, cliter, proter, empter, actter) -> None:
         self.nitter = nitter
         self.tipnit = tipnit
         self.perjur = perjur

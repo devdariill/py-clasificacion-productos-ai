@@ -40,7 +40,7 @@ class Compra(db.Model):
 
     def __init__(self, numcom, precom, docext, feccom, vencom, nitter, nomter, dirter, 
                 telter, corele, subcom,totiva, totcom, estcom, codemp, horcom, obscom, 
-                codclas, forpag, totdct, totaju) -> str:
+                codclas, forpag, totdct, totaju) -> None:
         self.numcom = numcom
         self.nomdoc = "COMPRA"
         self.precom = ""
