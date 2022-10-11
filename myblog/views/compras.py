@@ -135,13 +135,6 @@ def registerCompra(id):
 
 @compras.route('/registerProductos/<string:id>', methods=('GET', 'POST'))
 def registerProductos(id):
-    print("*"*50)
-    print(id)
-    print("baseurl", request.base_url)
-    print("path", request.path)
-    print("fullpath", request.full_path)
-    print("scriptroot", request.script_root)
-    print("url", request.url)
 
     if request.method == 'POST' and "txtcategoria" in request.form:
         if(request.form['txtcategoria'] == ''):
