@@ -118,12 +118,7 @@ def delete(id):
 @login_required
 def update(id):
     producto = get_producto(id)
-    error = None
-    print("get:",request.form.get('codprod'),id,producto.codprod)
-    print("get:",type(request.form.get('codprod')),type(id),type(producto.codprod))
-    print("get:",request.form.get('codprod') == id)
-    print("get:",request.form.get('codprod') == producto.codprod)
-    print("get:",id==producto.codprod)
+    error = None    
     if request.method == 'POST':
         cod_prod = Producto.query.filter_by(codprod=request.form.get('codprod')).first()
         if (cod_prod != None and cod_prod.codprod != producto.codprod):
