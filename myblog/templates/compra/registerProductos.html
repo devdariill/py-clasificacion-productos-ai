@@ -1,48 +1,59 @@
-{% extends 'base.html' %} 
-{% block title %} Compras {% endblock %} 
-{% block title1 %} Compras {% endblock %} 
-{% block header %} 
-{% endblock %} 
-
-{% block content %}
+{% extends 'base.html' %} {% block title %} Compras {% endblock %} {% block
+title1 %} Compras {% endblock %} {% block header %} {% endblock %} {% block
+content %}
 <hr style="margin-bottom: 10px" />
-<h2>Agregar Productos</h2>
-<hr style="margin: 10px 0" />
-
-<form method="post">
-    <input style="
-                background-color: #224a64;                              
-                border-style: hidden;
-                color: #fff;
-                max-height: 25px;
-                border-radius: 6px;
-                " type="text" name="txtcategoria" id="txtcategoria" placeholder="Search..." autofocus />
+<div style="display: grid; grid-template-columns: 20% 80%; align-items: center">
+  <h2>Agregar Productos</h2>
+  <form method="post">
+    <input
+      style="
+        margin: 5px;
+        background-color: #224a64;
+        border-style: hidden;
+        color: #fff;
+        max-height: 25px;
+        border-radius: 6px;
+      "
+      type="text"
+      name="txtcategoria"
+      id="txtcategoria"
+      placeholder="Search..."
+      autofocus
+    />
     <input type="submit" value="send" hidden />
-</form>
+  </form>
+</div>
+<hr style="margin: 10px 0" />
 
 <button onclick="topFunction()" id="myBtn" title="Go to top">^</button>
 
 {% for producto in productos %}
 
-<article style="
+<article
+  style="
     background-color: #173346;
     padding: 0 9px;
     margin-bottom: 6px;
     border-radius: 3px;
     text-align: center;
-">
-    <header style="flex: auto">
-        <a style="
+  "
+>
+  <header style="flex: auto">
+    <a
+      style="
         font-weight: bold;
         text-decoration: none;
         color: #fff;
         text-align: center;
         min-width: 30px;
-    ">
-            {{ producto.codprod }}
-        </a>
+      "
+    >
+      {{ producto.codprod }}
+    </a>
 
-        <a href="{{ url_for('compras.agregarProducto', id_producto=producto.codprod, id_compra=id_compra) }}" style="
+    <a
+      href="{{ url_for('compras.agregarProducto', id_producto=producto.codprod, id_compra=id_compra) }}"
+      style="
         text-decoration: none;
         background-color: #224a64;
         color: #fff;
@@ -52,55 +63,124 @@
         margin-left: 5px;
         padding: 5px;
         text-align: center;
-        font-size: 14px;"
-        type="button">
-            {{ producto.nomprod }}
-        </a>
+        font-size: 14px;
+      "
+      type="button"
+    >
+      {{ producto.nomprod }}
+    </a>
 
-        <p style="text-align: right">
-            {{ "Venta: {:,.0f}".format(producto.venprod)}}
-        </p>
-    </header>
+    <p style="text-align: right">
+      {{ "Venta: {:,.0f}".format(producto.venprod)}}
+    </p>
+  </header>
 
-    <div style="display: grid; place-items: center; margin-top: -5px">
-        <div style="column-count: 3; margin-bottom: 5px">
-            <p style="font-size: 10px">
-                {{ "Costo: {:,.0f}".format(producto.cosulc)}}
-            </p>
-            <p>Existencia: {{ producto.exiprod }}</p>
-            {% if producto.undfra > 1 %}
-            <p style="font-size: 10px">
-                {{ "Unidad: {:,.0f}".format(producto.pvenfra) }}
-            </p>
-            {% endif %}
-        </div>
+  <div style="display: grid; place-items: center; margin-top: -5px">
+    <div style="column-count: 3; margin-bottom: 5px">
+      <p style="font-size: 10px">
+        {{ "Costo: {:,.0f}".format(producto.cosulc)}}
+      </p>
+      <p>Existencia: {{ producto.exiprod }}</p>
+      {% if producto.undfra > 1 %}
+      <p style="font-size: 10px">
+        {{ "Unidad: {:,.0f}".format(producto.pvenfra) }}
+      </p>
+      {% endif %}
     </div>
+  </div>
+</article>
+
+{% endfor %}
+
+<hr style="margin-bottom: 10px" />
+    <h2>Lista Productos</h2>
+<hr style="margin: 10px 0" />
+
+{% for producto_compra in productos_Compra %}
+
+<article
+  style="
+    background-color: #173346;
+    padding: 0 9px;
+    margin-bottom: 6px;
+    border-radius: 3px;
+    text-align: center;
+  "
+>
+  <header style="flex: auto">
+    <a
+      style="
+        font-weight: bold;
+        text-decoration: none;
+        color: #fff;
+        text-align: center;
+        min-width: 30px;
+      "
+    >
+      {{ producto_compra.codprod }}
+    </a>
+
+    <a
+      href="#"
+      style="
+        text-decoration: none;
+        background-color: #224a64;
+        color: #fff;
+        border-radius: 3px;
+        max-width: 500px;
+        width: 100%;
+        margin-left: 5px;
+        padding: 5px;
+        text-align: center;
+        font-size: 14px;
+      "
+      type="button"
+    >
+      {{ producto_compra.nomdet }}
+    </a>
+
+    <p style="text-align: right">
+      #
+    </p>
+  </header>
+
+  <div style="display: grid; place-items: center; margin-top: -5px">
+    <div style="column-count: 3; margin-bottom: 5px">
+      <p style="font-size: 10px">
+        Costo: {{ producto_compra.cosuni }}
+      </p>
+      <p>Cantidad: {{ producto_compra.candet }}</p>      
+      <p style="font-size: 10px">
+        #
+      </p>      
+    </div>
+  </div>
 </article>
 
 {% endfor %}
 
 <script>
-    let mybutton = document.getElementById("myBtn");
+  let mybutton = document.getElementById("myBtn");
 
-    window.onscroll = function () {
-        scrollFunction();
-    };
+  window.onscroll = function () {
+    scrollFunction();
+  };
 
-    function scrollFunction() {
-        if (
-            document.body.scrollTop > 20 ||
-            document.documentElement.scrollTop > 20
-        ) {
-            mybutton.style.display = "block";
-        } else {
-            mybutton.style.display = "none";
-        }
+  function scrollFunction() {
+    if (
+      document.body.scrollTop > 20 ||
+      document.documentElement.scrollTop > 20
+    ) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
     }
+  }
 
-    function topFunction() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-    }
+  function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
 </script>
 
 {% endblock %}
