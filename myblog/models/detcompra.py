@@ -7,9 +7,9 @@ from sqlalchemy.dialects.mysql import VARCHAR,DOUBLE
 
 class DetCompra(db.Model):
     __tablename__ = "detcompras"
-    numcom = db.Column(VARCHAR, db.ForeignKey('compras.numcom'))    
-    codprod = db.Column(VARCHAR, db.ForeignKey('productos.codprod'))
-    codcon = db.Column(VARCHAR,primary_key=True)
+    numcom = db.Column(VARCHAR, db.ForeignKey('compras.numcom'),primary_key=True)    
+    codprod = db.Column(VARCHAR, db.ForeignKey('productos.codprod'),primary_key=True)
+    codcon = db.Column(VARCHAR)
     nomdet = db.Column(VARCHAR)
     # serdet = db.Column(VARCHAR)
     venfec = db.Column(db.DateTime,default=datetime.datetime.utcnow)
@@ -27,7 +27,7 @@ class DetCompra(db.Model):
     # reginv = db.Column(VARCHAR)
 
     # visualizar datos uysuario creando un contructor
-    def __init__(self, numcom, codprod, nomdet, venfec, valuni, candet, ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, ) -> None:
+    def __init__(self, numcom, codprod, nomdet, venfec, valuni, candet, ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, ) :
         self.numcom = numcom
         self.codprod = codprod
         self.codcon = ""
