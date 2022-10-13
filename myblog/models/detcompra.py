@@ -7,22 +7,22 @@ from sqlalchemy.dialects.mysql import VARCHAR,DOUBLE
 
 class DetCompra(db.Model):
     __tablename__ = "detcompras"
-    numcom = db.Column(VARCHAR, db.ForeignKey('compras.numcom'),primary_key=True)    
-    codprod = db.Column(VARCHAR, db.ForeignKey('productos.codprod'),primary_key=True)
-    codcon = db.Column(VARCHAR)
-    nomdet = db.Column(VARCHAR)
+    numcom = db.Column(db.String(20), db.ForeignKey('compras.numcom'),primary_key=True)    
+    codprod = db.Column(db.String(20), db.ForeignKey('productos.codprod'),primary_key=True)
+    codcon = db.Column(db.String(12))
+    nomdet = db.Column(db.String(200))
     # serdet = db.Column(VARCHAR)
     venfec = db.Column(db.DateTime,default=datetime.datetime.utcnow)
-    valuni = db.Column(VARCHAR  )
-    candet = db.Column(VARCHAR)
+    valuni = db.Column(db.Float, default=0)
+    candet = db.Column(db.Float)
     ivapor = db.Column(db.Float)
-    ivapes = db.Column(VARCHAR)
-    cosuni = db.Column(VARCHAR)
-    totdet = db.Column(VARCHAR)
+    ivapes = db.Column(db.Float)
+    cosuni = db.Column(db.Float)
+    totdet = db.Column(db.Float)
     # TODO AUTO INCREMENTAL MAYBE FAIL
     numite = db.Column(db.Integer)
-    codclas = db.Column(VARCHAR)
-    dctpor = db.Column(VARCHAR)
+    codclas = db.Column(db.Float)
+    dctpor = db.Column(db.Float)
     undfra = db.Column(db.Integer)
     # reginv = db.Column(VARCHAR)
 

@@ -121,7 +121,8 @@ content %}
     </a>
 
     <a
-      href="#"
+      href="{{ url_for('compras.delete', id_producto=producto_compra.codprod, id_compra=id_compra ) }}"
+      onclick="return confirm('Are you sure?')"
       style="
         text-decoration: none;
         background-color: #224a64;
