@@ -26,7 +26,7 @@ class Producto(db.Model):
     pvenfra = db.Column(VARCHAR,default=0)
 
     # visualizar datos uysuario creando un contructor
-    def __init__(self, codprod, codbar, nomprod, exiprod,cosulc, venprod, undfra, pvenfra) -> None:
+    def __init__(self, codprod, codbar, nomprod, exiprod,cosulc, venprod, undfra, pvenfra) :
         self.codprod = codprod
         self.codbar = codbar
         self.nomprod = nomprod
