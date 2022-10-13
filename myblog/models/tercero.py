@@ -6,22 +6,22 @@ from sqlalchemy.dialects.mysql import VARCHAR,CHAR
 
 class Tercero(db.Model):
     __tablename__ = "terceros"
-    nitter = db.Column(VARCHAR, primary_key=True)
-    tipnit = db.Column(VARCHAR, default="Nit")
-    perjur = db.Column(VARCHAR, default="NATURAL")
-    razsoc = db.Column(VARCHAR, default="")
-    apeter = db.Column(VARCHAR, default="")
-    apeter2 = db.Column(VARCHAR, default="")
-    nomter = db.Column(VARCHAR, default="")
-    nomter2 = db.Column(VARCHAR, default="")
-    nomcom = db.Column(VARCHAR, default="")
-    dirter = db.Column(VARCHAR, default="")
-    telter = db.Column(VARCHAR, default="")
-    corele = db.Column(VARCHAR, default="")
-    cliter = db.Column(CHAR, default="")
-    proter = db.Column(CHAR, default="")
-    empter = db.Column(CHAR, default="") 
-    actter = db.Column(CHAR, default="N")
+    nitter = db.Column(db.String(15), primary_key=True)
+    tipnit = db.Column(db.String(25), default="Nit")
+    perjur = db.Column(db.String(10), default="NATURAL")
+    razsoc = db.Column(db.String(100), default="")
+    apeter = db.Column(db.String(100), default="")
+    apeter2 = db.Column(db.String(100), default="")
+    nomter = db.Column(db.String(100), default="")
+    nomter2 = db.Column(db.String(100), default="")
+    nomcom = db.Column(db.String(100), default="")
+    dirter = db.Column(db.String(50), default="")
+    telter = db.Column(db.String(50), default="")
+    corele = db.Column(db.String(150), default="")
+    cliter = db.Column(db.String(2), default="")
+    proter = db.Column(db.String(2), default="")
+    empter = db.Column(db.String(2), default="") 
+    actter = db.Column(db.String(1), default="N")
 
     def __init__(self, nitter, tipnit, perjur, razsoc, apeter, apeter2, nomter, nomter2, nomcom, dirter, telter, corele, cliter, proter, empter, actter) :
         self.nitter = nitter

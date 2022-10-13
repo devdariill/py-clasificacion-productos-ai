@@ -188,6 +188,13 @@ def registerProductos(id):
 # numcom, codprod, #codcon, nomdet, #serdet, venfec, valuni, candet, ivapor, ivapes,
 # cosuni, totdet, numite, codclas, #dctpor, undfra, #reginv
 
+def valorFloat(num):
+    try:
+        num = float("%.2f" % float(num))
+    except ValueError:
+        num = num
+    return num
+
 
 @compras.route('/registerProductos/<string:id_compra>/Agregar/<int:id_producto>', methods=('GET', 'POST'))
 @login_required
@@ -204,46 +211,46 @@ def agregarProducto(id_compra, id_producto):
     if request.method == 'POST':
 
         # TODO IDEA evitar errores de duplicidad de productos
-        numcom = compra.numcom  # request.form['numcom']
-        codprod = producto.codprod  # request.form['codprod']
-        nomdet = producto.nomprod  # request.form['nomdet']
+        numcom = compra.numcom  
+        codprod = producto.codprod  
+        nomdet = producto.nomprod  
         venfec = date.today() #str
-        ivapor = request.form['ivapor']
-        valor = request.form['valuni']
-        dctpor = request.form['dctpor']        
-        candet = request.form['candet']
-        print(request.form['ivaIncluido'] ) #
+        ivapor = float(request.form['ivapor'])        
+        valor = valorFloat(request.form['valuni'])        
+        print("*"*50, "\n", valor,type(valor) ,"\n", "*"*50)        
+        dctpor = valorFloat(request.form['dctpor'])
+        candet = valorFloat(request.form['candet'])
         if(request.form['ivaIncluido'] == '1'):
-            valuni = valor/(ivapor/100+1) # 909.09
-            ivapes = (valuni-valor) # 1000 - 909.09 = 90.91 # request.form['ivapes']       
-            ivapes = ivapes-(ivapes*dctpor/100) # 90.91 - (90.91*10/100) = 81.82
-            cosuni = valor+ivapes # 1000
-            cosuni = cosuni-(cosuni*dctpor/100) # 1000 - (1000*10/100) = 900
-            totdet = cosuni*candet # request.form['totdet']
+            valuni = valorFloat(valor/(ivapor/100+1)) # 909.09
+            ivapes = valorFloat((valuni-valor) )# 1000 - 909.09 = 90.91    
+            ivapes = valorFloat(ivapes-(ivapes*dctpor/100) )# 90.91 - (90.91*10/100) = 81.82
+            cosuni = valorFloat(valor+ivapes )# 1000
+            cosuni = valorFloat(cosuni-(cosuni*dctpor/100) )# 1000 - (1000*10/100) = 900
+            totdet = valorFloat(cosuni*candet)
         else:
-            valuni = valor # 1000
-            cosuni = valor*(ivapor/100+1) # 1000*1.1 = 1100
-            cosuni = cosuni-(cosuni*dctpor/100) # 1100 - (1100*10/100) = 990
-            ivapes = cosuni-valor #1100-1000= 100 # request.form['ivapes']       
-            ivapes = ivapes - (ivapes*dctpor/100) # 100 - (100*10/100) = 90      
-            totdet = cosuni*candet 
-        
-        
-        numite = str(len(query)+1)  # request.form['numite']
+            valuni = valorFloat(valor )# 1000
+            cosuni = valorFloat(valor*(ivapor/100+1) )# 1000*1.1 = 1100
+            cosuni = valorFloat(cosuni-(cosuni*dctpor/100) )# 1100 - (1100*10/100) = 990
+            ivapes = valorFloat(cosuni-valor )#1100-1000= 100      
+            ivapes = valorFloat(ivapes - (ivapes*dctpor/100) )# 100 - (100*10/100) = 90      
+            totdet = valorFloat(cosuni*candet)
+        numite = str(len(query)+1) 
         codclas = request.form['codclas']
-        undfra = producto.undfra  # request.form['undfra']
-
-        # TODO FIX 0000000
-
+        undfra = producto.undfra 
         detcompra = DetCompra(numcom, codprod, nomdet, venfec, valuni, candet,
                               ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra)
-
         db.session.add(detcompra)
         db.session.commit()
-
-        print("*"*50, "\n", detcompra, "\n", "*"*50)
-
-        ivaIncluido = request.form['ivaIncluido']
-        print("*"*50, "\n", ivaIncluido, "\n", "*"*50)
+        return redirect(url_for('compras.registerProductos', id=id_compra))
 
     return render_template('compra/agregarProducto.html', compra=compra, producto=producto)
+
+# eliminar producto compra
+@compras.route('/delete/<id_compra>/<id_producto>', methods=('GET', 'POST'))
+@login_required
+def delete( id_compra, id_producto):
+    productos_Compra = DetCompra.query.filter(DetCompra.numcom ==id_compra and DetCompra.codpro ==id_producto).first()
+    # producto = get_producto(id)
+    db.session.delete(productos_Compra)
+    db.session.commit()
+    return redirect(url_for('compras.registerProductos',id=id_compra))

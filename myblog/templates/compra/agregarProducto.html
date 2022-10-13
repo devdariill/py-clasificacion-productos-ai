@@ -18,8 +18,8 @@
     grid-template-columns: auto auto;
     align-items: center ;"
 >
-  <label for="numcom">numcom</label>
-  <input type="number" name="numcom" id="numcom" value="{{ compra.numcom }}" readonly />
+  <label for="numcom" hidden>numcom</label>
+  <input type="number" name="numcom" id="numcom" value="{{ compra.numcom }}" readonly hidden/>
   <label for="codprod">codprod</label>
   <input type="number" name="codprod" id="codprod" value="{{ producto.codprod }}" readonly />
   <!-- <label for="codcon">codcon</label>
@@ -31,7 +31,7 @@
   <!-- <label for="venfec">venfec</label>
   <input type="date" name="venfec" id="venfec" value="" readonly autocomplete="" /> -->
   <label for="valuni">valuni</label>
-  <input type="number" name="valuni" id="valuni" value="" required/>
+  <input type="number" name="valuni" step="0.01" id="valuni" value="{{  producto.cosulc }}" placeholder="Valor"  required/>
   <label for="ivaIncluido">ivaIncluido </label>        
   <select name="ivaIncluido" style="margin-top: 10px; " id="ivaIncluido">
       <option  value="1">Si</option>
@@ -39,23 +39,23 @@
   </select>
   <label for="candet">candet</label>
   <!-- TODO PLACEHOLDER ALL FORMS -->
-  <input type="number" name="candet" id="candet" placeholder="candet" required />
+  <input type="number" name="candet" id="candet" placeholder="Cantidad"  required />
   <label for="ivapor">ivapor</label>
-  <input type="number" name="ivapor" id="ivapor" value="iva" required/>  
+  <input type="number" name="ivapor" id="ivapor" value="iva" placeholder="IVA" required/>  
   <!-- SOLUCION X=1100 / 110% = 1000 -->
-  <label for="ivapes">ivapes</label>
-  <input type="number" name="ivapes" id="ivapes" value="{{ compra.ivapes }}" readonly />
+  <label for="ivapes" >ivapes</label>
+  <input type="number" name="ivapes" id="ivapes" value="{{ compra.ivapes }}" readonly hidden/>
 
-  <label for="cosuni">cosuni</label>
-  <input type="number" name="cosuni" id="cosuni" value='{{ "{:,.0f}".format(producto.cosulc)}}' readonly />
-  <label for="totdet">totdet</label>
-  <input type="number" name="totdet" id="totdet" readonly />
+  <label for="cosuni" hidden>cosuni</label>
+  <input type="number" name="cosuni" id="cosuni" value='{{ producto.cosulc }}' readonly />
+  <label for="totdet" hidden>totdet</label>
+  <input type="number" name="totdet" id="totdet" readonly  hidden/>
   <!-- ERROR MAYBE reviar detcompra autoimcremetal -->
   <!-- <label for="numite">numite</label>
   <input type="text" name="numite" id="numite" value="{{ compra.numite }}" readonly /> -->
   <!-- ERROR MAYBE reviar detcompra autoimcremetal -->
-  <label for="codclas">codclas</label>
-  <input type="text" name="codclas" id="codclas" value="{{ compra.codclas }}" readonly />
+  <label for="codclas" hidden>codclas</label>
+  <input type="text" name="codclas" id="codclas" value="{{ compra.codclas }}" readonly hidden />
   <label for="dctpor">dctpor</label>
   <input type="number" name="dctpor" id="dctpor" value="0" />
   <label for="undfra">undfra</label>
@@ -63,7 +63,7 @@
   <!-- <label for="reginv">reginv</label>
 <input type="text" name="reginv" id="reginv" value="{{ compra.reginv }}" readonly /> -->
 </div>
-<button type="submit" style="padding: 5px 0;">Enviar</button>
+<button type="submit" style="padding: 5px 0;" >Enviar</button>
 </form>
 <style>
   label,input,form label,form input{
