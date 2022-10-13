@@ -217,8 +217,8 @@ def agregarProducto(id_compra, id_producto):
         venfec = date.today() #str
         ivapor = float(request.form['ivapor'])        
         valor = valorFloat(request.form['valuni'])        
-        dctpor = valorFloat(request.form['dctpor'])
-        candet = valorFloat(request.form['candet'])
+        dctpor = float(request.form['dctpor'])
+        candet = int(request.form['candet'])
         if(request.form['ivaIncluido'] == '1'):
             valuni = valorFloat(valor/(ivapor/100+1)) # 909.09
             ivapes = valorFloat((valor-valuni) )# 1000 - 909.09 = 90.91    
@@ -240,6 +240,10 @@ def agregarProducto(id_compra, id_producto):
                               ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra)
 
         print("*"*50, "\n", numcom, codprod, nomdet, venfec, valuni, candet,ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, "\n", "*"*50)
+        producto_Compra= None
+        producto_Compra = DetCompra.query.filter(DetCompra.numcom == id_compra , DetCompra.codprod == id_producto).first()
+        if producto_Compra is not None:        
+            db.session.delete(producto_Compra)
         db.session.add(detcompra)
         db.session.commit()
         return redirect(url_for('compras.registerProductos', id=id_compra))
