@@ -195,7 +195,7 @@ def valorFloat(num):
         num = num
     return num
 
-
+#TODO ALIMINAR PRODUCTO SI YA EXISTE
 @compras.route('/registerProductos/<string:id_compra>/Agregar/<int:id_producto>', methods=('GET', 'POST'))
 @login_required
 def agregarProducto(id_compra, id_producto):
@@ -217,14 +217,13 @@ def agregarProducto(id_compra, id_producto):
         venfec = date.today() #str
         ivapor = float(request.form['ivapor'])        
         valor = valorFloat(request.form['valuni'])        
-        print("*"*50, "\n", valor,type(valor) ,"\n", "*"*50)        
         dctpor = valorFloat(request.form['dctpor'])
         candet = valorFloat(request.form['candet'])
         if(request.form['ivaIncluido'] == '1'):
             valuni = valorFloat(valor/(ivapor/100+1)) # 909.09
-            ivapes = valorFloat((valuni-valor) )# 1000 - 909.09 = 90.91    
+            ivapes = valorFloat((valor-valuni) )# 1000 - 909.09 = 90.91    
             ivapes = valorFloat(ivapes-(ivapes*dctpor/100) )# 90.91 - (90.91*10/100) = 81.82
-            cosuni = valorFloat(valor+ivapes )# 1000
+            cosuni = valorFloat(valor )# 1000
             cosuni = valorFloat(cosuni-(cosuni*dctpor/100) )# 1000 - (1000*10/100) = 900
             totdet = valorFloat(cosuni*candet)
         else:
@@ -239,6 +238,8 @@ def agregarProducto(id_compra, id_producto):
         undfra = producto.undfra 
         detcompra = DetCompra(numcom, codprod, nomdet, venfec, valuni, candet,
                               ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra)
+
+        print("*"*50, "\n", numcom, codprod, nomdet, venfec, valuni, candet,ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, "\n", "*"*50)
         db.session.add(detcompra)
         db.session.commit()
         return redirect(url_for('compras.registerProductos', id=id_compra))
