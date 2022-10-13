@@ -21,7 +21,7 @@ class DetCompra(db.Model):
     totdet = db.Column(db.Float)
     # TODO AUTO INCREMENTAL MAYBE FAIL
     numite = db.Column(db.Integer)
-    codclas = db.Column(db.Float)
+    codclas = db.Column(db.String(4))
     dctpor = db.Column(db.Float)
     undfra = db.Column(db.Integer)
     # reginv = db.Column(VARCHAR)
