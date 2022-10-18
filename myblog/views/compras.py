@@ -158,9 +158,6 @@ def registerProductos(id):
     # cursos = session.execute(
     #     f"select * from detcompras where numcom = '{id}'").cursor.fetchall()
     # tercero = cursos
-
-    
-
     if request.method == 'POST' and "txtcategoria" in request.form:
         if (request.form['txtcategoria'] == ''):
             #TODO optimizar
@@ -182,11 +179,7 @@ def registerProductos(id):
         productos = list(productos)
         productos = productos[:5]
         db.session.commit()
-
     return render_template('compra/registerProductos.html', productos=productos, id_compra=id, productos_Compra=productos_Compra)
-
-# numcom, codprod, #codcon, nomdet, #serdet, venfec, valuni, candet, ivapor, ivapes,
-# cosuni, totdet, numite, codclas, #dctpor, undfra, #reginv
 
 def valorFloat(num):
     try:
@@ -201,15 +194,14 @@ def valorFloat(num):
 def agregarProducto(id_compra, id_producto):
     compra = Compra.query.get(id_compra)
     producto = Producto.query.get(id_producto)
-    # TODO CHECKOUT
+    # TODO FIX BUG TO : GET MAX NUM +1
+    # TODO FIX BUG TO : GET MAX NUM +1
     query = db.session.query(DetCompra.numcom).filter(
+    # TODO FIX BUG TO : GET MAX NUM +1
+    # TODO FIX BUG TO : GET MAX NUM +1
         DetCompra.numcom == id_compra).all()
-
-    print("*"*50, "\n", query, len(query), "\n", "*"*50)
-# numcom, codprod, #codcon, nomdet, #serdet, venfec, valuni, candet, ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, reginv
-
+    
     if request.method == 'POST':
-
         # TODO IDEA evitar errores de duplicidad de productos
         numcom = compra.numcom  
         codprod = producto.codprod  
@@ -233,29 +225,73 @@ def agregarProducto(id_compra, id_producto):
             ivapes = valorFloat(cosuni-valor )#1100-1000= 100      
             ivapes = valorFloat(ivapes - (ivapes*dctpor/100) )# 100 - (100*10/100) = 90      
             totdet = valorFloat(cosuni*candet)
+        #TODO FIX BUG TO : GET MAX NUM +1
+        #TODO FIX BUG TO : GET MAX NUM +1
         numite = str(len(query)+1) 
+        #TODO FIX BUG TO : GET MAX NUM +1
+        #TODO FIX BUG TO : GET MAX NUM +1
         codclas = request.form['codclas']
         undfra = producto.undfra 
         detcompra = DetCompra(numcom, codprod, nomdet, venfec, valuni, candet,
                               ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra)
-
         print("*"*50, "\n", numcom, codprod, nomdet, venfec, valuni, candet,ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, "\n", "*"*50)
-        producto_Compra= None
-        producto_Compra = DetCompra.query.filter(DetCompra.numcom == id_compra , DetCompra.codprod == id_producto).first()
-        if producto_Compra is not None:        
-            db.session.delete(producto_Compra)
+        producto_Compra_Repetido= None
+        producto_Compra_Repetido = DetCompra.query.filter(DetCompra.numcom == id_compra , DetCompra.codprod == id_producto).first()
+        #TODO ERRORES ELIF
+        if producto_Compra_Repetido is not None:        
+            db.session.delete(producto_Compra_Repetido)
+        producto.exiprod = producto.exiprod + candet
+        producto.cosulc = cosuni
         db.session.add(detcompra)
+        db.session.add(producto)
         db.session.commit()
         return redirect(url_for('compras.registerProductos', id=id_compra))
-
     return render_template('compra/agregarProducto.html', compra=compra, producto=producto)
 
-# eliminar producto compra
+def find_producto_DetCompra( id_compra, id_producto):
+    productos_Compra = DetCompra.query.filter(DetCompra.numcom ==id_compra and DetCompra.codpro ==id_producto).first()
+    if productos_Compra is None:
+        abort(404, f"Producto id_compra: {id_compra}, id_producto: {id_producto}, doesn't exist.")    
+    return productos_Compra
+
 @compras.route('/delete/<id_compra>/<id_producto>', methods=('GET', 'POST'))
 @login_required
 def delete( id_compra, id_producto):
-    productos_Compra = DetCompra.query.filter(DetCompra.numcom ==id_compra and DetCompra.codpro ==id_producto).first()
-    # producto = get_producto(id)
-    db.session.delete(productos_Compra)
+    producto_Compra = find_producto_DetCompra( id_compra, id_producto)
+    producto = Producto.query.get(producto_Compra.codprod)
+    producto.exiprod = producto.exiprod - producto_Compra.candet
+    db.session.add(producto)
+    db.session.delete(producto_Compra)
     db.session.commit()
+    return redirect(url_for('compras.registerProductos',id=id_compra))
+
+@compras.route('/anular/<id_compra>', methods=('GET', 'POST'))
+@login_required
+def anular( id_compra ):
+    detCompra = DetCompra.query.filter(DetCompra.numcom ==id_compra).all() 
+    print("*"*50,"\n", detCompra, "\n", "*"*50)
+    error=None
+    for producto_Compra in detCompra:
+        find_producto_DetCompra(id_compra, producto_Compra.codprod)
+        producto = Producto.query.get(producto_Compra.codprod)
+        producto.exiprod = producto.exiprod - producto_Compra.candet
+        db.session.add(producto)
+        db.session.delete(producto_Compra)
+        db.session.commit()
+
+    
+    compra= Compra.query.get(id_compra)
+    if(compra is not None):
+        db.session.delete(compra)   
+        db.session.commit()
+        print("*"*50,"\n", compra, "\n", "*"*50)
+
+
+    else:
+        error = "No se pudo encontro la compra a anular "
+    if(error is None):
+        flash(f'Compra {id_compra} anulada correctamente')
+        return redirect(url_for('compras.index'))
+
+        
     return redirect(url_for('compras.registerProductos',id=id_compra))

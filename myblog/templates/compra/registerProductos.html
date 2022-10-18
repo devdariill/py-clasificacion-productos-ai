@@ -28,7 +28,6 @@ content %}
 
 
 {% for producto in productos %}
-
 <article
   style="
     background-color: #173346;
@@ -94,11 +93,30 @@ content %}
     </div>
   </div>
 </article>
-
 {% endfor %}
-
 <hr style="margin-bottom: 10px" />
-<h2>Lista Productos</h2>
+<div style="display: grid; grid-template-columns: 20% 80%; align-items: center">
+  <h2>Lista Productos</h2>  
+
+<a
+    href="{{ url_for('compras.anular',  id_compra=id_compra ) }}"
+    onclick="return confirm('Are you sure?')"
+    style="
+      text-decoration: none;
+      background-color: #224a64;
+      color: #fff;
+      border-radius: 3px;
+      max-width: 100%;
+      margin-left: 5px;
+      padding: 5px;
+      text-align: center;
+      font-size: 14px;
+    "
+    type="button"
+  >
+    ANULAR COMPRA
+  </a>
+</div>
 <hr style="margin: 10px 0" />
 
 <header
