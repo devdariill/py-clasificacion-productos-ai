@@ -26,19 +26,20 @@
   <input type="text" name="codcon" id="codcon" value="{{ compra.codcon }}" readonly /> -->
   <label for="nomdet">nomdet</label>
   <input type="text" name="nomdet" id="nomdet" value="{{ producto.nomprod }}" readonly />
+  <label for="valuni">Valor</label>
+  <input type="number" name="valuni" step="0.01" id="valuni" value="{{  producto.cosulc }}" placeholder="Valor"  autofocus required/>
   <!-- <label for="serdet">serdet</label>
   <input type="text" name="serdet" id="serdet" value="{{ compra.serdet }}" readonly /> -->
   <!-- <label for="venfec">venfec</label>
   <input type="date" name="venfec" id="venfec" value="" readonly autocomplete="" /> -->
 
   <label for="candet">candet</label>
-  <input type="number" name="candet" id="candet" placeholder="Cantidad"  required autofocus/>
-  <label for="valuni">Valor</label>
-  <input type="number" name="valuni" step="0.01" id="valuni" value="{{  producto.cosulc }}" placeholder="Valor"  required/>
+  <input type="number" name="candet" id="candet" placeholder="Cantidad"  required />
+
   <label for="ivapor">ivapor</label>
   <input type="number" name="ivapor" id="ivapor" value="iva" placeholder="IVA" required/> 
   <label for="ivaIncluido">ivaIncluido </label>
-  <select name="ivaIncluido" style="margin-top: 10px; " id="ivaIncluido">
+  <select name="ivaIncluido" style="text-align: center; min-height: 30px; " id="ivaIncluido">
       <option  value="1">Si</option>
       <option  value="0">No</option>
   </select>

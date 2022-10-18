@@ -2,6 +2,7 @@ from datetime import date
 from flask import (
     render_template, Blueprint, flash, g, redirect, request, url_for
 )
+from sqlalchemy import func
 
 from myblog import db
 
@@ -138,26 +139,7 @@ def registerCompra(id):
 
 @compras.route('/registerProductos/<string:id>', methods=('GET', 'POST'))
 def registerProductos(id):
-    # productos_Compra= DetCompra.select(DetCompra.c.numcom == id).execute().all() # no funciona
-
-    # get products from detcompra by numcom
-    # productos_Compra =  DetCompra.query.all()
-    # productos_Compra = DetCompra.query.filter_by(numcom=id)
-
-    # productos_Compra=DetCompra.query.filter(DetCompra.numcom == id).all()
-    # frameworks =[framework for framework in productos_Compra if framework.numcom == id]
-
-    # data1 = session.query(DetCompra).all() # no editado
-    # data = DetCompra.query.filter_by(numcom=id).all()
-    # data2 = db.session.query(DetCompra).filter(DetCompra.numcom == id).all()
     productos_Compra = DetCompra.query.filter(DetCompra.numcom ==id).all() 
-    # for album in data2:
-    #     print("Album: " + album.codprod)
-
-    # session = db.session()
-    # cursos = session.execute(
-    #     f"select * from detcompras where numcom = '{id}'").cursor.fetchall()
-    # tercero = cursos
     if request.method == 'POST' and "txtcategoria" in request.form:
         if (request.form['txtcategoria'] == ''):
             #TODO optimizar
@@ -194,12 +176,20 @@ def valorFloat(num):
 def agregarProducto(id_compra, id_producto):
     compra = Compra.query.get(id_compra)
     producto = Producto.query.get(id_producto)
-    # TODO FIX BUG TO : GET MAX NUM +1
-    # TODO FIX BUG TO : GET MAX NUM +1
-    query = db.session.query(DetCompra.numcom).filter(
-    # TODO FIX BUG TO : GET MAX NUM +1
-    # TODO FIX BUG TO : GET MAX NUM +1
-        DetCompra.numcom == id_compra).all()
+
+    # producto_Compra_Repetido = DetCompra.query.filter(DetCompra.numcom == id_compra , DetCompra.codprod == id_producto).first()
+    # max_numcom = db.session.query(func.max(DetCompra.numcom == id_compra)).scalar()
+    query = db.session.query(DetCompra.numcom).filter(DetCompra.numcom == id_compra).all()
+    max_numite = db.session.query(func.max(DetCompra.numite)).filter(DetCompra.numcom == id_compra).scalar()
+    # for i in query:
+    #     #get max numite
+    #     max_numite = db.session.query(func.max(DetCompra.numite)).filter(DetCompra.numcom == i[0]).scalar()
+    
+    print("#"*10,"\n", max_numite, "\n", "#"*10)    
+    query=max_numite
+
+
+        
     
     if request.method == 'POST':
         # TODO IDEA evitar errores de duplicidad de productos
@@ -227,7 +217,7 @@ def agregarProducto(id_compra, id_producto):
             totdet = valorFloat(cosuni*candet)
         #TODO FIX BUG TO : GET MAX NUM +1
         #TODO FIX BUG TO : GET MAX NUM +1
-        numite = str(len(query)+1) 
+        numite = str(query+1) 
         #TODO FIX BUG TO : GET MAX NUM +1
         #TODO FIX BUG TO : GET MAX NUM +1
         codclas = request.form['codclas']
@@ -256,8 +246,10 @@ def find_producto_DetCompra( id_compra, id_producto):
 
 @compras.route('/delete/<id_compra>/<id_producto>', methods=('GET', 'POST'))
 @login_required
-def delete( id_compra, id_producto):
-    producto_Compra = find_producto_DetCompra( id_compra, id_producto)
+def delete( id_compra, id_producto):    
+    producto_Compra = DetCompra.query.filter(DetCompra.numcom ==id_compra   ,  DetCompra.codprod ==id_producto).first()
+    #----------------------------------------------------------------------AND-------------------------------------------
+    # producto_Compra = DetCompra.query.filter(DetCompra.numcom ==id_compra and DetCompra.codprod ==id_producto).first()    
     producto = Producto.query.get(producto_Compra.codprod)
     producto.exiprod = producto.exiprod - producto_Compra.candet
     db.session.add(producto)
