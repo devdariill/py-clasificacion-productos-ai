@@ -179,16 +179,15 @@ def agregarProducto(id_compra, id_producto):
 
     # producto_Compra_Repetido = DetCompra.query.filter(DetCompra.numcom == id_compra , DetCompra.codprod == id_producto).first()
     # max_numcom = db.session.query(func.max(DetCompra.numcom == id_compra)).scalar()
-    query = db.session.query(DetCompra.numcom).filter(DetCompra.numcom == id_compra).all()
+    # query = db.session.query(DetCompra.numcom).filter(DetCompra.numcom == id_compra).all()
     max_numite = db.session.query(func.max(DetCompra.numite)).filter(DetCompra.numcom == id_compra).scalar()
     # for i in query:
     #     #get max numite
     #     max_numite = db.session.query(func.max(DetCompra.numite)).filter(DetCompra.numcom == i[0]).scalar()
     
     print("#"*10,"\n", max_numite, "\n", "#"*10)    
+    
     query=max_numite
-
-
         
     
     if request.method == 'POST':
@@ -217,7 +216,10 @@ def agregarProducto(id_compra, id_producto):
             totdet = valorFloat(cosuni*candet)
         #TODO FIX BUG TO : GET MAX NUM +1
         #TODO FIX BUG TO : GET MAX NUM +1
-        numite = str(query+1) 
+        if(query == None):
+            numite = 1
+        else:
+            numite = str(query+1) 
         #TODO FIX BUG TO : GET MAX NUM +1
         #TODO FIX BUG TO : GET MAX NUM +1
         codclas = request.form['codclas']

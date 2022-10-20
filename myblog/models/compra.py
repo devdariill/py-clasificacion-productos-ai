@@ -1,9 +1,6 @@
 # 35:20
 import datetime
-from email.policy import default
-
 from myblog import db
-from sqlalchemy.dialects.mysql import VARCHAR
 
 # nuestra calse ya es un modelos
 # se crea la tabla users con atributos id ...
