@@ -11,35 +11,140 @@ from werkzeug.exceptions import abort
 productos = Blueprint('productos', __name__)
 # productos =Blueprint('productos', __name__, url_prefix='/productos')
 
-# listar todas la publicaciones
 @productos.route("/", methods=('GET', 'POST'))
 def index():
-
-    if request.method == 'POST' and "txtcategoria" in request.form:
-        if(request.form['txtcategoria'] == ''):
-            productos = reversed( Producto.query.all() ) 
-            productos = list(productos)  
-            productos = productos[:5]  
-            db.session.commit()
-        else:
-
-            productos1 = db.session.query(Producto).filter(
-                Producto.codprod.like("%"+request.form['txtcategoria']+"%")).all()
-            productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
-                Producto.nomprod.like("%"+request.form['txtcategoria']+"%")).all()
-
-            productos = productos1 + productos2
-            db.session.commit()
+    if request.method == 'POST' and "txtcategoria" in request.form: 
+        if(request.form['txtcategoria'] == '' ):
+            if( g.productoGlobal == None ):
+                productos = reversed( Producto.query.all() )
+                productos = list(productos)
+                productos = productos[:5]
+                db.session.commit()
+            else:
+                requestform = g.productoGlobal
+                print("*"*50,"\n","GLOBAL 1 REQNULL","\n",requestform,"\n","*"*50)
+                puede=False
+                if(","in requestform):
+                    requestform = requestform.split(",")
+                    puede=True
+                    productos1 = db.session.query(Producto).filter(
+                        Producto.codprod.like("%"+requestform[0]+"%")).all()
+                    productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
+                        Producto.nomprod.like("%"+requestform[0]+"%")).all()
+                    productos = productos1 + productos2
+                else:
+                    productos1 = db.session.query(Producto).filter(
+                        Producto.codprod.like("%"+requestform+"%")).all()
+                    productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
+                        Producto.nomprod.like("%"+requestform+"%")).all()
+                    productos = productos1 + productos2
+                while len(requestform) > 0 and puede:
+                    requestform.pop(0)
+                    print("*"*50,"\n","WHILE 1","\n","*"*50)
+                    productosFiltro = []
+                    for split in requestform: 
+                        for index,db_producto in enumerate(productos):   
+                            # db_producto=list(db_producto)
+                            if split  not in db_producto.nomprod:
+                                print("*"*100)
+                                print(index,db_producto)
+                                print("*"*100)
+                                productos.pop(index)
+                    # for item in productos:
+                    #     if item not in productosFiltro:
+                    #         productos.remove(item)
+                    # print("p"*50,"\n",len(productos),type(productos),"\n","p"*50)
+                db.session.commit()
+                return render_template('producto/index.html', productos=productos)
+        else:            
+            print("*"*50,"\n","GLOBAL 2 NEWVALUE","\n","*"*50)
+            requestform = request.form['txtcategoria']
+            session['g_producto'] = requestform
+            puede=False
+            if(","in requestform):
+                requestform = requestform.split(",")
+                print("*"*50,"\n",requestform,"\n","*"*50)
+                puede=True
+                productos1 = db.session.query(Producto).filter(
+                    Producto.codprod.like("%"+requestform[0]+"%")).all()
+                productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
+                    Producto.nomprod.like("%"+requestform[0]+"%")).all()
+                productos = productos1 + productos2
+            else:
+                productos1 = db.session.query(Producto).filter(
+                    Producto.codprod.like("%"+requestform+"%")).all()
+                productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
+                    Producto.nomprod.like("%"+requestform+"%")).all()
+                productos = productos1 + productos2
+            while len(requestform) > 0 and puede:  
+                print("*"*50,"\n","WHILE 2","\n","*"*50)
+                if( len(requestform) == 0 ):
+                    print("*"*50,"\n","BREAK","\n","*"*50)
+                    break
+                productosFiltro = []
+                for split in requestform:                
+                    for db_producto in productos:
+                        if split in db_producto.nomprod:
+                            productosFiltro.append(db_producto)
+                #########################################
+                for producto in productos:
+                    if producto not in productosFiltro:
+                        productos.remove(producto)
+                print("-"*50,"\n",requestform,"\n","-"*50)
+                requestform.pop(0)
+                print("-"*50,"\n",requestform,"\n","-"*50)
+            db.session.commit()            
             return render_template('producto/index.html', productos=productos)
-    else:
+
+    elif(g.productoGlobal == None ):
         productos = reversed(Producto.query.all())
         productos = list(productos)      
         #TODO cache ultimo producto para enviarlo a nuevo registro producto  
         productos = productos[:5]        
         db.session.commit()
+    else:
+        requestform = g.productoGlobal
+        print("*"*50,"\n","GLOBAL 3 REDIRECT","\n",requestform,"\n","*"*50)
+        puede=False
+        if(","in requestform):
+            requestform = requestform.split(",")
+            puede=True
+            productos1 = db.session.query(Producto).filter(
+                Producto.codprod.like("%"+requestform[0]+"%")).all()
+            productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
+                Producto.nomprod.like("%"+requestform[0]+"%")).all()
+            productos = productos1 + productos2
+        else:
+            productos1 = db.session.query(Producto).filter(
+                Producto.codprod.like("%"+requestform+"%")).all()
+            productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
+                Producto.nomprod.like("%"+requestform+"%")).all()
+            productos = productos1 + productos2
+        while len(requestform) > 0 and puede:
+            print("*"*50,"\n","WHILE 3")
+            productosFiltro = []
+            for split in requestform: 
+                print("split"*5,split)               
+                for db_producto in productos:
+                    if split in db_producto.nomprod:
+                        productosFiltro.append(db_producto)         
+            for item in productos:
+                if item not in productosFiltro:
+                    productos.remove(item)
+            requestform.pop(0)
+            print(len(productos),"\n","*"*50)
+        db.session.commit()
+        return render_template('producto/index.html', productos=productos)
 
     return render_template('producto/index.html', productos=productos)
 
+@productos.before_app_request
+def g_producto():
+    g_producto = session.get('g_producto')
+    if g_producto is None :
+        g.productoGlobal = None
+    else: 
+        g.productoGlobal = g_producto
 
 # Registara Producto
 @productos.route('/register', methods=('GET', 'POST'))
