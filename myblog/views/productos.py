@@ -13,6 +13,7 @@ productos = Blueprint('productos', __name__)
 
 @productos.route("/", methods=('GET', 'POST'))
 def index():
+    #reemplazar "espacios" por nada 
     if request.method == 'POST' and "txtcategoria" in request.form: 
         if(request.form['txtcategoria'] == '' ):
             if( g.productoGlobal == None ):
@@ -22,7 +23,7 @@ def index():
                 db.session.commit()
             else:
                 requestform = g.productoGlobal
-                print("*"*50,"\n","GLOBAL 1 REQNULL","\n",requestform,"\n","*"*50)
+                print("*"*50,"\n","GLOBAL 1 REQNULL","\n","-"*50)
                 puede=False
                 if(","in requestform):
                     requestform = requestform.split(",")
@@ -38,22 +39,19 @@ def index():
                     productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
                         Producto.nomprod.like("%"+requestform+"%")).all()
                     productos = productos1 + productos2
-                while len(requestform) > 0 and puede:
+                while len(requestform) > 1 and puede:
                     requestform.pop(0)
-                    print("*"*50,"\n","WHILE 1","\n","*"*50)
+                    print("*"*50,"WHILE 1",requestform)
                     productosFiltro = []
                     for split in requestform: 
-                        for index,db_producto in enumerate(productos):   
+                        # for index,db_producto in enumerate(productos):   
+                        for db_producto in productos:   
                             # db_producto=list(db_producto)
                             if split  not in db_producto.nomprod:
-                                print("*"*100)
-                                print(index,db_producto)
-                                print("*"*100)
-                                productos.pop(index)
-                    # for item in productos:
-                    #     if item not in productosFiltro:
-                    #         productos.remove(item)
-                    # print("p"*50,"\n",len(productos),type(productos),"\n","p"*50)
+                                print("*"*100,index,db_producto)
+                                # productos.pop(index)
+                                productosFiltro.append(db_producto)                  
+                    productos = productosFiltro
                 db.session.commit()
                 return render_template('producto/index.html', productos=productos)
         else:            

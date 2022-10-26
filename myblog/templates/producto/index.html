@@ -19,14 +19,19 @@
     " type="button" value="Crear Producto" />
 </a>
 <form method="post">
-  <input style="
-              background-color: #224a64;                              
-              border-style: hidden;
-              color: #fff;
-              max-height: 25px;
-              border-radius: 6px;
-              " type="text" name="txtcategoria" id="txtcategoria"
-    placeholder="Search..." autofocus />
+  <input 
+    style="
+      background-color: #224a64;                              
+      border-style: hidden;
+      color: #fff;
+      max-height: 25px;
+      border-radius: 6px;
+      " type="text" name="txtcategoria" id="txtcategoria"
+      autofocus 
+    {% if g.productoGlobal %} placeholder="{{ g.productoGlobal }}"
+    {% else %} 
+    {% endif %}
+    />
   <input type="submit" value="send" hidden />
 </form>
 {% endblock %}
