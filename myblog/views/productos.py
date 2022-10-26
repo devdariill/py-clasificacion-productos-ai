@@ -22,61 +22,39 @@ def index():
                 productos = productos[:5]
                 db.session.commit()
             else:
-                requestform = g.productoGlobal
-                if ("," in requestform):
-                    requestform = requestform.replace(",","%")
-                    productos1 = db.session.query(Producto).filter(
-                        Producto.codprod.like("%"+requestform+"%")).all()
-                    productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
-                        Producto.nomprod.like("%"+requestform+"%")).all()
-                    productos = productos1 + productos2
-                else:
-                    productos1 = db.session.query(Producto).filter(
-                        Producto.codprod.like("%"+requestform+"%")).all()
-                    productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
-                        Producto.nomprod.like("%"+requestform+"%")).all()
-                    productos = productos1 + productos2
-                db.session.commit()
-                return render_template('producto/index.html', productos=productos)
-        else:
-            requestform = request.form['txtcategoria']
-            session['g_producto'] = requestform
-            if ("," in requestform):
+                requestform = g.productoGlobal                
                 requestform = requestform.replace(",","%")
                 productos1 = db.session.query(Producto).filter(
                     Producto.codprod.like("%"+requestform+"%")).all()
                 productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
                     Producto.nomprod.like("%"+requestform+"%")).all()
-                productos = productos1 + productos2
-            else:
-                productos1 = db.session.query(Producto).filter(
-                    Producto.codprod.like("%"+requestform+"%")).all()
-                productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
-                    Producto.nomprod.like("%"+requestform+"%")).all()
-                productos = productos1 + productos2
-            db.session.commit()
-            return render_template('producto/index.html', productos=productos)
-    elif (g.productoGlobal == None):
-        productos = reversed(Producto.query.all())
-        productos = list(productos)
-        # TODO cache ultimo producto para enviarlo a nuevo registro producto
-        productos = productos[:5]
-        db.session.commit()
-    else:
-        requestform = g.productoGlobal
-        if ("," in requestform):
+                productos = productos1 + productos2                
+                db.session.commit()
+                return render_template('producto/index.html', productos=productos)
+        else:
+            requestform = request.form['txtcategoria']
+            session['g_producto'] = requestform
             requestform = requestform.replace(",","%")
             productos1 = db.session.query(Producto).filter(
                 Producto.codprod.like("%"+requestform+"%")).all()
             productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
                 Producto.nomprod.like("%"+requestform+"%")).all()
             productos = productos1 + productos2
-        else:
-            productos1 = db.session.query(Producto).filter(
-                Producto.codprod.like("%"+requestform+"%")).all()
-            productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
-                Producto.nomprod.like("%"+requestform+"%")).all()
-            productos = productos1 + productos2        
+            db.session.commit()
+            return render_template('producto/index.html', productos=productos)
+    elif (g.productoGlobal == None):
+        productos = reversed(Producto.query.all())
+        productos = list(productos)
+        productos = productos[:5]
+        db.session.commit()
+    else:
+        requestform = g.productoGlobal
+        requestform = requestform.replace(",","%")
+        productos1 = db.session.query(Producto).filter(
+            Producto.codprod.like("%"+requestform+"%")).all()
+        productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
+            Producto.nomprod.like("%"+requestform+"%")).all()
+        productos = productos1 + productos2
         db.session.commit()
         return render_template('producto/index.html', productos=productos)
     return render_template('producto/index.html', productos=productos)
