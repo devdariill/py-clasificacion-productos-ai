@@ -10,30 +10,39 @@ from werkzeug.exceptions import abort
 productos = Blueprint('productos', __name__)
 # productos =Blueprint('productos', __name__, url_prefix='/productos')
 
+def while_productos_params(requestform):
+    if("," in requestform ):
+        requestform = requestform.split(",")
+        productos = db.session.query(Producto).order_by(Producto.nomprod).filter(
+            Producto.nomprod.like("%"+requestform[0]+"%")).all()
+        db.session.commit() 
+        requestform.pop(0)
+        for param in requestform:
+            for product in productos:
+                if(param not in product.nomprod.lower()):
+                    productos.remove(product)     
+        db.session.commit()        
+    else:
+        productos1 = db.session.query(Producto).filter(
+            Producto.codprod.like("%"+requestform+"%")).all()
+        productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
+            Producto.nomprod.like("%"+requestform+"%")).all()
+        productos = productos1 + productos2
+        db.session.commit()
+    return productos
+
 def busqueda_producto_cache(requestform):
     if (g.productoGlobal==None and requestform==None):
         productos = reversed(Producto.query.all())
         productos = list(productos)
         productos = productos[:5]
         db.session.commit()
-    elif(requestform):  
-        session['g_producto'] = requestform                    
-        requestform = requestform.replace(",","%")
-        productos1 = db.session.query(Producto).filter(
-            Producto.codprod.like("%"+requestform+"%")).all()
-        productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
-            Producto.nomprod.like("%"+requestform+"%")).all()
-        productos = productos1 + productos2                
-        db.session.commit()        
+    elif(requestform):        
+        session['g_producto'] = requestform   
+        productos = while_productos_params(requestform)
     else:
         requestform = g.productoGlobal                
-        requestform = requestform.replace(",","%")
-        productos1 = db.session.query(Producto).filter(
-            Producto.codprod.like("%"+requestform+"%")).all()
-        productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
-            Producto.nomprod.like("%"+requestform+"%")).all()
-        productos = productos1 + productos2                
-        db.session.commit()
+        productos = while_productos_params(requestform)       
 
     return productos
 
@@ -53,55 +62,6 @@ def index():
         requestform=None
         productos=busqueda_producto_cache(requestform)        
     return render_template('producto/index.html', productos=productos)
-
-# @productos.route("/", methods=('GET', 'POST'))
-# def index():
-#     # reemplazar "espacios" por nada
-#     if request.method == 'POST' and "txtcategoria" in request.form:
-#         if (request.form['txtcategoria'] == ''):
-#             if (g.productoGlobal == None):
-#                 productos = reversed(Producto.query.all())
-#                 productos = list(productos)
-#                 productos = productos[:5]
-#                 db.session.commit()
-#             else:
-#                 requestform = g.productoGlobal                
-#                 requestform = requestform.replace(",","%")
-#                 productos1 = db.session.query(Producto).filter(
-#                     Producto.codprod.like("%"+requestform+"%")).all()
-#                 productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
-#                     Producto.nomprod.like("%"+requestform+"%")).all()
-#                 productos = productos1 + productos2                
-#                 db.session.commit()
-#                 return render_template('producto/index.html', productos=productos)
-#         else:
-#             requestform = request.form['txtcategoria']
-#             session['g_producto'] = requestform
-#             requestform = requestform.replace(",","%")
-#             productos1 = db.session.query(Producto).filter(
-#                 Producto.codprod.like("%"+requestform+"%")).all()
-#             productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
-#                 Producto.nomprod.like("%"+requestform+"%")).all()
-#             productos = productos1 + productos2
-#             db.session.commit()
-#             return render_template('producto/index.html', productos=productos)
-#     elif (g.productoGlobal == None):
-#         productos = reversed(Producto.query.all())
-#         productos = list(productos)
-#         productos = productos[:5]
-#         db.session.commit()
-#     else:
-#         requestform = g.productoGlobal
-#         requestform = requestform.replace(",","%")
-#         productos1 = db.session.query(Producto).filter(
-#             Producto.codprod.like("%"+requestform+"%")).all()
-#         productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
-#             Producto.nomprod.like("%"+requestform+"%")).all()
-#         productos = productos1 + productos2
-#         db.session.commit()
-#         return render_template('producto/index.html', productos=productos)
-#     return render_template('producto/index.html', productos=productos)
-
 
 @productos.before_request
 def g_producto():
