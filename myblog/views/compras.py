@@ -13,6 +13,8 @@ from myblog.models.tercero import Tercero
 from myblog.views.auth import login_required
 from werkzeug.exceptions import abort
 
+from myblog.views.productos import busqueda_producto_cache
+
 compras = Blueprint('compras', __name__, url_prefix='/compras')
 
 

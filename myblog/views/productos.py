@@ -5,22 +5,43 @@ from myblog import db
 from myblog.models.producto import Producto
 from myblog.views.auth import login_required
 from werkzeug.exceptions import abort
+import pyperclip
 
 
 productos = Blueprint('productos', __name__)
 # productos =Blueprint('productos', __name__, url_prefix='/productos')
+# add string to the end on loop
+
+
+def leng_string_find(requestform):
+    sqlurl = ""
+    for i in range(len(requestform)):
+        sqlurl = sqlurl + \
+            f'.filter(Producto.nomprod.like("%"+{requestform[i]}+"%"))'
+    sqlurl = sqlurl + ".all()"
+    print("*"*100)
+    print(sqlurl)
+    print("*"*100)
+    return str(sqlurl)
+
 
 def while_productos_params(requestform):
-    if("," in requestform ):
+    if ("," in requestform):
         requestform = requestform.split(",")
-        productos = db.session.query(Producto).order_by(Producto.nomprod).filter(
-            Producto.nomprod.like("%"+requestform[0]+"%")).all()
-        db.session.commit() 
-        requestform.pop(0)
-        for param in requestform:
-            for product in productos:
-                if(param not in product.nomprod.lower()):
-                    productos.remove(product)     
+        if(len(requestform)==1):
+            productos = db.session.query(Producto).order_by(Producto.nomprod).filter(Producto.nomprod.like("%"+requestform[0]+"%")).all()
+        elif(len(requestform)==2):
+            productos = db.session.query(Producto).order_by(Producto.nomprod).filter(Producto.nomprod.like("%"+requestform[0]+"%")).filter(Producto.nomprod.like("%"+requestform[1]+"%")).all()
+        elif(len(requestform)==3):
+            productos = db.session.query(Producto).order_by(Producto.nomprod).filter(Producto.nomprod.like("%"+requestform[0]+"%")).filter(Producto.nomprod.like("%"+requestform[1]+"%")).filter(Producto.nomprod.like("%"+requestform[2]+"%")).all()
+        else:
+            productos = db.session.query(Producto).order_by(Producto.nomprod).filter(Producto.nomprod.like("%"+requestform[0]+"%")).filter(Producto.nomprod.like("%"+requestform[1]+"%")).filter(Producto.nomprod.like("%"+requestform[2]+"%")).all()
+        # x = 1
+        # print(eval('x + 1'))
+        # exec(program)
+        # productos = db.session.query(Producto).order_by(Producto.nomprod).filter(Producto.nomprod.like("%pintuland%")).all()
+        # productos = db.session.query(Producto).order_by(Producto.nomprod).filter(Producto.nomprod.like("%"+requestform[0]+"%")).all()
+        # Producto.nomprod.like("%"+requestform[0]+"%")).filter(Producto.nomprod.like("%"+requestform[1]+"%")).all()
         db.session.commit()        
     else:
         productos1 = db.session.query(Producto).filter(
@@ -32,36 +53,39 @@ def while_productos_params(requestform):
     return productos
 
 def busqueda_producto_cache(requestform):
-    if (g.productoGlobal==None and requestform==None):
+    if (g.productoGlobal == None and requestform == None):
         productos = reversed(Producto.query.all())
         productos = list(productos)
         productos = productos[:5]
         db.session.commit()
-    elif(requestform):        
-        session['g_producto'] = requestform   
+    elif (requestform):
+        session['g_producto'] = requestform
         productos = while_productos_params(requestform)
     else:
-        requestform = g.productoGlobal                
-        productos = while_productos_params(requestform)       
+        requestform = g.productoGlobal
+        productos = while_productos_params(requestform)
+    pyperclip.copy(requestform)
 
     return productos
+
 
 @productos.route("/", methods=('GET', 'POST'))
 def index():
     # reemplazar "espacios" por nada
     if request.method == 'POST' and "txtcategoria" in request.form:
-        if (request.form['txtcategoria'] == '' or request.form['txtcategoria'] == " " ):
-            requestform=None
-            productos=busqueda_producto_cache(requestform)
+        if (request.form['txtcategoria'] == '' or request.form['txtcategoria'] == " "):
+            requestform = None
+            productos = busqueda_producto_cache(requestform)
             return render_template('producto/index.html', productos=productos)
         else:
-            requestform = request.form['txtcategoria']            
-            productos=busqueda_producto_cache(requestform)
+            requestform = request.form['txtcategoria']
+            productos = busqueda_producto_cache(requestform)
             return render_template('producto/index.html', productos=productos)
     else:
-        requestform=None
-        productos=busqueda_producto_cache(requestform)        
+        requestform = None
+        productos = busqueda_producto_cache(requestform)
     return render_template('producto/index.html', productos=productos)
+
 
 @productos.before_request
 def g_producto():
@@ -70,6 +94,7 @@ def g_producto():
         g.productoGlobal = None
     else:
         g.productoGlobal = g_producto
+
 
 @productos.route('/register', methods=('GET', 'POST'))
 @login_required
