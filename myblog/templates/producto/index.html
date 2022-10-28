@@ -1,121 +1,132 @@
 {% extends 'base.html' %} 
 {% block title %} Productos {% endblock %} 
 {% block title1 %} Productos {% endblock %} 
-
+{% block search %}
+<form method="post">
+  <input style=" background-color: #224a64; border-style: hidden; color: #fff;
+max-height: 25px; border-radius: 6px; " type="text" name="txtcategoria"
+id="txtcategoria" autofocus {% if session["g_producto"] %} placeholder="{{
+  session['g_producto'] }} : {{ productos|length }} resultados" {% elif
+    g.html_g_producto %} placeholder="{{ g.html_g_producto }}" {% else %}
+    placeholder="Buscador..." {% endif %} />
+    <input type="submit" value="send" hidden />
+  </form>
+{% endblock %}
 {% block header %}
 <a href="{{ url_for('productos.register') }}">
-  <input style="
+  <input
+    style="
       background-color: #224a64;
       text-align: right;
       color: #fff;
       border-style: hidden;
       font-size: 10px;
       border-radius: 6px;
-      cursor: pointer;              
-      padding: 5px; 
+      cursor: pointer;
+      padding: 5px;
       min-width: 100%;
       text-align: center;
-      
-    " type="button" value="Crear Producto" />
+    "
+    type="button"
+    value="Crear Producto"
+  />
 </a>
-<form method="post">
-  <input 
-    style="
-      background-color: #224a64;                              
-      border-style: hidden;
-      color: #fff;
-      max-height: 25px;
-      border-radius: 6px;
-      " type="text" name="txtcategoria" id="txtcategoria"
-      autofocus 
-      {% if session["g_producto"]  %} 
-        placeholder="{{ session['g_producto'] }} : {{ productos|length }} resultados"
-      {% elif g.html_g_producto %} 
-        placeholder="{{ g.html_g_producto }}"
-      {% else %} 
-        placeholder="Buscador..."
-      {% endif %}
-    />
-  <input type="submit" value="send" hidden />
-</form>
-{% endblock %}
-
+{% endblock %} 
 {% block content %}
-<button
-  onclick="topFunction()"
-  id="myBtn"
-  title="Go to top"  
+<button onclick="topFunction()" id="myBtn" title="Go to top">^</button>
+
+<article
+  style="
+    display: grid;
+    background-color: #173346;
+    margin-bottom: 6px;
+    border-radius: 3px;
+    grid-template-columns: 33% 33% 33%;
+    align-items: center;
+    padding: 6px;
+    min-height: 20px;
+    font-size: 15px;
+  "
 >
-  ^
-</button>
+  <a
+    href="#"
+    style="
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      border-radius: 3px;
+      text-align: center;
+      max-width: 100%;
+    "
+  >
+    Codigo
+  </a>
+  <div style="margin: 0 10px; text-align: center; font-size: 13px">
+    <a>Costo - Existencia</a>
+  </div>
+  <a
+    style="
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      border-radius: 3px;
+      width: 100%;
+      text-align: center;
+      padding: 5px;
+      margin-right: 10px;
+    "
+  >
+    Venta
+  </a>
+</article>
 
 {% for producto in productos %}
 
-<article 
-  style=
-    "background-color: #173346;
-    padding: 0 9px ; 
-    margin-bottom: 6px; 
+<article
+  style="
+    background-color: #173346;
+    margin-bottom: 6px;
     border-radius: 3px;
     text-align: center;
-    font-size: 20px;
-">
-  <header 
-    style=
-      "flex: auto;
-  ">
-    <a      
+    font-size: 15px;
+    display: grid;
+  "
+>
+  <a
+    href="{{ url_for('productos.update', id=producto.codprod) }}"
+    style="
+      text-decoration: none;
+      background-color: #224a64;
+      color: #fff;
+      min-width: 100%;
+      text-align: center;
+      font-size: 20px;
+      padding: 3px;
+    "
+    type="button"
+  >
+    {{ producto.nomprod }}
+  </a>
+  <header style="display: grid; grid-template-columns: 33% 33% 33%">
+    <a
       style="
         font-weight: bold;
-        text-decoration: none;        
+        text-decoration: none;
         color: #fff;
         text-align: center;
-        min-width: 30px;        
-      "      
+      "
     >
       {{ producto.codprod }}
     </a>
-    
-    <a
-      href="{{ url_for('productos.update', id=producto.codprod) }}"
-      
-      style="        
-        text-decoration: none;
-        background-color: #224a64;
-        color: #fff;
-        border-radius: 3px;
-        max-width: 500px;
-        width: 100%;
-        margin-left: 5px;
-        padding: 5px;
-        text-align:center;
-      "
-      type="button"
-    >
-      {{ producto.nomprod }}
-    </a>
 
-    <p style="text-align: right">{{ "Venta: {:,.0f}".format(producto.venprod)}}</p>
-
+    <div style="display: grid; place-items: center; font-size: 13px;">
+      <p >{{ "{:,.0f}".format(producto.cosulc) }} - {{ producto.exiprod }}</p>
+      {% if producto.undfra > 1 %}
+      <p >{{ "{:,.0f}".format(producto.pvenfra) }}</p>
+      {% endif %}
+    </div>
+    <p style="font-weight: bold;text-align: center">{{ "{:,.0f}".format(producto.venprod)}}</p>
   </header>
-
-  <div
-    style="display: grid;
-    place-items:  center;
-    margin-top: -5px;"
-  >
-    <div 
-    style="
-      column-count: 3;      
-      margin-bottom: 5px;
-      ">    
-    <p style="font-size: 15px"> {{ "Costo: {:,.0f}".format(producto.cosulc)}}</p>
-    <p style="font-size: 15px"> Existencia: {{ producto.exiprod }}</p>
-    {% if producto.undfra > 1 %}
-    <p style="font-size: 15px"> {{ "Unidad: {:,.0f}".format(producto.pvenfra) }}</p>       
-    {% endif %}
-  </div>
-</div>
 </article>
 
 {% endfor %}

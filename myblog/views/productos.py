@@ -64,7 +64,11 @@ def busqueda_producto_cache(requestform):
     else:
         requestform = g.productoGlobal
         productos = while_productos_params(requestform)
-    pyperclip.copy(requestform)
+    try:        
+        pyperclip.copy(requestform)
+    except:{
+        print("error al copiar")
+    }
 
     return productos
 
