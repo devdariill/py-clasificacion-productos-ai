@@ -5,33 +5,17 @@ content %}
 <div style="display: grid; grid-template-columns: 20% 80%; align-items: center">
   <h2>Agregar Productos</h2>
   <form method="post">
-    <input
-      style="
-        margin: 5px;
-        background-color: #224a64;
-        border-style: hidden;
-        color: #fff;
-        max-height: 25px;
-        border-radius: 6px;
-      "
-      type="text"
-      name="txtcategoria"
-      id="txtcategoria"      
-      autofocus
-      {% if session["g_producto"]  %} 
-        placeholder="{{ session['g_producto'] }} : {{ productos|length }} resultados"
-      {% elif g.html_g_producto %} 
-        placeholder="{{ g.html_g_producto }}"
-      {% else %} 
-        placeholder="Buscador..."
-      {% endif %}
-    />
+    <input style=" margin: 5px; background-color: #224a64; border-style: hidden;
+    color: #fff; max-height: 25px; border-radius: 6px; " type="text"
+    name="txtcategoria" id="txtcategoria" autofocus {% if session["g_producto"]
+    %} placeholder="{{ session['g_producto'] }} : {{ productos|length }}
+    resultados" {% elif g.html_g_producto %} placeholder="{{ g.html_g_producto
+    }}" {% else %} placeholder="Buscador..." {% endif %} />
     <input type="submit" value="send" hidden />
   </form>
 </div>
 <hr style="margin: 10px 0" />
 <button onclick="topFunction()" id="myBtn" title="Go to top">^</button>
-
 
 {% for producto in productos %}
 <article
@@ -102,9 +86,9 @@ content %}
 {% endfor %}
 <hr style="margin-bottom: 10px" />
 <div style="display: grid; grid-template-columns: 20% 80%; align-items: center">
-  <h2>Lista Productos</h2>  
+  <h2>Lista Productos</h2>
 
-<a
+  <a
     href="{{ url_for('compras.anular',  id_compra=id_compra ) }}"
     onclick="return confirm('Are you sure?')"
     style="
@@ -226,6 +210,83 @@ content %}
   <p>{{ producto_compra.candet }}</p>
 </article>
 {% endfor %}
+
+<hr style="margin-bottom: 10px" />
+<header
+  style="
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    background-color: #173346;
+    padding: 0 9px;
+    margin-bottom: 6px;
+    border-radius: 3px;
+    text-align: center;
+    align-items: center;
+    min-height: 30px;
+  "
+>
+  <a
+    style="
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      text-align: center;
+      min-width: 30px;
+    "
+    >Sub Total</a
+  >
+  <a
+    style="
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      text-align: center;
+    "
+    >IVA</a
+  >
+  <a
+    style="
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      text-align: center;
+      min-width: 30px;
+      margin-right: 10px;
+    "
+    >Total</a
+  >
+  <a
+    style="
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      text-align: center;
+      min-width: 30px;
+    "
+    >{{ "{:,.0f}".format(compra.subcom) }}</a
+  >
+  <a
+    style="
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      text-align: center;
+    "
+    >{{ "{:,.0f}".format(compra.totiva) }} </a
+  >
+  <a
+    style="
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      text-align: center;
+      min-width: 30px;
+      margin-right: 10px;
+    "
+    >{{ "{:,.0f}".format(compra.totcom) }}</a
+  >
+</header>
+<hr style="margin: 10px 0" />
 
 <script>
   let mybutton = document.getElementById("myBtn");

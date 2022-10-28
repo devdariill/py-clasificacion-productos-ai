@@ -17,6 +17,21 @@ from myblog.views.productos import busqueda_producto_cache
 
 compras = Blueprint('compras', __name__, url_prefix='/compras')
 
+def update_compra(id_compra):
+    detCompras = DetCompra.query.filter(DetCompra.numcom==id_compra).all()
+    compra     = Compra.query.get(id_compra)  
+    print("*"*100)
+    print(detCompras)
+    print("*"*100)
+    compra.subcom = 0
+    compra.totiva = 0
+    compra.totcom = 0
+    for detCompra in detCompras:
+        compra.subcom = compra.subcom + (detCompra.valuni*detCompra.candet) #909.09 or 1000
+        compra.totiva = compra.totiva + (detCompra.ivapes*detCompra.candet) #90.91 or 100
+        compra.totcom = compra.totcom + (detCompra.valuni*detCompra.candet) + (detCompra.ivapes*detCompra.candet)#1000 or 1100
+        db.session.add(compra)
+    db.session.commit()
 
 @compras.route("/", methods=('GET', 'POST'))
 @login_required
@@ -141,20 +156,22 @@ def registerCompra(id):
 
 @compras.route('/registerProductos/<string:id>', methods=('GET', 'POST'))
 def registerProductos(id):
+    update_compra(id)
+    compra=Compra.query.get(id)
     productos_Compra = DetCompra.query.filter(DetCompra.numcom ==id).all() 
     if request.method == 'POST' and "txtcategoria" in request.form:
         if (request.form['txtcategoria'] == '' or request.form['txtcategoria'] == " "):
             requestform = None
             productos = busqueda_producto_cache(requestform)
-            return render_template('compra/registerProductos.html', productos=productos, id_compra=id, productos_Compra=productos_Compra)
+            return render_template('compra/registerProductos.html', productos=productos, id_compra=id, productos_Compra=productos_Compra, compra=compra)
         else:            
             requestform = request.form['txtcategoria']
             productos = busqueda_producto_cache(requestform)
-            return render_template('compra/registerProductos.html', productos=productos, id_compra=id, productos_Compra=productos_Compra)
+            return render_template('compra/registerProductos.html', productos=productos, id_compra=id, productos_Compra=productos_Compra, compra=compra)
     else:
         requestform = None
         productos = busqueda_producto_cache(requestform)
-    return render_template('compra/registerProductos.html', productos=productos, id_compra=id, productos_Compra=productos_Compra)
+    return render_template('compra/registerProductos.html', productos=productos, id_compra=id, productos_Compra=productos_Compra, compra=compra)
 
 @compras.before_request
 def g_producto():
@@ -177,20 +194,15 @@ def valorFloat(num):
 def agregarProducto(id_compra, id_producto):
     compra = Compra.query.get(id_compra)
     producto = Producto.query.get(id_producto)
-
     # producto_Compra_Repetido = DetCompra.query.filter(DetCompra.numcom == id_compra , DetCompra.codprod == id_producto).first()
     # max_numcom = db.session.query(func.max(DetCompra.numcom == id_compra)).scalar()
     # query = db.session.query(DetCompra.numcom).filter(DetCompra.numcom == id_compra).all()
     max_numite = db.session.query(func.max(DetCompra.numite)).filter(DetCompra.numcom == id_compra).scalar()
     # for i in query:
     #     #get max numite
-    #     max_numite = db.session.query(func.max(DetCompra.numite)).filter(DetCompra.numcom == i[0]).scalar()
-    
+    #     max_numite = db.session.query(func.max(DetCompra.numite)).filter(DetCompra.numcom == i[0]).scalar()    
     print("#"*10,"\n", max_numite, "\n", "#"*10)    
-    
     query=max_numite
-        
-    
     if request.method == 'POST':
         # TODO IDEA evitar errores de duplicidad de productos
         numcom = compra.numcom  
@@ -202,41 +214,44 @@ def agregarProducto(id_compra, id_producto):
         dctpor = float(request.form['dctpor'])
         candet = int(request.form['candet'])
         if(request.form['ivaIncluido'] == '1'):
-            valuni = valorFloat(valor/(ivapor/100+1)) # 909.09
+            valuni = valorFloat(valor/((ivapor/100)+1)) # 1000/1.1 = 909.09 
             ivapes = valorFloat((valor-valuni) )# 1000 - 909.09 = 90.91    
             ivapes = valorFloat(ivapes-(ivapes*dctpor/100) )# 90.91 - (90.91*10/100) = 81.82
             cosuni = valorFloat(valor )# 1000
             cosuni = valorFloat(cosuni-(cosuni*dctpor/100) )# 1000 - (1000*10/100) = 900
             totdet = valorFloat(cosuni*candet)
         else:
-            valuni = valorFloat(valor )# 1000
-            cosuni = valorFloat(valor*(ivapor/100+1) )# 1000*1.1 = 1100
-            cosuni = valorFloat(cosuni-(cosuni*dctpor/100) )# 1100 - (1100*10/100) = 990
+            valuni = valorFloat( valor )# 1000
+            cosuni = valorFloat(valor*((ivapor/100)+1))# 1000*1.1 = 1100
             ivapes = valorFloat(cosuni-valor )#1100-1000= 100      
-            ivapes = valorFloat(ivapes - (ivapes*dctpor/100) )# 100 - (100*10/100) = 90      
             totdet = valorFloat(cosuni*candet)
-        #TODO FIX BUG TO : GET MAX NUM +1
-        #TODO FIX BUG TO : GET MAX NUM +1
         if(query == None):
             numite = 1
         else:
             numite = str(query+1) 
-        #TODO FIX BUG TO : GET MAX NUM +1
-        #TODO FIX BUG TO : GET MAX NUM +1
         codclas = request.form['codclas']
         undfra = producto.undfra 
         detcompra = DetCompra(numcom, codprod, nomdet, venfec, valuni, candet,
-                              ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra)
-        print("*"*50, "\n", numcom, codprod, nomdet, venfec, valuni, candet,ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra, "\n", "*"*50)
+                              ivapor, ivapes, cosuni, totdet, numite, codclas, dctpor, undfra)        
+        print("*"*50, "\n", valuni,  ivapes, cosuni, totdet,  "\n", "*"*50)
+        # compra.subcom = compra.subcom + (cosuni*candet)
+        # compra.totiva = compra.totiva + (ivapes*candet)
+        # compra.totcom = compra.totcom + (valuni *candet + ivapes*candet)
         producto_Compra_Repetido= None
         producto_Compra_Repetido = DetCompra.query.filter(DetCompra.numcom == id_compra , DetCompra.codprod == id_producto).first()
         #TODO ERRORES ELIF
         if producto_Compra_Repetido is not None:        
             db.session.delete(producto_Compra_Repetido)
+            # compra= Compra.query.get(id_compra)
+            # compra.subcom = compra.subcom - (cosuni*candet)
+            # compra.totiva = compra.totiva - (ivapes*candet)
+            # compra.totcom = compra.totcom - (ivapes*candet) - (valuni*candet)
+            # db.session.add(compra)
         producto.exiprod = producto.exiprod + candet
-        producto.cosulc = cosuni
+        producto.cosulc = cosuni        
         db.session.add(detcompra)
         db.session.add(producto)
+        # update_compra(id_compra)
         db.session.commit()
         return redirect(url_for('compras.registerProductos', id=id_compra))
     return render_template('compra/agregarProducto.html', compra=compra, producto=producto)
@@ -251,12 +266,16 @@ def find_producto_DetCompra( id_compra, id_producto):
 @login_required
 def delete( id_compra, id_producto):    
     producto_Compra = DetCompra.query.filter(DetCompra.numcom ==id_compra   ,  DetCompra.codprod ==id_producto).first()
+    # compra= Compra.query.get(id_compra)
+    # compra.subcom = compra.subcom - (producto_Compra.cosuni*producto_Compra.candet)
+    # compra.totiva = compra.totiva - (producto_Compra.ivapes*producto_Compra.candet)
+    # compra.totcom = compra.totcom - (producto_Compra.ivapes*producto_Compra.candet) - (producto_Compra.valuni*producto_Compra.candet)
     #----------------------------------------------------------------------AND-------------------------------------------
     # producto_Compra = DetCompra.query.filter(DetCompra.numcom ==id_compra and DetCompra.codprod ==id_producto).first()    
     producto = Producto.query.get(producto_Compra.codprod)
     producto.exiprod = producto.exiprod - producto_Compra.candet
     db.session.add(producto)
-    db.session.delete(producto_Compra)
+    db.session.delete(producto_Compra)    
     db.session.commit()
     return redirect(url_for('compras.registerProductos',id=id_compra))
 

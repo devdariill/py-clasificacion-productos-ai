@@ -1,6 +1,7 @@
 # 35:20
 import datetime
 from myblog import db
+from myblog.models.detcompra import DetCompra
 
 # nuestra calse ya es un modelos
 # se crea la tabla users con atributos id ...
@@ -25,7 +26,7 @@ class Compra(db.Model):
     dirter = db.Column(db.String(100),default="")
     telter = db.Column(db.String(50),default="")
     corele = db.Column(db.String(150),default="")    
-    subcom = db.Column(db.Float, default=0) 
+    subcom = db.Column(db.Float, default=0)
     totiva = db.Column(db.Float,default="")
     totcom = db.Column(db.Float,default="")
     estcom = db.Column(db.String(1), default="B")
@@ -37,6 +38,7 @@ class Compra(db.Model):
     forpag = db.Column(db.String(1), default="E")
     totdct = db.Column(db.Float,default="")
     totaju = db.Column(db.Float,default="")
+    
 
     def __init__(self, numcom, precom, docext, feccom, vencom, nitter, nomter, dirter, 
                 telter, corele, subcom,totiva, totcom, estcom, codemp, horcom, obscom, 
