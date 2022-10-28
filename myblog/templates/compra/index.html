@@ -1,112 +1,193 @@
-{% extends 'base.html' %}
-{% block title %} Compra {% endblock %}
-{% block title1 %} Compra1 {% endblock %}
-
-{% block header %}
+{% extends 'base.html' %} {% block title %} Compra {% endblock %} {% block
+title1 %} Compra1 {% endblock %} {% block header %}
 <div>
   <a href="{{ url_for('compras.registerTercero') }}">
-    <input style="
+    <input
+      style="
         background-color: #224a64;
         text-align: right;
         color: #fff;
         border-style: hidden;
         font-size: 10px;
         border-radius: 6px;
-        cursor: pointer;              
-        padding: 5px; 
+        cursor: pointer;
+        padding: 5px;
         min-width: 100%;
         text-align: center;
-        
-      " type="button" value="Crear Compra" />
+      "
+      type="button"
+      value="Crear Compra"
+    />
   </a>
   <form method="post">
-    <input style="
-                background-color: #224a64;                              
-                border-style: hidden;
-                color: #fff;
-                max-height: 25px;
-                border-radius: 6px;
-                " type="text" name="txtcategoria" id="txtcategoria"
-      placeholder="Search..." autofocus />
+    <input
+      style="
+        background-color: #224a64;
+        border-style: hidden;
+        color: #fff;
+        max-height: 25px;
+        border-radius: 6px;
+      "
+      type="text"
+      name="txtcategoria"
+      id="txtcategoria"
+      placeholder="Search..."
+      autofocus
+    />
     <input type="submit" value="send" hidden />
   </form>
 </div>
-{% endblock %}
+{% endblock %} {% block content %}
 
-{% block content %}
+<button
+  onclick="topFunction()"
+  id="myBtn"
+  title="Go to top"
+  style="min-width: 50px"
+>
+  ^
+</button>
 
-  <button onclick="topFunction()" id="myBtn" title="Go to top" style="min-width: 50px">
-    ^
-  </button>
+<article
+  style="
+    display: grid;
+    background-color: #173346;
+    margin-bottom: 6px;
+    border-radius: 3px;
+    grid-template-columns: 20% 50% 30% ;
+    align-items: center;
+    padding: 6px;
+    min-height: 20px;
+  "
+>
 
-  {% for compra in compras %}
+    <a
+      href="#"
+      style="
+        font-weight: bold;
+        text-decoration: none;
+        color: #fff;
+        border-radius: 3px;
+        text-align: center;
+        max-width: 100%;
+      "
+      type="button"
+    >
+      numcom
+    </a>
+    <a      
+      style="
+        text-decoration: none;        
+        color: #fff;
+        border-radius: 3px;
+        width: 100%;
+        text-align: center;
+        padding: 5px;
+        margin-right: 10px;
+      "
+      type="button"
+    >
+      Nombre Compra
+    </a>
 
-  <article style="
-        background-color: #173346;
-        margin-bottom: 6px; 
-        border-radius: 3px; 
-        max-height: 60px;
-        ">
-    <header>
-      <a 
-        href="#"
-        style="
-          font-weight: bold;
-          text-decoration: none;        
-          color: #fff;
-          border-radius: 3px;
-          text-align: center;
-          width: 60px;                  
-        " type="button">
-        {{ compra.numcom }}
-      </a>
-      <a href="{{ url_for('compras.registerProductos', id=compra.numcom) }}" style="        
-              text-decoration: none;
-              background-color: #224a64;
-              color: #fff;
-              border-radius: 3px;
-              max-width: 300px;
-              width: 100%;
-              text-align:center;
-              padding: 5px;
-              margin-right: 10px;
-            " type="button">
-        {{ compra.docext }}
-      </a>
+    <div
+      style="
+        margin: 0 10px;
+        text-align: center;
+    ">
+      <a>feccom - </a>
+      <a>nitter</a>
+    </div>
 
-      <div style="margin-right: 10px;"
-      >
-        <a> {{ compra.feccom }} </a>
-        <a> {{ compra.nitter }} </a>
-      </div>
+</article>
 
-    </header>
-  </article>
+{% for compra in compras %}
 
-  {% endfor %}
+<article
+  style="
+    display: grid;
+    background-color: #173346;
+    margin-bottom: 6px;
+    border-radius: 3px;
+    grid-template-columns:20% 50% 30% ;
+    align-items: center;
+    padding: 6px;
+    min-height: 20px;
+  "
+>
 
-  <script>
-    let mybutton = document.getElementById("myBtn");
+    <a
+      href="#"
+      style="
+        font-weight: bold;
+        text-decoration: none;
+        color: #fff;
+        border-radius: 3px;
+        text-align: center;
+        max-width: 100%;
+      "
+      type="button"
+    >
+      {{ compra.numcom }}
+    </a>
+    <a
+      href="{{ url_for('compras.registerProductos', id=compra.numcom) }}"
+      style="
+        text-decoration: none;
+        background-color: #224a64;
+        color: #fff;
+        border-radius: 3px;
+        width: 100%;
+        text-align: center;
+        padding: 5px;
+        margin-right: 10px;
+      "
+      type="button"
+    >
+      {{ compra.docext }}
+    </a>
 
-    window.onscroll = function () {
-      scrollFunction();
-    };
+    <div
+      style="
+        margin: 0 10px;
+        text-align: center;
+    ">
+      <a> {{ compra.feccom }} </a>
+      <a> {{ compra.nitter }} </a>
+    </div>
 
-    function scrollFunction() {
-      if (
-        document.body.scrollTop > 20 ||
-        document.documentElement.scrollTop > 20
-      ) {
-        mybutton.style.display = "block";
-      } else {
-        mybutton.style.display = "none";
-      }
+</article>
+
+{% endfor %}
+
+<script>
+  let mybutton = document.getElementById("myBtn");
+
+  window.onscroll = function () {
+    scrollFunction();
+  };
+
+  function scrollFunction() {
+    if (
+      document.body.scrollTop > 20 ||
+      document.documentElement.scrollTop > 20
+    ) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
     }
+  }
 
-    function topFunction() {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    }
-  </script>
+  function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+</script>
+
+<style>
+  * {
+    font-size: 15px;
+  }
+</style>
 
 {% endblock %}
