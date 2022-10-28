@@ -68,7 +68,6 @@ def busqueda_producto_cache(requestform):
 
     return productos
 
-
 @productos.route("/", methods=('GET', 'POST'))
 def index():
     # reemplazar "espacios" por nada

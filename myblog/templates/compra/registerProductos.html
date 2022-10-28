@@ -16,9 +16,15 @@ content %}
       "
       type="text"
       name="txtcategoria"
-      id="txtcategoria"
-      placeholder="Search..."
+      id="txtcategoria"      
       autofocus
+      {% if session["g_producto"]  %} 
+        placeholder="{{ session['g_producto'] }} : {{ productos|length }} resultados"
+      {% elif g.html_g_producto %} 
+        placeholder="{{ g.html_g_producto }}"
+      {% else %} 
+        placeholder="Buscador..."
+      {% endif %}
     />
     <input type="submit" value="send" hidden />
   </form>

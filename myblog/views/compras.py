@@ -1,6 +1,6 @@
 from datetime import date
 from flask import (
-    render_template, Blueprint, flash, g, redirect, request, url_for
+    render_template, Blueprint, flash, g, redirect, request, session, url_for
 )
 from sqlalchemy import func
 
@@ -143,27 +143,26 @@ def registerCompra(id):
 def registerProductos(id):
     productos_Compra = DetCompra.query.filter(DetCompra.numcom ==id).all() 
     if request.method == 'POST' and "txtcategoria" in request.form:
-        if (request.form['txtcategoria'] == ''):
-            #TODO optimizar
-            productos = reversed(Producto.query.all())
-            productos = list(productos)
-            productos = productos[:5]
-            db.session.commit()
-        else:
-            print("**"*20)
-            productos1 = db.session.query(Producto).filter(
-                Producto.codprod.like("%"+request.form['txtcategoria']+"%")).all()
-            productos2 = db.session.query(Producto).order_by(Producto.nomprod).filter(
-                Producto.nomprod.like("%"+request.form['txtcategoria']+"%")).all()
-            productos = productos1 + productos2
-            db.session.commit()
+        if (request.form['txtcategoria'] == '' or request.form['txtcategoria'] == " "):
+            requestform = None
+            productos = busqueda_producto_cache(requestform)
+            return render_template('compra/registerProductos.html', productos=productos, id_compra=id, productos_Compra=productos_Compra)
+        else:            
+            requestform = request.form['txtcategoria']
+            productos = busqueda_producto_cache(requestform)
             return render_template('compra/registerProductos.html', productos=productos, id_compra=id, productos_Compra=productos_Compra)
     else:
-        productos = reversed(Producto.query.all())
-        productos = list(productos)
-        productos = productos[:5]
-        db.session.commit()
+        requestform = None
+        productos = busqueda_producto_cache(requestform)
     return render_template('compra/registerProductos.html', productos=productos, id_compra=id, productos_Compra=productos_Compra)
+
+@compras.before_request
+def g_producto():
+    g_producto = session.get('g_producto')
+    if g_producto is None:
+        g.productoGlobal = None
+    else:
+        g.productoGlobal = g_producto
 
 def valorFloat(num):
     try:
