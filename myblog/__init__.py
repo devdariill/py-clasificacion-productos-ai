@@ -35,3 +35,6 @@ app.register_blueprint(productos)
 from myblog.views.compras import compras
 app.register_blueprint(compras)
 
+from myblog.views.ventas import ventas
+app.register_blueprint(ventas)
+
