@@ -3,12 +3,16 @@ from flask_sqlalchemy import SQLAlchemy #
 # from sqlalchemy import create_engine
 
 app=Flask(__name__)
+app.config.from_object('config.DevelopmentConfig')
+db=SQLAlchemy(app)
+with app.app_context():
+    db.create_all()
+
+
 # app.secret_key = 'ronald'
 
-app.config.from_object('config.DevelopmentConfig')
 #TODO CHECK THIS
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-db=SQLAlchemy(app)
 
 # engine= create_engine(app.config.from_object('config.DevelopmentConfig'))
 # session=db.session()
@@ -31,4 +35,3 @@ app.register_blueprint(productos)
 from myblog.views.compras import compras
 app.register_blueprint(compras)
 
-db.create_all()
